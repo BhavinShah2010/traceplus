@@ -1,3 +1,9 @@
-.dashboardComponentMainDiv{
+.dashboardComponentMainDiv {
     padding: 1rem;
+
+    .threatWatchMainDiv {
+        padding: 1rem;
+        border-radius: 10px;
+        background-image: linear-gradient(110deg, #ff6f55, #efc56e);
+    }
 }
