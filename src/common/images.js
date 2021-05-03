@@ -1,0 +1,1 @@
+export const traceplusLogo = 'http://iot.orvito.com:6220/assets/img/icons/sidebar/trace_logo.png'
