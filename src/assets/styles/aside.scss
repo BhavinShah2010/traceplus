@@ -81,4 +81,22 @@
 
         }
     }
+
+    .LogoutDiv{
+        position: absolute;
+        bottom: 1rem;
+        padding: 0.5rem 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+
+        a{
+            text-decoration: none;
+            color: #202236;
+        }
+
+        &:hover{
+            background: #ecf2f9;
+        }
+
+    }
 }

@@ -18,6 +18,10 @@ class LeftSideBar extends React.Component {
                     <h4 className="designation">Admin</h4>
 
                     <Aside />
+
+                    <div className="LogoutDiv">
+                        <a href="#">Logout</a>
+                    </div>
                 </div>
             </React.Fragment>
 
