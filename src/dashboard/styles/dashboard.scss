@@ -5,5 +5,161 @@
         padding: 1rem;
         border-radius: 10px;
         background-image: linear-gradient(110deg, #ff6f55, #efc56e);
+
+        .threatWatchTextDiv {
+            .title {
+                font-size: 1.625rem;
+                font-weight: 600;
+            }
+
+            .subTitle {
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+            .workSpaceStripeDiv {
+                position: relative;
+                margin-top: 1.2rem;
+                text-align: center;
+                color: #55597c;
+                background: #FFFFFF;
+                width: 300px;
+                border-radius: 80px;
+                padding: 1rem 1.5rem;
+                padding-left: 2rem;
+                font-size: 13px;
+                font-weight: 500;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: 1.21;
+                letter-spacing: normal;
+                color: #31334c;
+
+                .thumbIconDiv {
+                    width: 47px;
+                    height: 47px;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    border: solid 1px #ff6f55;
+                    background-color: #ffffff;
+                    border-radius: 25px;
+                    padding-top: 15px;
+                }
+            }
+        }
+
+        .dashboardPeopleImageMaiDiv {
+            img {
+                max-width: 100%;
+            }
+        }
+    }
+
+    .dashboardPeopleAndDateMainDiv {
+        text-align: right;
+        margin-bottom: 1rem;
+
+        .dashboardPeopleAndEmployeeMainDiv {
+            display: inline-block;
+
+            //width: 300px;
+            padding: 0.25rem;
+            border-radius: 25px;
+            background-color: #55597c;
+            color: #FFFFFF;
+            font-size: 12px;
+
+            .peopleOnPremisesInnerDiv {
+                padding-left: 1rem;
+                text-align: left;
+                display: inline-block;
+                vertical-align: middle;
+
+                img {
+                    margin-right: 0.5rem;
+                }
+
+                span {
+                    vertical-align: middle;
+                    display: inline-block;
+                    width: 60%;
+                }
+            }
+
+            .employeeCountInnerDiv {
+                text-align: left;
+                display: inline-block;
+                vertical-align: middle;
+
+                .empCount {
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+    .dashboardGraphAndIndexMainDiv {
+        margin-top: 2rem;
+        background: #FFFFFF;
+        padding: 1rem;
+        border-radius: 0.65rem;
+        box-shadow: 0 5px 15px 0 rgba(85, 89, 124,0.2);
+
+        .populationRiskMainDiv{
+            border: solid 1px #e0e0e0;
+            background-color: #f5f7fa;
+            border-radius: 6px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .populationRiskPadding{
+            padding: 4rem 1rem;
+        }
+
+        .utilityPadding{
+            padding: 2rem 1rem;
+        }
+
+        .indexText{
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .riskLevelMainDiv{
+            padding: 12px 16px;
+            text-align: center;
+            
+            .riskLevelTitleDiv{
+                font-size: 1.2rem;
+                font-weight: 600;
+            }
+    
+            .riskLevelSubtitleDiv{
+                font-size: 0.70rem;
+                font-weight: 600;
+            }
+        }
+
+
+        .selectedRiskLevelDiv{
+            background-image: linear-gradient(151deg, #04e06e, #a5e006);
+            border-radius: 0.5rem;
+        }
+
+        .pinkArrowIconDiv{
+            text-align: center;
+        }
+
+        .spreadMobilityAreaIndexMainDiv{
+            width: 95%;
+            margin: 0 auto;
+            margin-top: -1.5rem;
+            
+        }
+
+
     }
 }
