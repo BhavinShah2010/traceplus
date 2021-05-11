@@ -8,7 +8,7 @@ function ThreatWatch(props) {
     return (
         <div className="threatWatchMainDiv">
             <Row>
-                <Col lg={3}>
+                <Col lg={4}>
                     <div className="threatWatchTextDiv">
                         <div className="title">Threat Watch</div>
                         <div className="subTitle">As of 04th May 2021</div>
@@ -23,7 +23,17 @@ function ThreatWatch(props) {
                     </div>
                 </Col>
 
-                <Col lg={6}></Col>
+                <Col lg={5}>
+                    <div className="threatWatchAnalyticsMainDiv">
+                        <div className="eachColumnDiv">
+                            Employee
+                        </div>
+
+                        <div className="eachColumnDiv">
+                        Employee
+                        </div>
+                    </div>
+                </Col>
 
                 <Col lg={3}>
                     <div className="dashboardPeopleImageMaiDiv">

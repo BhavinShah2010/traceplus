@@ -1,0 +1,101 @@
+.siteManagementMainDiv {
+    padding: 1rem 0.5rem;
+
+    .siteListMainDiv {
+        padding: 1.4rem;
+        border-radius: 0.5rem;
+        background: #FFFFFF;
+
+        .locationsListing {}
+
+        .listingSearchMainDiv {
+            input {
+                width: 100%;
+                border-radius: 0.35rem;
+                border: 1px solid #cad1d7;
+                color: #8898aa;
+                outline: none;
+                padding: 0.5rem;
+
+                &:focus {
+                    border: 1px solid #cad1d7;
+                    color: #8898aa;
+                    outline: none;
+                }
+            }
+        }
+
+        .listingRecordMainDiv {
+            margin-top: 1rem;
+
+            .eachCard {
+                background-color: #f5f7fa;
+                margin-bottom: 0.5rem;
+                border-radius: 0.5rem;
+                border: 1px solid rgba(0, 0, 0, 0.05);
+                cursor: pointer;
+
+                .card-body {
+                    padding: 1rem 1.5rem;
+
+                    .eachTag {
+                        width: auto;
+                        margin: 0 5px;
+                        padding: 0.25rem 1rem;
+                        border-radius: 5px;
+                        border: solid 1px #55597c;
+                        background-color: #202236;
+                        font-size: 14px;
+                        font-weight: normal;
+                        font-stretch: normal;
+                        font-style: normal;
+                        letter-spacing: normal;
+                        text-align: left;
+                        color: #ffffff;
+
+                        &:first-child {
+                            margin-left: 0;
+                        }
+                    }
+
+                    .locationNameDiv {
+                        font-weight: 600;
+                        font-size: 1.3rem;
+                    }
+
+                    .nearByLocationDiv {
+                        font-size: 0.75rem;
+                        color: #55597c;
+                    }
+
+                    .indexCircleStatus {
+                        width: auto;
+                        padding: 0.25rem 0.75rem;
+                        border-radius: 1rem;
+                        margin-left: 1rem;
+                        font-size: 12px;
+                        font-weight: bold;
+                        font-stretch: normal;
+                        font-style: normal;
+                        line-height: 1.21;
+                        letter-spacing: normal;
+                        text-align: left;
+                    }
+
+                    .lowStatus {
+                        border: solid 1px #2fdf84;
+                        color: #2fdf84;
+                    }
+
+                    .arrowDiv{
+                        width: 50%;
+                        float: right;
+                        img{
+                            max-width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
