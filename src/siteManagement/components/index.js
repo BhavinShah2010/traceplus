@@ -6,14 +6,19 @@ import '../styles/siteManagement.scss'
 import DashboardLanguage from '../../components/dashboardLanguage';
 import { selectedPinkArrowIcon } from '../../common/images';
 
-function SiteMangementList(params) {
+function SiteMangementList(props) {
+
+
+    function handleClickCard(id) {
+        props.history.push(`/site-list/view/:${id}`)
+    }
 
     function showCardList(params) {
         let arr = []
 
         for (let index = 0; index < 5; index++) {
             arr.push(
-                <div className="eachCard" key={index}>
+                <div className="eachCard" key={index} onClick={() => handleClickCard(index)}>
                     <div className="card-body">
                         <Row>
                             <Col lg={12}>
