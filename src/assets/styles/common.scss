@@ -1,7 +1,25 @@
-$font-bold: "600";
+$font-bold: 600;
 
 
+.site-color{
+    color: #908fab;
+}
 
+.white-bg{
+    background: #FFFFFF;
+}
+
+.wrapper{
+    padding: 1.5rem;
+}
+
+.font-bold{
+    font-weight: $font-bold;
+}
+
+.font-normal{
+    font-weight: 500;
+}
 .m-t{
     margin-top: 15px;
 }
@@ -14,12 +32,21 @@ $font-bold: "600";
     margin-top: 25px;
 }
 
+.m-t-7rem{
+    margin-top: 7rem;
+}
+
 .b-l{
     border-left:1px solid #e9ecef; 
 }
+.b-r{
+    border-right:1px solid #e9ecef; 
+}
 
 .commonLanguageDropDownDiv {
-    width: 100%;
+    width: 100%;  
+}
 
-   
+.dangerColor{
+    color: red;
 }

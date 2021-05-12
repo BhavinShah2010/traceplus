@@ -1,8 +1,15 @@
 import React from 'react'
 import Aside from './aside';
 import { traceplusLogo } from '../common/images';
+import { logoutUser } from '../login/actionMethods/actionMethods';
 
 class LeftSideBar extends React.Component {
+
+    handleLogout = () =>{
+        logoutUser().then(res =>{
+            console.log("Response : " , res)
+        })
+    }
 
     render() {
         return (
@@ -19,8 +26,8 @@ class LeftSideBar extends React.Component {
 
                     <Aside />
 
-                    <div className="LogoutDiv">
-                        <a href="#">Logout</a>
+                    <div className="LogoutDiv" onClick={this.handleLogout}>
+                        <span>Logout</span>
                     </div>
                 </div>
             </React.Fragment>

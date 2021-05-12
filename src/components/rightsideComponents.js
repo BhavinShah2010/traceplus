@@ -6,7 +6,9 @@ class RightSideComponents extends React.Component{
 
     render(){
         return(
-            <div className="RightSideDiv">
+            <div className="RightSideDiv"
+           // style={ true ? { width:'100%', marginLeft:'0' } : {}}
+            >
                 <Routes/>
             </div>
         )

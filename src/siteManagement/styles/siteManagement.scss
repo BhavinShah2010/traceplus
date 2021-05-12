@@ -87,12 +87,138 @@
                         color: #2fdf84;
                     }
 
-                    .arrowDiv{
+                    .arrowDiv {
                         width: 50%;
                         float: right;
-                        img{
+
+                        img {
                             max-width: 100%;
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.siteViewMainDiv {
+    padding: 1rem;
+
+    .siteViewHeaderDiv {
+        .smallHeader {
+            font-size: 1.2rem;
+            display: inline-block;
+            vertical-align: middle;
+            cursor: pointer;
+            font-weight: 600;
+            color: #908fab;
+        }
+
+        .breadCrumbArrow {
+            font-size: 2rem;
+            color: #908fab;
+            margin: 0 1rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .mediumHeader {
+            font-size: 1.625rem;
+            display: inline-block;
+            vertical-align: middle;
+            cursor: pointer;
+            font-weight: 600;
+            color: #908fab;
+        }
+    }
+
+    .siteViewDetailsLeftSideDiv {
+        background: #202236;
+        padding: 1.25rem 1.5rem;
+        border-radius: 0.5rem;
+        color: #FFFFFF;
+
+        .headerNameDiv {
+            font-size: 1.75rem;
+        }
+
+        .subHeaderDiv {
+            font-size: 1rem;
+        }
+
+        .separaterLine {
+            margin: 2rem 0;
+            border: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .recommendMainDiv {
+            .recommendListMainDiv {
+                .eachRecommendCardDiv {
+                    margin-bottom: 1.5rem;
+                    padding: 1.5rem;
+                    border-radius: 0.5rem;
+                    background-image: linear-gradient(279deg, #404255, #5c5e74);
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+
+    .siteViewRightSideDiv {
+        .areaIndexMainDiv {
+            padding: 1.5rem;
+            border-radius: 12px;
+            background-image: linear-gradient(to bottom, #04e06e, #a5e006);
+
+            .areaIndexValue {
+                display: inline-block;
+                vertical-align: middle;
+                color: #908fab;
+            }
+
+            .areaIndexRiskPercentageDiv {
+                padding: 0.2rem 0.70rem;
+                border-radius: 14px;
+                border: solid 1px #ffffff;
+                background-color: #ffffff;
+                vertical-align: super;
+                display: inline-block;
+                margin-left: 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .riskLevelText{
+                color: #908fab;
+                font-size: 0.75rem;
+            }
+        }
+
+        .footfallMainDiv{
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px 0 rgba(85, 89, 124 ,0.5);
+            background-color: #ffffff;
+
+            .dayWeekButtonMainDiv{
+                .buttonDiv{
+                    width: 95px;
+                    padding: 7.8px 17.8px 8px 18px;
+                    border-radius: 100px;
+                    border: solid 1px #ef5e8c;
+                    background-color: #fef0f4;
+                    color: #ef5e8c;
+                    font-size: 15px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: 1.18;
+                    letter-spacing: normal;
+                    text-align: center;
+                    margin: 0 0.5rem;
+
+                    &:first-child{
+                        margin-left: 0;
                     }
                 }
             }

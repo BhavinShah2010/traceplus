@@ -7,12 +7,16 @@ import ThreatWatch from './threatWatch';
 import { peopleOnPremisesIcon, pinkArrowIcon, selectedPinkArrowIcon } from '../../common/images';
 import { getDashboardData } from '../actionMethods/actionMethods';
 import DashboardChart from './dashboardChart';
-import 'antd/dist/antd.css'; 
+import moment from 'moment'
+import 'antd/dist/antd.css';
 import DashboardLanguage from '../../components/dashboardLanguage';
 
 function Dashboard(props) {
 
 
+    const [employeeCount, updateEmployeeCount] = useState(0)
+    const [orgId, updateOrgId] = useState(1)
+    const [dashboardDate, updateDateboardDate] = useState(new Date())
     const [indexTitleArray, updateIndexTitleArray] =
 
         useState([
@@ -38,12 +42,28 @@ function Dashboard(props) {
         ])
 
     useEffect(() => {
-        getDashboardData().then(res => {
-            console.log("Resposne : ", res)
-        })
+
+        let requestBody = {}
+        requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
+        requestBody.org_id = orgId
+        getDashboardDataValues(requestBody)
+
 
     }, []);
 
+    function getDashboardDataValues(requestBody) {
+
+
+        getDashboardData(requestBody).then(res => {
+            console.log("Resposne : ", res)
+
+            if (res && res.status >= 200 && res.status <= 299) {
+                if (res.data) {
+                    updateEmployeeCount(res.data.num_employees)
+                }
+            }
+        }).catch(err => err)
+    }
 
     function handleIndexTabClick(index) {
         let arr = [...indexTitleArray]
@@ -136,7 +156,7 @@ function Dashboard(props) {
 
                                     <Col lg={5}>
                                         <div className="employeeCountInnerDiv">
-                                            <div className="empCount">98</div>
+                                            <div className="empCount">{employeeCount}</div>
                                             <div>Employees</div>
                                         </div>
 
