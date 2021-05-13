@@ -5,18 +5,27 @@ import '../../assets/styles/common.scss'
 import '../styles/dashboard.scss'
 import ThreatWatch from './threatWatch';
 import { peopleOnPremisesIcon, pinkArrowIcon, selectedPinkArrowIcon } from '../../common/images';
-import { getDashboardData } from '../actionMethods/actionMethods';
+import { getDashboardData, getThreatWatchData } from '../actionMethods/actionMethods';
 import DashboardChart from './dashboardChart';
 import moment from 'moment'
 import 'antd/dist/antd.css';
 import DashboardLanguage from '../../components/dashboardLanguage';
 
+import spinnerLoader from '../../assets/images/Spinner Loader.gif'
+
+import ContentLoader from 'react-content-loader'
 function Dashboard(props) {
 
 
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [orgId, updateOrgId] = useState(1)
     const [dashboardDate, updateDateboardDate] = useState(new Date())
+    const [contaminatedEmployeeCount, updateContaminatedEmployeeCount] = useState(0);
+    const [organizationLocationCount, updateOrganizationLocationCount] = useState(0);
+    const [threatWatchColor, updateThreatWatchColor] = useState('')
+
+
+
     const [indexTitleArray, updateIndexTitleArray] =
 
         useState([
@@ -47,15 +56,24 @@ function Dashboard(props) {
         requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
         requestBody.org_id = orgId
         getDashboardDataValues(requestBody)
-
+        getThreatWatchDataValues(requestBody)
 
     }, []);
+
+    function getThreatWatchDataValues(requestBody) {
+        requestBody.start_date = moment(dashboardDate).format('YYYY-MM-DD')
+        requestBody.end_date = moment(dashboardDate).format('YYYY-MM-DD')
+        getThreatWatchData(requestBody).then(res => {
+            if (res && res.status >= 200 && res.status <= 299) {
+                updateThreatWatchColor(res.color)
+            }
+        })
+    }
 
     function getDashboardDataValues(requestBody) {
 
 
         getDashboardData(requestBody).then(res => {
-            console.log("Resposne : ", res)
 
             if (res && res.status >= 200 && res.status <= 299) {
                 if (res.data) {
@@ -142,7 +160,7 @@ function Dashboard(props) {
                         <div className="dashboardLanguageMainDiv">
                             <DashboardLanguage />
                         </div>
-                        <div className="dashboardDateMainDiv">dfsdf</div>
+                        <div className="dashboardDateMainDiv">Date</div>
                         <div className="dashboardPeopleAndDateMainDiv">
                             <div className="dashboardPeopleAndEmployeeMainDiv">
                                 <Row>
@@ -168,11 +186,22 @@ function Dashboard(props) {
                     </Col>
                 </Row>
 
-                <Row>
-                    <Col lg={12} md={12} sm={12} xs={12}>
-                        <ThreatWatch />
-                    </Col>
-                </Row>
+                {
+                    threatWatchColor ?
+                        <Row>
+                            <Col lg={12} md={12} sm={12} xs={12}>
+                                <ThreatWatch
+                                    contaminatedEmployeeCount={contaminatedEmployeeCount}
+                                    organizationLocationCount={organizationLocationCount}
+                                    threatWatchColor={threatWatchColor}
+                                />
+                            </Col>
+                        </Row> : <Row className="text-center">
+                            <Col lg={12} md={12} sm={12} xs={12}>
+                                <img src={spinnerLoader} />
+                            </Col>
+                        </Row>
+                }
 
                 <div className="dashboardGraphAndIndexMainDiv">
                     <Row>

@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import { BrowserRouter } from 'react-router-dom';
+import {withRouter} from 'react-router-dom'
 import './App.css';
 import './assets/styles/aside.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,21 +11,23 @@ import RightSideComponents from './components/rightsideComponents';
 
 function App() {
 
-  let isLoggedIn = localStorage.getItem('isLoggedIn')
+  let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
 
   return (
-    <BrowserRouter>
+    
       <div className="mainAppDiv">
     
       {
-        isLoggedIn && isLoggedIn == 'true' ? 
+        isLoggedIn ? 
         <LeftSideBar /> : ''
       }
 
         <RightSideComponents />
       </div>
-    </BrowserRouter>
+    
   );
 }
 
-export default App;
+
+
+export default withRouter(App);

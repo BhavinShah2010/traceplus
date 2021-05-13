@@ -10,6 +10,8 @@ import { traceplusLogo, showPasswordEyeIcon } from '../../common/images';
 import { emailPattern } from '../../common/utilities';
 import { userLogin, forgotPassword } from '../actionMethods/actionMethods';
 
+import infiniteLoader from '../../assets/images/infinite_loader.gif'
+
 function LoginComponent(props) {
 
     const [emailID, updateEmailID] = useState('')
@@ -21,6 +23,9 @@ function LoginComponent(props) {
     const [isForgotPasswordView, updateIsForgotPasswordView] = useState(false)
 
     const [somethingWentWrongFlag, updateSomethingWrongWentFlag] = useState(false)
+    const [errorMessage, updateErrorMessage] = useState('')
+
+    const [isLoading, updateIsLoading] = useState(false)
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -39,6 +44,7 @@ function LoginComponent(props) {
             let isValid = emailPattern.test(emailID)
 
             if (isValid) {
+                updateIsLoading(true)
                 updateIsPasswordEmpty(false)
                 updateIsEmailValid(true)
 
@@ -46,21 +52,26 @@ function LoginComponent(props) {
                 requestBody.username = emailID
                 requestBody.password = password
 
-                userLogin(requestBody).then(res =>{
-                    if(res && res.status >=200 && res.status <= 299){
-                        if(res.data && res.data.status == 200){
-                            localStorage.setItem('userLoginDetails' , JSON.stringify(res.data))
-                            localStorage.setItem('isLoggedIn' , true)
+                userLogin(requestBody).then(res => {
+                    updateIsLoading(false)
+                    if (res && res.status >= 200 && res.status <= 299) {
+                        if (res.data && res.data.status == 200) {
+                            localStorage.setItem('userLoginDetails', JSON.stringify(res.data))
+                            localStorage.setItem('isLoggedIn', true)
                             props.history.push('/dashboard')
                         }
-                        else{
+                        else {
                             updateSomethingWrongWentFlag(true)
+                            updateErrorMessage(res.data.message)
 
                             setTimeout(() => {
                                 updateSomethingWrongWentFlag(false)
                             }, 3000);
                         }
                     }
+                }).catch( err => {
+                    updateSomethingWrongWentFlag(true)
+                    updateErrorMessage('Username and password do not match')
                 })
             }
         }
@@ -76,13 +87,13 @@ function LoginComponent(props) {
 
 
     function togglePasswordTypeChange() {
-        if(document.getElementById('password')){
-           document.getElementById('password').type == 'text' ? document.getElementById('password').type = "password" : document.getElementById('password').type = 'text'
+        if (document.getElementById('password')) {
+            document.getElementById('password').type == 'text' ? document.getElementById('password').type = "password" : document.getElementById('password').type = 'text'
         }
     }
 
     function handleForgotPassword(event) {
-        
+
         event.preventDefault()
 
         if (emailID == '') {
@@ -96,8 +107,10 @@ function LoginComponent(props) {
                 let requestBody = {}
                 requestBody.username = emailID
 
-                forgotPassword(requestBody).then(res =>{
-                    console.log("uSER : " , res)
+                updateIsLoading(true)
+
+                forgotPassword(requestBody).then(res => {
+                    updateIsLoading(false)
                 })
             }
 
@@ -113,8 +126,6 @@ function LoginComponent(props) {
         updatePassword(value)
         updateIsPasswordEmpty(false)
     }
-
-    console.log("sdfsdf" , isEmailValid)
 
     return (
         <div className="loginComponentMainDiv">
@@ -166,12 +177,18 @@ function LoginComponent(props) {
                                                 <div className="">
                                                     <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(true)}>    Forgot Password ?</span>
                                                 </div>
-                                                <button type="submit" class="loginFormButton">Log In</button>
 
                                                 {
-                                                    somethingWentWrongFlag ? 
+                                                    isLoading ?
+                                                        <img src={infiniteLoader} /> :
+                                                        <button type="submit" class="loginFormButton">Log In</button>
 
-                                                    <div className="dangerColor text-center">Something Went Wrong. Please Try Again!</div> : ''
+                                                }
+
+                                                {
+                                                    somethingWentWrongFlag ?
+
+                                                        <div className="dangerColor text-center">{errorMessage}</div> : ''
                                                 }
 
                                             </form>
@@ -194,11 +211,18 @@ function LoginComponent(props) {
 
 
                                                 <div className="">
-                                                    <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(false)}> 
-                                                    Have an Account ? Go Back To Login
+                                                    <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(false)}>
+                                                        Have an Account ? Go Back To Login
                                                       </span>
                                                 </div>
-                                                <button type="submit" class="loginFormButton">Send Email</button>
+                                                {
+                                                    isLoading ?
+
+                                                        <img src={infiniteLoader} /> :
+
+                                                        <button type="submit" class="loginFormButton">Send Email</button>
+                                                }
+
 
                                             </form>
 

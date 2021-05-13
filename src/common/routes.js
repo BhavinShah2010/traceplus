@@ -9,16 +9,16 @@ import SiteViewDetails from '../siteManagement/components/details';
 import LoginComponent from '../login/components/login';
 import ManPowerMangementList from '../manPowerManagement/components';
 
-
+import PrivateRoute from './privateRoute'
 
 const Routes = () => (
     <Switch>
-        <Route exact path='/' component={Dashboard} />
         <Route exact path='/login' component={LoginComponent} />
-        <Route exact path='/dashboard' component={Dashboard} />
-        <Route exact path='/site-list/view/:id' component={SiteViewDetails} />
-        <Route exact path='/site-list' component={SiteMangementList} />
-        <Route exact path='/manpower-management' component={ManPowerMangementList} />
+        <PrivateRoute exact path='/dashboard' component={Dashboard} />
+        <PrivateRoute exact path='/site-list/view/:id' component={SiteViewDetails} />
+        <PrivateRoute exact path='/site-list' component={SiteMangementList} />
+        <PrivateRoute exact path='/manpower-management' component={ManPowerMangementList} />
+        <PrivateRoute exact path='/' component={Dashboard} />
         
     </Switch>
 )

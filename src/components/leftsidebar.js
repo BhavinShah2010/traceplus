@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import Aside from './aside';
 import { traceplusLogo } from '../common/images';
 import { logoutUser } from '../login/actionMethods/actionMethods';
@@ -41,4 +42,4 @@ function LeftSideBar(props) {
     )
 }
 
-export default LeftSideBar
+export default withRouter(LeftSideBar)
