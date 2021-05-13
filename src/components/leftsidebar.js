@@ -3,37 +3,42 @@ import Aside from './aside';
 import { traceplusLogo } from '../common/images';
 import { logoutUser } from '../login/actionMethods/actionMethods';
 
-class LeftSideBar extends React.Component {
 
-    handleLogout = () =>{
-        logoutUser().then(res =>{
-            console.log("Response : " , res)
+function LeftSideBar(props) {
+
+    function handleLogout() {
+        logoutUser().then(res => {
+            if (res && res.status >= 200 && res.status <= 299) {
+                if (res.data && res.data.message == "Session expired") {
+                    localStorage.removeItem('isLoggedIn')
+                    localStorage.removeItem('userLoginDetails')
+                    props.history.push(`/login`)
+                }
+            }
         })
     }
 
-    render() {
-        return (
-            <React.Fragment>
-                <div className="leftSideBarDiv">
-                    <div>
-                        <img src={traceplusLogo} className="logo" alt="TracePlus Logo" />
-                    </div>
-                    <h3 className="adminName">
-                        Jean
-                </h3>
-
-                    <h4 className="designation">Admin</h4>
-
-                    <Aside />
-
-                    <div className="LogoutDiv" onClick={this.handleLogout}>
-                        <span>Logout</span>
-                    </div>
+    return (
+        <React.Fragment>
+            <div className="leftSideBarDiv">
+                <div>
+                    <img src={traceplusLogo} className="logo" alt="TracePlus Logo" />
                 </div>
-            </React.Fragment>
+                <h3 className="adminName">
+                    Jean
+            </h3>
 
-        )
-    }
+                <h4 className="designation">Admin</h4>
+
+                <Aside />
+
+                <div className="LogoutDiv" onClick={handleLogout}>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </React.Fragment>
+
+    )
 }
 
 export default LeftSideBar

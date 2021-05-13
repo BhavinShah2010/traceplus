@@ -10,7 +10,7 @@ import { traceplusLogo, showPasswordEyeIcon } from '../../common/images';
 import { emailPattern } from '../../common/utilities';
 import { userLogin, forgotPassword } from '../actionMethods/actionMethods';
 
-function LoginComponent(params) {
+function LoginComponent(props) {
 
     const [emailID, updateEmailID] = useState('')
     const [password, updatePassword] = useState('')
@@ -19,6 +19,8 @@ function LoginComponent(params) {
     const [isPasswordEmpty, updateIsPasswordEmpty] = useState(false)
 
     const [isForgotPasswordView, updateIsForgotPasswordView] = useState(false)
+
+    const [somethingWentWrongFlag, updateSomethingWrongWentFlag] = useState(false)
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -45,7 +47,20 @@ function LoginComponent(params) {
                 requestBody.password = password
 
                 userLogin(requestBody).then(res =>{
-                    console.log("uSER : " , res)
+                    if(res && res.status >=200 && res.status <= 299){
+                        if(res.data && res.data.status == 200){
+                            localStorage.setItem('userLoginDetails' , JSON.stringify(res.data))
+                            localStorage.setItem('isLoggedIn' , true)
+                            props.history.push('/dashboard')
+                        }
+                        else{
+                            updateSomethingWrongWentFlag(true)
+
+                            setTimeout(() => {
+                                updateSomethingWrongWentFlag(false)
+                            }, 3000);
+                        }
+                    }
                 })
             }
         }
@@ -152,6 +167,12 @@ function LoginComponent(params) {
                                                     <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(true)}>    Forgot Password ?</span>
                                                 </div>
                                                 <button type="submit" class="loginFormButton">Log In</button>
+
+                                                {
+                                                    somethingWentWrongFlag ? 
+
+                                                    <div className="dangerColor text-center">Something Went Wrong. Please Try Again!</div> : ''
+                                                }
 
                                             </form>
 

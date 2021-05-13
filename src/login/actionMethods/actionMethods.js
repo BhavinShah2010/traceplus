@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-let prefixURL = process.env.REACT_APP_URL
+let prefixURL = process.env.REACT_APP_URL_LOGIN
 
 let token = 'tituw3958589'
 

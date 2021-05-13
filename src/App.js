@@ -9,12 +9,15 @@ import RightSideComponents from './components/rightsideComponents';
 
 
 function App() {
+
+  let isLoggedIn = localStorage.getItem('isLoggedIn')
+
   return (
     <BrowserRouter>
       <div className="mainAppDiv">
     
       {
-        true ? 
+        isLoggedIn && isLoggedIn == 'true' ? 
         <LeftSideBar /> : ''
       }
 

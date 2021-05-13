@@ -5,9 +5,13 @@ import Routes from '../common/routes';
 class RightSideComponents extends React.Component{
 
     render(){
+        let isLoggedIn = localStorage.getItem('isLoggedIn')
+
+        console.log("Truyy f", isLoggedIn && isLoggedIn == 'true')
+
+
         return(
-            <div className="RightSideDiv"
-           // style={ true ? { width:'100%', marginLeft:'0' } : {}}
+            <div className={ ' RightSideDiv' + (isLoggedIn && isLoggedIn == 'true' ? ' withLoginRightSideDiv' : ' withoutLoginRightSideDiv') }
             >
                 <Routes/>
             </div>

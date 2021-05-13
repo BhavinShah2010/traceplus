@@ -11,9 +11,17 @@ body{
 }
 
 .RightSideDiv{
-  float: left;
-  margin-left: 13rem;
+    float: left;
+}
+
+.withLoginRightSideDiv{
+    margin-left: 13rem;
     width: calc(100% - 13rem);
+}
+
+.withoutLoginRightSideDiv{
+  width: 100%;
+  margin-left: 0;
 }
 
 .commonHeading{
