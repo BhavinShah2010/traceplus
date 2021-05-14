@@ -36,6 +36,22 @@ $font-bold: 600;
     margin-top: 7rem;
 }
 
+.m-r-sm{
+    margin-right: 10px;
+}
+
+.m-r{
+    margin-right: 15px;
+}
+
+.m-r-md{
+    margin-right: 20px;
+}
+
+.m-r-lg{
+    margin-right: 25px;
+}
+
 .b-l{
     border-left:1px solid #e9ecef; 
 }
@@ -49,4 +65,13 @@ $font-bold: 600;
 
 .dangerColor{
     color: red;
+}
+
+
+.redBorderColor{
+    border: solid 1px #ff6f55;
+}
+
+.greenBorderColor{
+    border: solid 1px #06e06d
 }

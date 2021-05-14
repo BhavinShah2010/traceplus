@@ -1,8 +1,9 @@
 .dashboardComponentMainDiv {
-    padding: 1rem;
+    padding: 1rem 0;
 
     .threatWatchMainDiv {
         padding: 1rem;
+        margin-top: 0.5rem;
         border-radius: 10px;
 
         .threatWatchTextDiv {
@@ -40,10 +41,9 @@
                     position: absolute;
                     left: 0;
                     top: 0;
-                    border: solid 1px #ff6f55;
                     background-color: #ffffff;
                     border-radius: 25px;
-                    padding-top: 15px;
+                    padding-top: 12px;
                 }
             }
         }
@@ -117,7 +117,7 @@
         margin-top: 2rem;
         background: #FFFFFF;
         padding: 1rem;
-        border-radius: 0.65rem;
+        border-radius: 10px;
         box-shadow: 0 5px 15px 0 rgba(85, 89, 124, 0.2);
 
         .populationRiskMainDiv {
@@ -189,33 +189,51 @@
 
     .eachColumnDiv {
         flex: 1;
-        padding: 1em;
+       // padding: 1em;
     }
 
     .contaminatedMainDiv {
         background: #f5f7fa;
-        border-top-left-radius: 0.35rem;
-        border-bottom-left-radius: 0.35rem;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
     }
 
     .contactRankStartDateEndDateMainDiv {
         background: rgba(245, 247, 250, 0.5);
-        border-top-right-radius: 0.35rem;
-        border-bottom-right-radius: 0.35rem;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
 
         .contactRankText {
             font-size: 0.875rem;
             color: #31334c;
+            padding: 0rem 1rem;
         }
     }
 
     .contaminatedDetails {
-        padding: 1rem 0;
+        padding: 1rem;
+        display: inline-block;
+        vertical-align: middle;
+        border-right: thin #e0e0e0 solid;
+        width: 50%;
+
+        .titleText{
+            font-size: 0.875rem;
+        }
+
+        &:last-child {
+            border-right:none;
+        }
+
 
         .eachRecordDiv {
-            display: inline-block;
+            display: block;
             vertical-align: middle;
-            margin: 0 0.5rem;
+         
+            .countDiv{
+                margin-top: 1.5rem;
+                font-size: 1.5rem;
+            }
 
             &:first-child {
                 margin-left: 0;
@@ -235,3 +253,5 @@
 .redGradientColor{
     background-image: linear-gradient(110deg, #ff6f55, #efc56e);
 }
+
+

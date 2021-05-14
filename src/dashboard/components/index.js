@@ -21,7 +21,7 @@ function Dashboard(props) {
     const [orgId, updateOrgId] = useState(1)
     const [dashboardDate, updateDateboardDate] = useState(new Date())
     const [contaminatedEmployeeCount, updateContaminatedEmployeeCount] = useState(0);
-    const [organizationLocationCount, updateOrganizationLocationCount] = useState(0);
+    const [atRiskCount, updateAtRiskCount] = useState(0);
     const [threatWatchColor, updateThreatWatchColor] = useState('')
 
 
@@ -66,6 +66,8 @@ function Dashboard(props) {
         getThreatWatchData(requestBody).then(res => {
             if (res && res.status >= 200 && res.status <= 299) {
                 updateThreatWatchColor(res.color)
+                updateContaminatedEmployeeCount(res.contaminated.num_employees)
+                updateAtRiskCount(res.contaminated.at_risk)
             }
         })
     }
@@ -157,10 +159,10 @@ function Dashboard(props) {
                         <CommonHeading title="Dashboard" />
                     </Col>
                     <Col lg={6} className="text-right">
-                        <div className="dashboardLanguageMainDiv">
+                        <div className="dashboardLanguageMainDiv m-r-md">
                             <DashboardLanguage />
                         </div>
-                        <div className="dashboardDateMainDiv">Date</div>
+                        {/* <div className="dashboardDateMainDiv">Date</div> */}
                         <div className="dashboardPeopleAndDateMainDiv">
                             <div className="dashboardPeopleAndEmployeeMainDiv">
                                 <Row>
@@ -192,7 +194,7 @@ function Dashboard(props) {
                             <Col lg={12} md={12} sm={12} xs={12}>
                                 <ThreatWatch
                                     contaminatedEmployeeCount={contaminatedEmployeeCount}
-                                    organizationLocationCount={organizationLocationCount}
+                                    atRiskCount={atRiskCount}
                                     threatWatchColor={threatWatchColor}
                                 />
                             </Col>

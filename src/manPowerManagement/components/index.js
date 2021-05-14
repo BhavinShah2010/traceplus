@@ -5,7 +5,11 @@ function ManPowerMangementList(params) {
     
     return(
         <Container>
-            Man Power Mangement List
+            <Row className="m-t">
+                <Col lg={12}>
+                   <h3> Man Power Mangement List</h3>
+                </Col>
+            </Row>
         </Container>
     )
 }

@@ -127,117 +127,131 @@ function LoginComponent(props) {
         updateIsPasswordEmpty(false)
     }
 
-    return (
-        <div className="loginComponentMainDiv">
-            <div className="firstRowDiv">
+    let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
 
+    if(isLoggedIn){
+        return(
+            <div>
+            {props.history.push('/dashboard')}
             </div>
+        )
+    }
 
-            <div className="secondRowDiv">
-
-            </div>
-
-            <div className="loginFormWithLogoDiv">
-
-                <Row>
-                    <Col lg={3}>
-                    </Col>
-                    <Col lg={6}>
-                        <div className="logoDiv">
-                            <img src={traceplusLogo} />
-                        </div>
-                        <div className="loginFormMainDiv">
-                            {
-                                !isForgotPasswordView ?
-
-                                    <React.Fragment>
-
-                                        <div className="loginText">Log In</div>
-                                        <div className="loginForm">
-                                            <form onSubmit={handleSubmit}>
-                                                <div className="eachElement">
-                                                    <label>User Name</label>
-                                                    <input type="text" name="email" value={emailID} onChange={(e) => handleEmailID(e.target.value)} placeholder="User Name" />
-
-                                                    {
-                                                        !isEmailValid ? <div className="dangerColor">Please Enter Valid Email ID !</div> : ''
-                                                    }
+    else{
+        
+            return (
+                <div className="loginComponentMainDiv">
+                    <div className="firstRowDiv">
+        
+                    </div>
+        
+                    <div className="secondRowDiv">
+        
+                    </div>
+        
+                    <div className="loginFormWithLogoDiv">
+        
+                        <Row>
+                            <Col lg={3}>
+                            </Col>
+                            <Col lg={6}>
+                                <div className="logoDiv">
+                                    <img src={traceplusLogo} />
+                                </div>
+                                <div className="loginFormMainDiv">
+                                    {
+                                        !isForgotPasswordView ?
+        
+                                            <React.Fragment>
+        
+                                                <div className="loginText">Log In</div>
+                                                <div className="loginForm">
+                                                    <form onSubmit={handleSubmit}>
+                                                        <div className="eachElement">
+                                                            <label>User Name</label>
+                                                            <input type="text" name="email" value={emailID} onChange={(e) => handleEmailID(e.target.value)} placeholder="User Name" />
+        
+                                                            {
+                                                                !isEmailValid ? <div className="dangerColor">Please Enter Valid Email ID !</div> : ''
+                                                            }
+                                                        </div>
+        
+                                                        <div className="eachElement">
+                                                            <label>Password</label>
+                                                            <input id="password" type="password" name="password" value={password}
+                                                                onChange={(e) => handlePassword(e.target.value)} placeholder="Password" />
+                                                            <img src={showPasswordEyeIcon} onClick={togglePasswordTypeChange} />
+        
+                                                            {
+                                                                isPasswordEmpty ? <div className="dangerColor">Please Enter Password !</div> : ''
+                                                            }
+                                                        </div>
+                                                        <div className="">
+                                                            <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(true)}>    Forgot Password ?</span>
+                                                        </div>
+        
+                                                        {
+                                                            isLoading ?
+                                                                <img src={infiniteLoader} /> :
+                                                                <button type="submit" class="loginFormButton">Log In</button>
+        
+                                                        }
+        
+                                                        {
+                                                            somethingWentWrongFlag ?
+        
+                                                                <div className="dangerColor text-center">{errorMessage}</div> : ''
+                                                        }
+        
+                                                    </form>
+        
                                                 </div>
-
-                                                <div className="eachElement">
-                                                    <label>Password</label>
-                                                    <input id="password" type="password" name="password" value={password}
-                                                        onChange={(e) => handlePassword(e.target.value)} placeholder="Password" />
-                                                    <img src={showPasswordEyeIcon} onClick={togglePasswordTypeChange} />
-
-                                                    {
-                                                        isPasswordEmpty ? <div className="dangerColor">Please Enter Password !</div> : ''
-                                                    }
+                                            </React.Fragment> :
+        
+                                            <React.Fragment>
+                                                <div className="loginText">Forgot Password</div>
+                                                <div className="loginForm">
+                                                    <form onSubmit={handleForgotPassword}>
+                                                        <div className="eachElement">
+                                                            <label>User Name</label>
+                                                            <input type="text" name="email" value={emailID} onChange={(e) => handleEmailID(e.target.value)} placeholder="User Name" />
+        
+                                                            {
+                                                                !isEmailValid ? <div className="dangerColor">Please Enter Valid Email ID !</div> : ''
+                                                            }
+                                                        </div>
+        
+        
+                                                        <div className="">
+                                                            <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(false)}>
+                                                                Have an Account ? Go Back To Login
+                                                              </span>
+                                                        </div>
+                                                        {
+                                                            isLoading ?
+        
+                                                                <img src={infiniteLoader} /> :
+        
+                                                                <button type="submit" class="loginFormButton">Send Email</button>
+                                                        }
+        
+        
+                                                    </form>
+        
                                                 </div>
-                                                <div className="">
-                                                    <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(true)}>    Forgot Password ?</span>
-                                                </div>
+                                            </React.Fragment>
+                                    }
+                                </div>
+                            </Col>
+                            <Col lg={3}>
+                            </Col>
+                        </Row>
+        
+                    </div>
+                </div>
+            )
 
-                                                {
-                                                    isLoading ?
-                                                        <img src={infiniteLoader} /> :
-                                                        <button type="submit" class="loginFormButton">Log In</button>
-
-                                                }
-
-                                                {
-                                                    somethingWentWrongFlag ?
-
-                                                        <div className="dangerColor text-center">{errorMessage}</div> : ''
-                                                }
-
-                                            </form>
-
-                                        </div>
-                                    </React.Fragment> :
-
-                                    <React.Fragment>
-                                        <div className="loginText">Forgot Password</div>
-                                        <div className="loginForm">
-                                            <form onSubmit={handleForgotPassword}>
-                                                <div className="eachElement">
-                                                    <label>User Name</label>
-                                                    <input type="text" name="email" value={emailID} onChange={(e) => handleEmailID(e.target.value)} placeholder="User Name" />
-
-                                                    {
-                                                        !isEmailValid ? <div className="dangerColor">Please Enter Valid Email ID !</div> : ''
-                                                    }
-                                                </div>
-
-
-                                                <div className="">
-                                                    <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(false)}>
-                                                        Have an Account ? Go Back To Login
-                                                      </span>
-                                                </div>
-                                                {
-                                                    isLoading ?
-
-                                                        <img src={infiniteLoader} /> :
-
-                                                        <button type="submit" class="loginFormButton">Send Email</button>
-                                                }
-
-
-                                            </form>
-
-                                        </div>
-                                    </React.Fragment>
-                            }
-                        </div>
-                    </Col>
-                    <Col lg={3}>
-                    </Col>
-                </Row>
-
-            </div>
-        </div>
-    )
+    }
 }
 
 export default LoginComponent

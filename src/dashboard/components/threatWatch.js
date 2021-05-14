@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap';
-import { downThumbIcon, dashboardPeopleImage } from '../../common/images';
+import { downThumbIcon, dashboardPeopleImage, green, greenThumbIcon } from '../../common/images';
 
 
 function ThreatWatch(props) {
@@ -18,8 +18,8 @@ function ThreatWatch(props) {
                                 { props.threatWatchColor && props.threatWatchColor == 'green' ? ' ' : ' not '} 
                             Safe !
 
-                            <div className="thumbIconDiv">
-                                <img src={downThumbIcon} />
+                            <div className={'thumbIconDiv ' + (props.threatWatchColor && props.threatWatchColor == 'green' ? ' greenBorderColor' : ' redBorderColor') }>
+                                <img src={props.threatWatchColor && props.threatWatchColor == 'green' ? greenThumbIcon: downThumbIcon} />
                             </div>
                         </div>
                     </div>
@@ -28,23 +28,29 @@ function ThreatWatch(props) {
                 <Col lg={6}>
                     <div className="threatWatchAnalyticsMainDiv">
                         <div className="eachColumnDiv contaminatedMainDiv">
-                            <h6 className="font-bold">Contaminated</h6>
+                            
                             <div className="contaminatedDetails">
+                            <div className="titleText font-bold">Contaminated</div>
+                            
                                 <div className="eachRecordDiv">
-                                    <h5 className="font-bold">{props.contaminatedEmployeeCount}</h5>
+                                    <div className="font-bold countDiv">{props.contaminatedEmployeeCount}</div>
                                     <div className="labelDiv">Employees</div>
                                 </div>
+                            </div>
 
+                            <div className="contaminatedDetails">
+                            <div className="titleText font-bold">At Risk</div>
                                 <div className="eachRecordDiv">
-                                    <h5 className="font-bold">{props.organizationLocationCount}</h5>
-                                    <div className="labelDiv">Organization Locations</div>
+                                    <div className="font-bold countDiv">{props.atRiskCount}</div>
+                                    <div className="labelDiv">Employees</div>
                                 </div>
+                                
                             </div>
                         </div>
                         <div className="eachColumnDiv contactRankStartDateEndDateMainDiv"> 
                             <Row>
                                 <Col lg={12}>
-                                    <div className="contactRankText">Contact Rank</div>
+                                    <div className="contactRankText m-t">Contact Rank</div>
                                 </Col>
                             </Row>
 
