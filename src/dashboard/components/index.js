@@ -54,7 +54,6 @@ function Dashboard(props) {
 
         let requestBody = {}
         requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
-        requestBody.org_id = orgId
         getDashboardDataValues(requestBody)
         getThreatWatchDataValues(requestBody)
 

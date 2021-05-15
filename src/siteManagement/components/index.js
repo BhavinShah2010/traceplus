@@ -1,47 +1,119 @@
 import React, { useState, useEffect } from 'react'
-
+import moment from 'moment'
 import { Container, Row, Col } from 'react-bootstrap';
 import { CommonHeading } from '../../common/commonHeading';
 import '../styles/siteManagement.scss'
 import DashboardLanguage from '../../components/dashboardLanguage';
-import { selectedPinkArrowIcon } from '../../common/images';
+import { selectedPinkArrowIcon, tagIcon } from '../../common/images';
+import { getSiteLocations } from '../actionMethods/actionMethods';
 
 function SiteMangementList(props) {
+
+    const [dashboardDate, updateDateboardDate] = useState(new Date())
+    const [siteLocationsList, updateSiteLocationsList] = useState([])
+
+    const [preDefinedSiteLocationsList, updatePreDefinedSiteLocationList] = useState([])
+
+    const [searchValue, updateSearchValue] = useState('')
+
+
+    useEffect(() => {
+
+        let requestBody = {}
+        requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
+        getSiteLocationsValues(requestBody)
+
+    }, []);
+
+    function getSiteLocationsValues(requestBody) {
+        getSiteLocations(requestBody).then(res => {
+            if (res && res.data) {
+               
+                updatePreDefinedSiteLocationList(res.data)
+                updateSiteLocationsList(res.data)
+            }
+        })
+    }
 
 
     function handleClickCard(id) {
         props.history.push(`/site-list/view/:${id}`)
     }
 
-    function showCardList(params) {
+    function setTagStatus(status) {
+        
+        let statusValue = ''
+
+        switch (status) {
+            case "Overcrowded":
+                statusValue = 'overCrowdedGradientColor'
+                break;
+
+                case "Normal":
+                statusValue = 'normalGradientColor'
+                break;
+
+                case "Crowded":
+                statusValue = 'crowdedGradientColor'
+                break;
+        
+            default:
+                break;
+        }
+
+        return statusValue
+    }
+
+
+    function handleSiteLocationSearch(searchText) {
+        
+        let invalid = /[°"§%()[\]{}=\\?´`'#<>|,;.:+_-]+/g;
+        let value = searchText.replace(invalid, "")
+        let siteLocationsList = preDefinedSiteLocationsList.filter(function (siteList) {
+            return (siteList.name.toLowerCase().search(value.toLowerCase()) !== -1) || (siteList.status.toLowerCase().search(value.toLowerCase()) !== -1) || (siteList.category_name.toLowerCase().search(value.toLowerCase()) !== -1) 
+            
+        })
+
+        updateSiteLocationsList(siteLocationsList)
+
+        
+        updateSearchValue(searchText)
+    }
+
+    function showCardList(siteLocationsList) {
         let arr = []
 
-        for (let index = 0; index < 5; index++) {
+        for (let index = 0; index < siteLocationsList.length; index++) {
+            const element = siteLocationsList[index]
             arr.push(
-                <div className="eachCard" key={index} onClick={() => handleClickCard(index)}>
+                <div className="eachCard" key={index} onClick={() => handleClickCard(element.id)}>
                     <div className="card-body">
                         <Row>
                             <Col lg={12}>
-                                <span className="eachTag">Reception</span>
-                                <span className="eachTag">Overcrowded</span>
+                                <span className="eachTag">
+                                <img src={tagIcon} /> {element.category_name}
+                                </span> 
+
+                                <span className={ 'eachTag ' + setTagStatus(element.status)}>{element.status}</span>
+                                
                             </Col>
                         </Row>
 
                         <Row className="m-t-lg">
                             <Col lg={4}>
-                                <div className="locationNameDiv">Reception</div>
-                                <div className="nearByLocationDiv">Main Security</div>
+                                <div className="locationNameDiv">{element.name}</div>
+                                <div className="nearByLocationDiv">{element.description}</div>
                             </Col>
 
                             <Col lg={4}>
                                 <div className="nearByLocationDiv">Area Index</div>
-                                <span className="locationNameDiv">1.9</span>
-                                <span className="indexCircleStatus lowStatus">Low</span>
+                                <span className="locationNameDiv">{element.area_index}</span>
+                                <span className="indexCircleStatus lowStatus">{element.area_index_status}</span>
                             </Col>
 
                             <Col lg={3} className="b-l">
                                 <div className="nearByLocationDiv">Daily Avg. Footfall</div>
-                                <div className="locationNameDiv">200</div>
+                                <div className="locationNameDiv">{element.avg_footfall}</div>
                             </Col>
 
                             <Col lg={1}>
@@ -76,11 +148,11 @@ function SiteMangementList(props) {
                         <div className="siteListMainDiv">
                             <Row>
                                 <Col lg={8} >
-                                    <h3 className="locationsListing">Locations (5)</h3>
+                                    <h3 className="locationsListing">Locations ({siteLocationsList.length})</h3>
                                 </Col>
                                 <Col lg={4}>
                                     <div className="listingSearchMainDiv">
-                                        <input type="text" name="siteSearch" placeholder="Search..." />
+                                        <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
                                     </div>
                                 </Col>
                             </Row>
@@ -88,8 +160,17 @@ function SiteMangementList(props) {
                             <Row>
                                 <Col lg={12}>
                                     <div className="listingRecordMainDiv">
+
                                         {
-                                            showCardList()
+                                            siteLocationsList && siteLocationsList.length > 0 ?
+
+                                                showCardList(siteLocationsList) : ''
+                                        }
+
+                                        {
+                                            searchValue && siteLocationsList.length == 0 ? 
+
+                                            <h3 className="text-center m-t-lg">No Records Found !</h3> : ''
                                         }
                                     </div>
                                 </Col>

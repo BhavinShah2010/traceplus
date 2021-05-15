@@ -6,6 +6,21 @@
         border-radius: 0.5rem;
         background: #FFFFFF;
 
+        .priSriMriText {
+            color: #55597c !important;
+            font-size: 0.81rem;
+        }
+
+        .emplStatusDiv {
+            padding: 0px 10px;
+            text-align: center;
+            border-radius: 16px;
+            border: solid 1px #ff6e6e;
+            font-size: 0.875rem;
+            color: #ff6e6e;
+            margin-top: 1rem !important;
+        }
+
         .locationsListing {}
 
         .listingSearchMainDiv {
@@ -40,17 +55,13 @@
 
                     .eachTag {
                         width: auto;
+                        display: inline-block;
+                        text-align: center;
                         margin: 0 5px;
-                        padding: 0.25rem 1rem;
+                        padding: 0.25rem 2rem;
                         border-radius: 5px;
-                        border: solid 1px #55597c;
                         background-color: #202236;
                         font-size: 14px;
-                        font-weight: normal;
-                        font-stretch: normal;
-                        font-style: normal;
-                        letter-spacing: normal;
-                        text-align: left;
                         color: #ffffff;
 
                         &:first-child {
@@ -188,20 +199,20 @@
                 font-size: 0.75rem;
             }
 
-            .riskLevelText{
+            .riskLevelText {
                 color: #908fab;
                 font-size: 0.75rem;
             }
         }
 
-        .footfallMainDiv{
+        .footfallMainDiv {
             padding: 1.5rem;
             border-radius: 12px;
-            box-shadow: 0 5px 15px 0 rgba(85, 89, 124 ,0.5);
+            box-shadow: 0 5px 15px 0 rgba(85, 89, 124, 0.5);
             background-color: #ffffff;
 
-            .dayWeekButtonMainDiv{
-                .buttonDiv{
+            .dayWeekButtonMainDiv {
+                .buttonDiv {
                     width: 95px;
                     padding: 7.8px 17.8px 8px 18px;
                     border-radius: 100px;
@@ -217,11 +228,32 @@
                     text-align: center;
                     margin: 0 0.5rem;
 
-                    &:first-child{
+                    &:first-child {
                         margin-left: 0;
                     }
+                }
+
+                .activeFootfall {
+                    background-color: #ef5e8c;
+                    border-color: #ea5d8b;
+                    color: white;
                 }
             }
         }
     }
+}
+
+.overCrowdedGradientColor {
+    background: linear-gradient(106deg, #ff6f55 10%, #ffdb91 92%) !important;
+    color: #000000 !important;
+}
+
+.normalGradientColor {
+    background: linear-gradient(106deg, #04e06e 10%, #a5e006 92%) !important;
+    color: #000000 !important;
+}
+
+.crowdedGradientColor {
+    background: linear-gradient(106deg, #f5b608 10%, #ffdc91 92%) !important;
+    color: #000000 !important;
 }

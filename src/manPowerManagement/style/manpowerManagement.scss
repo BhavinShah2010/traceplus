@@ -1,0 +1,135 @@
+.manpowerManagementMainDiv{
+    padding: 1rem 0;
+
+    .populationRiskMainDiv{
+        background: #202236 ;
+        padding: 1rem;
+        border-radius: 10px;
+
+        .titleText{
+            font-size: 1.2rem;
+        }
+
+        .numberText{
+            font-size: 1.2rem;
+        }
+
+
+        .percentageDiv{
+            padding: 0.15rem 0.75rem;
+            border-radius: 2rem;
+            background: #FFFFFF;
+            display: inline-block;
+        }
+
+        .lowText{
+            font-size: 1.2rem;
+            
+        }
+    }
+
+    .attendanceTrendMainDiv{
+        padding: 1rem;
+        background: #FFFFFF;
+        border-radius: 10px;
+        position: relative;
+
+        .dateText{
+            font-size: 0.75rem;
+        }
+
+        .yesterdayPresentMainDiv{
+            padding: 0.5rem 1.2rem;
+            background: #55597c;
+            border-radius: 0.5rem;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            div{
+                font-size: 0.75rem;
+            }
+            .valueDiv{
+                font-size: 1.2rem;
+                padding: 0.25rem 0;
+                color: #FFFFFF;
+            }
+        }
+    }
+
+    .viewAllEmployeesButton{
+        background-color: #ef5e8c !important;
+        color: white !important;
+        box-shadow: 0 5px 15px 0 rgba(85, 89, 124, 0.3);
+        padding: 0.625rem 1.25rem;
+        border:thin solid transparent;
+        outline: none;
+        font-size: 0.875rem;
+        display: inline-block;
+        border-radius: 0.35rem;
+        cursor: pointer;
+    }
+
+    .teamsMainDiv{
+        padding: 1rem;
+        background: #FFFFFF;
+        border-radius: 10px;
+        position: relative;
+
+        .allOrPinnedMainDiv{
+            width: 100%;
+
+            .eachDiv{
+                padding: 0.75rem 1rem;
+                border-radius: 0.5rem;
+                text-align: center;
+
+                .badgeBox{
+
+                    width: 25px;
+                    height: 25px;
+                    padding: 0.5rem;
+                    border: solid 1px #2f3249;
+                    border-radius: 50%;
+                    color: #2f3249;
+                    font-size: 12px;
+                    font-weight: 500;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: 1.25;
+                    letter-spacing: normal;
+                    text-align: center;
+                    display: inline-block;
+
+                    span{
+                        position: relative;
+                        left: -0.15rem;
+                        top: -0.15rem;
+                    }
+                }
+
+                .activeBadge{
+                    border: solid 1px #ea5d8b;
+                    border-radius: 50%;
+                    color: white;
+                    background-color: #ea5d8b;
+                }
+            }
+            .active{
+                background-color: #fef0f4;
+                border: #ea5d8b solid thin;
+                color: #ea5d8b;
+                z-index: 0 !important;
+            }
+        }
+
+        .teamListDiv{
+            img{
+                width: 30px;
+            }
+            span{
+                font-size: 1rem;
+                padding-left: 0.5rem;
+            }
+        }
+    }
+}
