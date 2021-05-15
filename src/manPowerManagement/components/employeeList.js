@@ -22,7 +22,7 @@ function EmployeeList(props) {
         let requestBody = {}
         requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
         getEmployeeList(requestBody).then(res => {
-            console.log("Response : ", res)
+            
 
             if (res) {
                 updateEmployeeCount(res.count)
@@ -121,7 +121,7 @@ function EmployeeList(props) {
         return arr
     }
 
-    console.log("Check karo : ", employeeList)
+    
 
     return (
         <div className="siteViewMainDiv siteManagementMainDiv">
