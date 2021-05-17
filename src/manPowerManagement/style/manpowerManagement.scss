@@ -132,4 +132,87 @@
             }
         }
     }
+
+    .employeeDetailsMainDiv{
+        
+        .batteryMainDiv{
+            background-image: linear-gradient(277deg, #404255, #6a6d83);
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.80rem;
+        }
+
+        .historyOfInfectionDiv{
+            background-image: linear-gradient(294deg, #404255, #6a6d83);
+            padding: 1rem 0.5rem;
+            border-radius: 0.5rem;
+
+            .infectedText{
+                font-size: 0.85rem;
+            }
+
+            .attendanceDaysMainDiv{
+                .noOfDays{
+                    font-size: 1.5rem;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+
+                .daysText{
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+            }
+        }
+
+        .indexMainDiv{
+            .eachIndexDiv{
+                padding: 1rem;
+                border-radius: 10px;
+
+                .riskPercentageMainDiv{
+                    .riskPercentagenNumber{
+                        font-size: 1.3rem;
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+
+                    .increaseDecreasePercentageDiv{
+                        padding: 0.05rem 0.80rem;
+                        border-radius: 14px;
+                        border: solid 1px #ffffff;
+                        background-color: #ffffff;
+                        vertical-align: middle;
+                        display: inline-block;
+                        margin-left: 0.5rem;
+                        font-size: 0.75rem;   
+                    }
+                }
+                
+            }
+
+            .lowIndexGradientColor{
+                background: linear-gradient(181deg, #04e06e, #a5e006);
+            }
+
+            .highIndexGradientColor{
+                background: linear-gradient(181deg, #ff6f55, #ffdb91);
+            }
+
+            .mediumIndexGradientColor{
+                background: linear-gradient(181deg, #f5b608, #ffdc91);
+            }
+            
+        }
+
+        .mostInteractedMainDiv{
+            padding:  1rem;
+            border-radius: 0.5rem;
+            background: #FFFFFF;
+            box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.2);
+        }
+
+        
+    }
 }
+

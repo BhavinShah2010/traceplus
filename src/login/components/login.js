@@ -25,6 +25,8 @@ function LoginComponent(props) {
     const [somethingWentWrongFlag, updateSomethingWrongWentFlag] = useState(false)
     const [errorMessage, updateErrorMessage] = useState('')
 
+    const [successMessage, updateSucessMessage] = useState('')
+
     const [isLoading, updateIsLoading] = useState(false)
 
     function handleSubmit(event) {
@@ -105,12 +107,21 @@ function LoginComponent(props) {
 
             if (isValid) {
                 let requestBody = {}
-                requestBody.username = emailID
+                requestBody.email = emailID
 
                 updateIsLoading(true)
 
                 forgotPassword(requestBody).then(res => {
                     updateIsLoading(false)
+
+                    if(res && res.status >= 200){
+                        updateSucessMessage(res.data.message)
+
+                        setTimeout(() => {
+                            updateSucessMessage('')
+                            updateEmailID('')
+                        }, 3000);
+                    }
                 })
             }
 
@@ -227,12 +238,18 @@ function LoginComponent(props) {
                                                                 Have an Account ? Go Back To Login
                                                               </span>
                                                         </div>
+
+                                                        
                                                         {
                                                             isLoading ?
         
                                                                 <img src={infiniteLoader} /> :
         
                                                                 <button type="submit" class="loginFormButton">Send Email</button>
+                                                        }
+
+                                                        {
+                                                            successMessage ? <h6 className="successTextColor text-center m-t">{successMessage}</h6> : ''
                                                         }
         
         

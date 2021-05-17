@@ -2,8 +2,13 @@ import React from 'react'
 import { Row, Col } from 'react-bootstrap';
 import { downThumbIcon, dashboardPeopleImage, green, greenThumbIcon } from '../../common/images';
 
+import dropdownIcon from '../../assets/images/down-arrow.png'
 
 function ThreatWatch(props) {
+
+    function handleOnChangeContactRankValue(event) {
+        props.handleChangeValue(event.target.value)
+    }
 
     return (
         <div className={'threatWatchMainDiv ' + (props.threatWatchColor && props.threatWatchColor == 'green' ? ' greenGradienColor' : ' redGradientColor') } >
@@ -51,10 +56,26 @@ function ThreatWatch(props) {
                             <Row>
                                 <Col lg={12}>
                                     <div className="contactRankText m-t">Contact Rank</div>
+                                    <div className="contactRankSelectDropdownDiv">
+                                    <div className="dropdownIconDiv">
+                                    <img src={dropdownIcon} />
+                                    </div>
+                                    <select onChange={handleOnChangeContactRankValue}>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                    </select>
+                                    </div>
                                 </Col>
                             </Row>
 
-                            <Row className="m-t-lg">
+                            <Row className="m-t-sm">
                                 <Col lg={6}>
                                     <div className="contactRankText">Start Date</div>
                                 </Col>

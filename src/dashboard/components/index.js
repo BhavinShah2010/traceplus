@@ -54,6 +54,7 @@ function Dashboard(props) {
 
         let requestBody = {}
         requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
+        requestBody.contactRank = 1
         getDashboardDataValues(requestBody)
         getThreatWatchDataValues(requestBody)
 
@@ -149,6 +150,16 @@ function Dashboard(props) {
         return arr
     }
 
+    function handleChangeValue(value) {
+        
+        let requestBody = {}
+        requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
+        requestBody.contactRank = value
+        
+        getThreatWatchDataValues(requestBody)
+
+    }
+
 
     return (
         <div className="dashboardComponentMainDiv">
@@ -192,6 +203,7 @@ function Dashboard(props) {
                         <Row>
                             <Col lg={12} md={12} sm={12} xs={12}>
                                 <ThreatWatch
+                                    handleChangeValue={handleChangeValue}
                                     contaminatedEmployeeCount={contaminatedEmployeeCount}
                                     atRiskCount={atRiskCount}
                                     threatWatchColor={threatWatchColor}

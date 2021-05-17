@@ -7,6 +7,8 @@ import '../../styles/siteManagement.scss'
 import DashboardLanguage from '../../../components/dashboardLanguage';
 import { getSiteOverview, getSiteFootFall } from '../../actionMethods/actionMethods';
 
+import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
+
 function SiteViewDetails(props) {
 
     const [dashboardDate, updateDateboardDate] = useState(new Date())
@@ -194,7 +196,11 @@ function SiteViewDetails(props) {
     }
 
     else {
-        return ('')
+        return (
+            <div className="text-center m-t-lg">
+                <img  src={spinnerLoader} className="m-t-lg" />
+            </div>
+        )
     }
 
 }

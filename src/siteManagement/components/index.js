@@ -7,6 +7,8 @@ import DashboardLanguage from '../../components/dashboardLanguage';
 import { selectedPinkArrowIcon, tagIcon } from '../../common/images';
 import { getSiteLocations } from '../actionMethods/actionMethods';
 
+import spinnerLoader from '../../assets/images/Spinner Loader.gif'
+
 function SiteMangementList(props) {
 
     const [dashboardDate, updateDateboardDate] = useState(new Date())
@@ -15,6 +17,8 @@ function SiteMangementList(props) {
     const [preDefinedSiteLocationsList, updatePreDefinedSiteLocationList] = useState([])
 
     const [searchValue, updateSearchValue] = useState('')
+
+    const [isLoading, updateIsLoading] = useState(true)
 
 
     useEffect(() => {
@@ -31,6 +35,7 @@ function SiteMangementList(props) {
                
                 updatePreDefinedSiteLocationList(res.data)
                 updateSiteLocationsList(res.data)
+                updateIsLoading(false)
             }
         })
     }
@@ -130,57 +135,68 @@ function SiteMangementList(props) {
         return arr
     }
 
-    return (
-        <div className="siteManagementMainDiv">
-            <Container >
-                <Row>
-                    <Col lg={6} >
-                        <CommonHeading title="Site Listing" />
-                    </Col>
-                    <Col lg={6} className="text-right">
-                        <div className="dashboardLanguageMainDiv">
-                            <DashboardLanguage />
-                        </div>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg={12}>
-                        <div className="siteListMainDiv">
-                            <Row>
-                                <Col lg={8} >
-                                    <h3 className="locationsListing">Locations ({siteLocationsList.length})</h3>
-                                </Col>
-                                <Col lg={4}>
-                                    <div className="listingSearchMainDiv">
-                                        <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
-                                    </div>
-                                </Col>
-                            </Row>
+    if(isLoading){
+        return(
+            <div className="text-center m-t-lg">
+                <img  src={spinnerLoader} className="m-t-lg" />
+            </div>
+        )
+    }
+    else{
 
-                            <Row>
-                                <Col lg={12}>
-                                    <div className="listingRecordMainDiv">
+        return (
+            <div className="siteManagementMainDiv">
+                <Container >
+                    <Row>
+                        <Col lg={6} >
+                            <CommonHeading title="Site Listing" />
+                        </Col>
+                        <Col lg={6} className="text-right">
+                            <div className="dashboardLanguageMainDiv">
+                                <DashboardLanguage />
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg={12}>
+                            <div className="siteListMainDiv">
+                                <Row>
+                                    <Col lg={8} >
+                                        <h3 className="locationsListing">Locations ({siteLocationsList.length})</h3>
+                                    </Col>
+                                    <Col lg={4}>
+                                        <div className="listingSearchMainDiv">
+                                            <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
+                                        </div>
+                                    </Col>
+                                </Row>
+    
+                                <Row>
+                                    <Col lg={12}>
+                                        <div className="listingRecordMainDiv">
+    
+                                            {
+                                                siteLocationsList && siteLocationsList.length > 0 ?
+    
+                                                    showCardList(siteLocationsList) : ''
+                                            }
+    
+                                            {
+                                                searchValue && siteLocationsList.length == 0 ? 
+    
+                                                <h3 className="text-center m-t-lg">No Records Found !</h3> : ''
+                                            }
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+        )
+    }
 
-                                        {
-                                            siteLocationsList && siteLocationsList.length > 0 ?
-
-                                                showCardList(siteLocationsList) : ''
-                                        }
-
-                                        {
-                                            searchValue && siteLocationsList.length == 0 ? 
-
-                                            <h3 className="text-center m-t-lg">No Records Found !</h3> : ''
-                                        }
-                                    </div>
-                                </Col>
-                            </Row>
-                        </div>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
-    )
 }
 
 export default SiteMangementList

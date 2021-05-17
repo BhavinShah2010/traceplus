@@ -9,3 +9,6 @@ export const showPasswordEyeIcon = "http://iot.orvito.com:6200/assets/img/icons/
 export const tagIcon = "http://iot.orvito.com:6200/assets/img/icons/common/tag_icon.svg"
 export const mediumRiskIcon = "http://iot.orvito.com:6200/assets/img/icons/manpower/medium_risk_icon.svg"
 export const dayShiftImage = "http://iot.orvito.com:6200/assets/img/icons/manpower/sun.svg"
+export const emailIcon = "http://iot.orvito.com:6200/assets/img/icons/manpower/employee_email_icon.svg"
+export const empIDIcon= "http://iot.orvito.com:6200/assets/img/icons/manpower/employee_id_icon.svg"
+export const batteryIcon = "http://iot.orvito.com:6200/assets/img/icons/manpower/battery.svg"

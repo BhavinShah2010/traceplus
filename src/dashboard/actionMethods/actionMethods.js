@@ -15,7 +15,7 @@ export function getDashboardData(requestBody) {
 }
 
 export function getThreatWatchData(requestBody) {
-    return axios.get(prefixURL + `/get_threat_watch?session=${userSession}&date=${requestBody.date}&org_id=${org_id}`)
+    return axios.get(prefixURL + `/get_threat_watch?session=${userSession}&date=${requestBody.date}&org_id=${org_id}&contact_rank=${requestBody.contactRank}&start_date=${requestBody.startDate}&end_date=${requestBody.endDate}`)
         .then(res => res.data).catch(err => err)
 }
 

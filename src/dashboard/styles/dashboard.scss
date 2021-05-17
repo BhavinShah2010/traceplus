@@ -189,7 +189,9 @@
 
     .eachColumnDiv {
         flex: 1;
-       // padding: 1em;
+
+        // padding: 1em;
+   
     }
 
     .contaminatedMainDiv {
@@ -199,7 +201,7 @@
     }
 
     .contactRankStartDateEndDateMainDiv {
-        background: rgba(245, 247, 250, 0.5);
+        background: rgba(245, 247, 250, 1);
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
 
@@ -214,23 +216,21 @@
         padding: 1rem;
         display: inline-block;
         vertical-align: middle;
-        border-right: thin #e0e0e0 solid;
         width: 50%;
 
-        .titleText{
+        .titleText {
             font-size: 0.875rem;
         }
 
         &:last-child {
-            border-right:none;
+            border-right: thin #e0e0e0 solid;
         }
-
 
         .eachRecordDiv {
             display: block;
             vertical-align: middle;
-         
-            .countDiv{
+
+            .countDiv {
                 margin-top: 1.5rem;
                 font-size: 1.5rem;
             }
@@ -250,8 +250,44 @@
     background-image: linear-gradient(96deg, #04e06e 20%, #a5e006 111%);
 }
 
-.redGradientColor{
+.redGradientColor {
     background-image: linear-gradient(110deg, #ff6f55, #efc56e);
 }
 
+.contactRankSelectDropdownDiv {
+    padding: 0.15rem 1rem;
+    position: relative;
 
+    select {
+        width: 100%;
+        padding: 0.15rem 0.5rem;
+        border: thin #e3e4eb solid;
+        outline: none;
+        border-radius: 0.25rem;
+        background: #FFFFFF;
+        cursor: pointer;
+        -o-appearance: none;
+        -ms-appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
+        &:focus {
+            border: thin #e3e4eb solid;
+            outline: none;
+        }
+
+        
+    }
+    .dropdownIconDiv{
+        position: absolute;
+        right: 1.5rem;
+        top: 0.3rem;
+
+        img{
+            width: 18px;
+
+        }
+
+    }
+}

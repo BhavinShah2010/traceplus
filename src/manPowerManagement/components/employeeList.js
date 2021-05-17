@@ -8,12 +8,15 @@ import '../../siteManagement/styles/siteManagement.scss'
 import { selectedPinkArrowIcon, dayShiftImage } from '../../common/images';
 import { getEmployeeList } from '../actionMethods/actionMethods';
 
+import spinnerLoader from '../../assets/images/Spinner Loader.gif'
+
 function EmployeeList(props) {
 
     const [searchValue, updateSearchValue] = useState('')
     const [employeeList, updateEmployeeList] = useState([])
     const [preDefinedEmployeeList, updatePredefinedEmployeeList] = useState([])
     const [employeeCount, updateEmployeeCount] = useState(0)
+    const [isLoading, updateIsLoading] = useState(true)
 
     const [dashboardDate, updateDateboardDate] = useState(new Date())
 
@@ -22,7 +25,7 @@ function EmployeeList(props) {
         let requestBody = {}
         requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
         getEmployeeList(requestBody).then(res => {
-            
+            updateIsLoading(false)
 
             if (res) {
                 updateEmployeeCount(res.count)
@@ -42,7 +45,7 @@ function EmployeeList(props) {
         let invalid = /[°"§%()[\]{}=\\?´`'#<>|,;.:+_-]+/g;
         let value = searchText.replace(invalid, "")
         let employeeList = preDefinedEmployeeList.filter(function (employeeList) {
-            return (employeeList.emp_name.toLowerCase().search(value.toLowerCase()) !== -1) 
+            return (employeeList.emp_name.toLowerCase().search(value.toLowerCase()) !== -1)
 
         })
 
@@ -53,7 +56,7 @@ function EmployeeList(props) {
     }
 
     function handleClickCard(id) {
-        console.log("Log : ", id)
+        props.history.push(`/manpower-management/employee-list/view/:${id}`)
     }
 
     function showShiftType(type) {
@@ -63,7 +66,7 @@ function EmployeeList(props) {
             case 'day':
                 shiftType = dayShiftImage
                 break;
-        
+
             default:
                 break;
         }
@@ -108,7 +111,7 @@ function EmployeeList(props) {
                                 <div className="emplStatusDiv">{element.status}</div>
                             </Col>
                             <Col lg={1}>
-                                <div className="arrowDiv m-t-l">
+                                <div className="arrowDiv m-t-md">
                                     <img src={selectedPinkArrowIcon} />
                                 </div>
                             </Col>
@@ -121,7 +124,7 @@ function EmployeeList(props) {
         return arr
     }
 
-    
+
 
     return (
         <div className="siteViewMainDiv siteManagementMainDiv">
@@ -160,10 +163,17 @@ function EmployeeList(props) {
                                     <div className="listingRecordMainDiv">
 
                                         {
-                                            employeeList && employeeList.length > 0 ?
+                                            isLoading ?
 
-                                                showCardList(employeeList) : ''
+                                                <div className="text-center m-t-lg">
+                                                    <img src={spinnerLoader} className="m-t-lg" />
+                                                </div> :
+                                                employeeList && employeeList.length > 0 ?
+
+                                                    showCardList(employeeList) : ''
                                         }
+
+
 
                                         {
                                             searchValue && employeeList.length == 0 ?
