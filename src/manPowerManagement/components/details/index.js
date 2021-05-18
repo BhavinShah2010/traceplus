@@ -202,6 +202,7 @@ function EmployeeDetails(props) {
                                                         <div className="thisMonthText">This Month</div>
                                                     </div>
                                                 </div>
+                                                {/* <div className="percentageBorderDiv"></div> */}
                                             </div>
                                         </div>
                                     </Col>
