@@ -9,6 +9,7 @@ import { selectedPinkArrowIcon, dayShiftImage } from '../../common/images';
 import { getEmployeeList } from '../actionMethods/actionMethods';
 
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
+import CommonDatePicker from '../../common/commonDatePicker';
 
 function EmployeeList(props) {
 
@@ -18,12 +19,16 @@ function EmployeeList(props) {
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [isLoading, updateIsLoading] = useState(true)
 
-    const [dashboardDate, updateDateboardDate] = useState(new Date())
+    const [selectedDate, updateSelectedDate] = useState(new Date())
+
+    function handleDateSelect(date) {
+        updateSelectedDate(date)
+    }
 
     useEffect(() => {
 
         let requestBody = {}
-        requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
+        requestBody.date = getDateFormat(selectedDate)
         getEmployeeList(requestBody).then(res => {
             updateIsLoading(false)
 
@@ -35,6 +40,11 @@ function EmployeeList(props) {
         })
 
     }, []);
+
+    function getDateFormat(date) {
+        return moment(date).format('YYYY-MM-DD')
+    }
+
 
     function handleManpowerManagementList() {
         props.history.push('/manpower-management')
@@ -137,11 +147,20 @@ function EmployeeList(props) {
                             <span className="mediumHeader">Employee Listing</span>
                         </div>
                     </Col>
-                    <Col lg={6} className="text-right ">
-                        <div className="dashboardLanguageMainDiv m-t-sm">
+
+                    <Col lg={6} className="text-right">
+                        {/* <div className="dashboardLanguageMainDiv">
                             <DashboardLanguage />
+                        </div> */}
+
+                        <div className="siteHeadingDatePickerDiv" style={{ width: '20%' }}>
+                            <CommonDatePicker
+                                selectedDate={selectedDate}
+                                handleSelectDate={handleDateSelect}
+                            />
                         </div>
                     </Col>
+                    
                 </Row>
 
                 <Row className="m-t">

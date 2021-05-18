@@ -1,117 +1,196 @@
 $font-bold: 600;
 
-
-.site-color{
+.site-color {
     color: #908fab;
 }
 
-.white-bg{
+.white-bg {
     background: #FFFFFF;
 }
 
-.wrapper{
+.wrapper {
     padding: 1.5rem;
 }
 
-.font-bold{
+.p-l-0{
+    padding-left: 0;
+}
+
+.p-r-0{
+    padding-right: 0;
+}
+
+.m-l-r-0{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.font-bold {
     font-weight: $font-bold;
 }
 
-.font-normal{
+.font-normal {
     font-weight: 500;
 }
 
-.m-t-sm{
+.m-t-xs {
+    margin-top: 5px;
+}
+
+.m-t-sm {
     margin-top: 10px;
 }
-.m-t{
+
+.m-t {
     margin-top: 15px;
 }
 
-.m-t-md{
+.m-t-md {
     margin-top: 20px;
 }
 
-.m-t-lg{
+.m-t-lg {
     margin-top: 25px;
 }
 
-.m-t-7rem{
+.m-t-7rem {
     margin-top: 7rem;
 }
 
-.m-r-sm{
+.m-r-sm {
     margin-right: 10px;
 }
 
-.m-r{
+.m-r {
     margin-right: 15px;
 }
 
-.m-r-md{
+.m-r-md {
     margin-right: 20px;
 }
 
-.m-r-lg{
+.m-r-lg {
     margin-right: 25px;
 }
 
-.m-l-sm{
+.m-l-sm {
     margin-left: 10px;
 }
 
-.m-l{
+.m-l {
     margin-left: 15px;
 }
 
-.m-l-md{
+.m-l-md {
     margin-left: 20px;
 }
 
-.m-l-lg{
+.m-l-lg {
     margin-left: 25px;
 }
 
-.m-b-sm{
+.m-b-sm {
     margin-bottom: 10px;
 }
 
-.m-b{
+.m-b {
     margin-bottom: 15px;
 }
 
-.m-b-md{
+.m-b-md {
     margin-bottom: 20px;
 }
 
-.m-b-lg{
+.m-b-lg {
     margin-bottom: 25px;
 }
 
-.b-l{
-    border-left:1px solid #e9ecef; 
+.b-l {
+    border-left: 1px solid #e9ecef;
 }
-.b-r{
-    border-right:1px solid #e9ecef; 
+
+.b-r {
+    border-right: 1px solid #e9ecef;
 }
 
 .commonLanguageDropDownDiv {
-    width: 100%;  
+    width: 100%;
 }
 
-.dangerColor{
+.dangerColor {
     color: red;
 }
 
-
-.redBorderColor{
+.redBorderColor {
     border: solid 1px #ff6f55;
 }
 
-.greenBorderColor{
-    border: solid 1px #06e06d
+.greenBorderColor {
+    border: solid 1px #06e06d;
 }
 
-.successTextColor{
+.successTextColor {
     color: green;
+}
+
+.container {
+    max-width: 100% !important;
+}
+
+.commonHeadingDateMainDiv {
+    width: 12%;
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding: 0 1rem;
+    padding-left: 0;
+
+    .react-datepicker-wrapper {
+        width: 75% !important;
+        vertical-align: middle;
+        cursor: pointer;
+
+        input {
+            border: none !important;
+            outline: none !important;
+            background: none !important;
+            width: 100% !important;
+            text-align: right;
+            cursor: pointer;
+            caret-color: transparent;
+        }
+    }
+}
+
+.startDateEndDateMainDiv {
+    padding: 0 0.75rem;
+    position: relative;
+
+    .react-datepicker-wrapper {
+        
+        vertical-align: middle;
+        cursor: pointer;
+        width: 100%;
+        input {
+            border: solid 1px #d2d3dd !important;
+            outline: none !important;
+            padding: 0 0.5rem;
+            border-radius: 0.25rem;
+            background: #FFFFFF !important;
+            width: 100% !important;
+            cursor: pointer;
+            caret-color: transparent;
+        }
+    }
+
+    .dropdownIconDiv{
+        position: absolute;
+        top: 0rem;
+        right: 1.2rem;
+
+        img{
+            width: 16px;
+        }
+    }
+
+    
 }

@@ -1,8 +1,8 @@
 .siteManagementMainDiv {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0rem;
 
     .siteListMainDiv {
-        padding: 1.4rem;
+        padding: 1.4rem 1.5rem;
         border-radius: 0.5rem;
         background: #FFFFFF;
 
@@ -45,20 +45,21 @@
 
             .eachCard {
                 background-color: #f5f7fa;
-                margin-bottom: 0.5rem;
+                margin-bottom: 1rem;
                 border-radius: 0.5rem;
-                border: 1px solid rgba(0, 0, 0, 0.05);
+
+                //border: 1px solid rgba(0, 0, 0, 0.05);
                 cursor: pointer;
 
                 .card-body {
-                    padding: 1rem 1.5rem;
+                    padding: 1rem 1.2rem;
 
                     .eachTag {
-                        width: auto;
+                        width: 140px;
                         display: inline-block;
                         text-align: center;
                         margin: 0 5px;
-                        padding: 0.25rem 2rem;
+                        padding: 0.25rem 1rem;
                         border-radius: 5px;
                         background-color: #202236;
                         font-size: 14px;
@@ -113,39 +114,11 @@
 }
 
 .siteViewMainDiv {
-    padding: 1rem;
-
-    .siteViewHeaderDiv {
-        .smallHeader {
-            font-size: 1.2rem;
-            display: inline-block;
-            vertical-align: middle;
-            cursor: pointer;
-            font-weight: 600;
-            color: #908fab;
-        }
-
-        .breadCrumbArrow {
-            font-size: 2rem;
-            color: #908fab;
-            margin: 0 1rem;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .mediumHeader {
-            font-size: 1.625rem;
-            display: inline-block;
-            vertical-align: middle;
-            cursor: pointer;
-            font-weight: 600;
-            color: #908fab;
-        }
-    }
+    padding: 1rem 0;
 
     .siteViewDetailsLeftSideDiv {
         background: #202236;
-        padding: 1.25rem 1.5rem;
+        padding: 1.25rem;
         border-radius: 0.5rem;
         color: #FFFFFF;
 
@@ -166,9 +139,9 @@
         .recommendMainDiv {
             .recommendListMainDiv {
                 .eachRecommendCardDiv {
-                    margin-bottom: 1.5rem;
+                    margin-bottom: 1.25rem;
                     padding: 1.5rem;
-                    border-radius: 0.5rem;
+                    border-radius: 0.45rem;
                     background-image: linear-gradient(279deg, #404255, #5c5e74);
                     font-size: 1rem;
                 }
@@ -256,4 +229,70 @@
 .crowdedGradientColor {
     background: linear-gradient(106deg, #f5b608 10%, #ffdc91 92%) !important;
     color: #000000 !important;
+}
+
+.siteViewHeaderDiv {
+    .smallHeader {
+        font-size: 1rem;
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+        font-weight: 600;
+        color: #969aa9;
+    }
+
+    .breadCrumbArrow {
+        font-size: 1.5rem;
+        color: #969aa9;
+        margin: 0 1rem;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .mediumHeader {
+        font-size: 1.5rem;
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+        font-weight: 600;
+        color: #383b52;
+    }
+}
+
+.areaIndexChartMainDiv {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px 0 rgba(85, 89, 124, 0.2);
+}
+
+
+.siteHeadingDatePickerDiv {
+    width: 20%;
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding: 0 1rem;
+    padding-left: 0;
+
+    .react-datepicker-popper{
+        left: -200px !important;
+    }
+
+    .react-datepicker__triangle{
+        left: 13rem !important;
+    }
+
+    .react-datepicker-wrapper {
+        width: 65% !important;
+        vertical-align: middle;
+        cursor: pointer;
+
+        input {
+            border: none !important;
+            outline: none !important;
+            background: none !important;
+            width: 100% !important;
+            text-align: right;
+            cursor: pointer;
+            caret-color: transparent;
+        }
+    }
 }

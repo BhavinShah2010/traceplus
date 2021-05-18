@@ -13,18 +13,21 @@ import { getEmployeeDetails, getEmployeeIndex } from '../../actionMethods/action
 import { emailIcon, empIDIcon, batteryIcon } from '../../../common/images';
 
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
+import CommonDatePicker from '../../../common/commonDatePicker';
 
 function EmployeeDetails(props) {
 
     const [employeeDetails, updateEmployeeDetails] = useState('')
     const [locationID, updateLocationID] = useState('')
-    const [dashboardDate, updateDateboardDate] = useState(new Date())
+
 
     const [infectedFlag, updateInfectedFlag] = useState(false)
 
     const [employeeIndexData, updateEmployeeIndexData] = useState('')
 
     const [isLoading, updateIsLoading] = useState(true)
+
+    const [selectedDate, updateSelectedDate] = useState(new Date())
 
 
     useEffect(() => {
@@ -37,7 +40,7 @@ function EmployeeDetails(props) {
             updateLocationID(idVal)
 
             let requestBody = {}
-            requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
+            requestBody.date = getDateFormat(selectedDate)
             requestBody.emp_id = idVal
 
             getEmployeeDetails(requestBody).then(res => {
@@ -56,6 +59,11 @@ function EmployeeDetails(props) {
         }
 
     }, []);
+
+
+    function getDateFormat(date) {
+        return moment(date).format('YYYY-MM-DD')
+    }
 
 
     function handleManpowerManagementList() {
@@ -95,6 +103,11 @@ function EmployeeDetails(props) {
         return risk
     }
 
+    function handleDateSelect(date) {
+        updateSelectedDate(date)
+    }
+
+
     if (employeeDetails && employeeIndexData) {
 
         return (
@@ -102,13 +115,22 @@ function EmployeeDetails(props) {
                 <div className="employeeDetailsMainDiv">
                     <Container>
                         <Row>
-                            <Col lg={10}>
+                            <Col lg={8}>
                                 <div className="siteViewHeaderDiv">
                                     <span className="smallHeader" onClick={handleManpowerManagementList}>Manpower Management</span>
                                     <span className="breadCrumbArrow"> > </span>
                                     <span className="smallHeader" onClick={handleEmployeeList}>Employee Listing</span>
                                     <span className="breadCrumbArrow"> > </span>
                                     <span className="mediumHeader">Employee View</span>
+                                </div>
+                            </Col>
+
+                            <Col lg={4} className="text-right">
+                                <div className="siteHeadingDatePickerDiv" style={{ width: '30%' }}>
+                                    <CommonDatePicker
+                                        selectedDate={selectedDate}
+                                        handleSelectDate={handleDateSelect}
+                                    />
                                 </div>
                             </Col>
                         </Row>
@@ -140,12 +162,14 @@ function EmployeeDetails(props) {
                                             <div className="historyOfInfectionDiv m-t">
                                                 <div className="infectedText"> This Employee was {employeeDetails.infected == 'No' ? ' Not' : ''} infected previously </div>
                                                 <Row className="m-t">
-                                                    <Col lg={8}>
+                                                    <Col lg={7}>
                                                         <span>Mark as Infected</span>
                                                     </Col>
-                                                    <Col lg={4} className="text-right">
+                                                    <Col lg={2} className="text-right p-r-0">
                                                         <span className="text-white">{infectedFlag ? 'Yes' : 'No'}</span>
 
+                                                    </Col>
+                                                    <Col lg={3} className="text-right ">
                                                         <Switch checked={infectedFlag} onChange={handleChangeInfected} />
                                                     </Col>
                                                 </Row>
@@ -170,7 +194,13 @@ function EmployeeDetails(props) {
 
                                                 <div className="attendanceDaysMainDiv">
                                                     <span className="noOfDays font-bold">{employeeDetails.emp_attendance.days_present}</span> &nbsp;
-                                                <span className="daysText">Days Present this month</span>
+                                                    <span className="daysText">Days Present this month</span>
+                                                </div>
+                                                <div className="attendancePercentageRoundDiv">
+                                                    <div className="percentageText ">
+                                                        <span className="font-bold">{employeeDetails.emp_attendance.attendance_percentage} %</span>
+                                                        <div className="thisMonthText">This Month</div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

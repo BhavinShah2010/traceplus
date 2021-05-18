@@ -14,16 +14,21 @@ import DashboardLanguage from '../../components/dashboardLanguage';
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 
 import ContentLoader from 'react-content-loader'
+import CommonDatePicker from '../../common/commonDatePicker';
 function Dashboard(props) {
 
 
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [orgId, updateOrgId] = useState(1)
-    const [dashboardDate, updateDateboardDate] = useState(new Date())
     const [contaminatedEmployeeCount, updateContaminatedEmployeeCount] = useState(0);
     const [atRiskCount, updateAtRiskCount] = useState(0);
     const [threatWatchColor, updateThreatWatchColor] = useState('')
+    const [startDateValue, updateStartDateValue] = useState(new Date())
+    const [endDateValue, updateEndDateValue] = useState(new Date())
 
+    const [selectedDate, updateSelectedDate] = useState(new Date())
+
+    const [contactRankValue, updateContactRankValue] = useState(1)
 
 
     const [indexTitleArray, updateIndexTitleArray] =
@@ -53,16 +58,17 @@ function Dashboard(props) {
     useEffect(() => {
 
         let requestBody = {}
-        requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
-        requestBody.contactRank = 1
+        requestBody.date = getDateFormat(selectedDate)
+        requestBody.contactRank = contactRankValue
         getDashboardDataValues(requestBody)
         getThreatWatchDataValues(requestBody)
 
     }, []);
 
     function getThreatWatchDataValues(requestBody) {
-        requestBody.start_date = moment(dashboardDate).format('YYYY-MM-DD')
-        requestBody.end_date = moment(dashboardDate).format('YYYY-MM-DD')
+        requestBody.startDate = getDateFormat(startDateValue)
+        requestBody.endDate = getDateFormat(endDateValue)
+
         getThreatWatchData(requestBody).then(res => {
             if (res && res.status >= 200 && res.status <= 299) {
                 updateThreatWatchColor(res.color)
@@ -151,28 +157,85 @@ function Dashboard(props) {
     }
 
     function handleChangeValue(value) {
-        
+
         let requestBody = {}
-        requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
+        requestBody.date = getDateFormat(selectedDate)
         requestBody.contactRank = value
-        
+        updateContactRankValue(value)
         getThreatWatchDataValues(requestBody)
 
     }
 
+    function getDateFormat(date) {
+        return moment(date).format('YYYY-MM-DD')
+    }
+
+
+    function handleDateSelect(date) {
+        updateSelectedDate(date)
+        //updateThreatWatchColor('')
+
+        let requestBody = {}
+        requestBody.date = getDateFormat(date)
+        requestBody.contactRank = contactRankValue
+        //getDashboardDataValues(requestBody)
+        getThreatWatchDataValues(requestBody)
+    }
+
+    function handleSelectStartDate(date) {
+        updateStartDateValue(date)
+
+
+        let requestBody = {}
+        requestBody.date = getDateFormat(selectedDate)
+        requestBody.contactRank = contactRankValue
+
+        setTimeout(() => {
+            getThreatWatchDataValues(requestBody)
+        }, 100);
+
+    }
+
+    function handleSelectEndDate(date) {
+        updateEndDateValue(date)
+
+        let startDate = moment(startDateValue)
+        let endDate = moment(endDateValue)
+
+        let days = startDate.diff(endDate , 'days')
+
+        console.log("Days : " , days)
+
+
+        let requestBody = {}
+        requestBody.date = getDateFormat(selectedDate)
+        requestBody.contactRank = contactRankValue
+
+        setTimeout(() => {
+            getThreatWatchDataValues(requestBody)
+        }, 100);
+
+    }
+
+    
 
     return (
         <div className="dashboardComponentMainDiv">
             <Container >
                 <Row>
-                    <Col lg={6} >
+                    <Col lg={3} className="m-t-sm">
                         <CommonHeading title="Dashboard" />
                     </Col>
-                    <Col lg={6} className="text-right">
+                    <Col lg={9} className="text-right">
                         <div className="dashboardLanguageMainDiv m-r-md">
                             <DashboardLanguage />
                         </div>
-                        {/* <div className="dashboardDateMainDiv">Date</div> */}
+                        <div className="commonHeadingDateMainDiv">
+                            <CommonDatePicker
+                                selectedDate={selectedDate}
+                                handleSelectDate={handleDateSelect}
+                            />
+                        </div>
                         <div className="dashboardPeopleAndDateMainDiv">
                             <div className="dashboardPeopleAndEmployeeMainDiv">
                                 <Row>
@@ -203,6 +266,12 @@ function Dashboard(props) {
                         <Row>
                             <Col lg={12} md={12} sm={12} xs={12}>
                                 <ThreatWatch
+                                    handleSelectStartDate={handleSelectStartDate}
+                                    handleSelectEndDate={handleSelectEndDate}
+                                    
+                                    startDate={startDateValue}
+                                    endDate={endDateValue}
+                                    selectedDate={selectedDate}
                                     handleChangeValue={handleChangeValue}
                                     contaminatedEmployeeCount={contaminatedEmployeeCount}
                                     atRiskCount={atRiskCount}

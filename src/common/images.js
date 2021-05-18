@@ -12,3 +12,4 @@ export const dayShiftImage = "http://iot.orvito.com:6200/assets/img/icons/manpow
 export const emailIcon = "http://iot.orvito.com:6200/assets/img/icons/manpower/employee_email_icon.svg"
 export const empIDIcon= "http://iot.orvito.com:6200/assets/img/icons/manpower/employee_id_icon.svg"
 export const batteryIcon = "http://iot.orvito.com:6200/assets/img/icons/manpower/battery.svg"
+export const calenderIcon ="http://iot.orvito.com:6200/assets/img/icons/navbar/calendar_icon.svg"

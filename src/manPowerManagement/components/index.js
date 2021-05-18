@@ -1,20 +1,27 @@
 
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 import { Select } from 'antd';
 import { CommonHeading } from '../../common/commonHeading';
 import DashboardLanguage from '../../components/dashboardLanguage';
 import '../style/manpowerManagement.scss'
 import { mediumRiskIcon } from '../../common/images';
+import CommonDatePicker from '../../common/commonDatePicker';
 
 const { Option } = Select;
 
 
 function ManPowerMangementList(props) {
 
+    const [selectedDate, updateSelectedDate] = useState(new Date())
+
     function goToEmployeeList() {
         props.history.push('/manpower-management/employee-list')
+    }
+
+    function handleDateSelect(date) {
+        updateSelectedDate(date)
     }
 
     return (
@@ -25,13 +32,20 @@ function ManPowerMangementList(props) {
                         <CommonHeading title="Dashboard" />
                     </Col>
                     <Col lg={6} className="text-right">
-                        <div className="dashboardLanguageMainDiv">
+                        {/* <div className="dashboardLanguageMainDiv">
                             <DashboardLanguage />
+                        </div> */}
+
+                        <div className="siteHeadingDatePickerDiv" style={{ width: '20%' }}>
+                            <CommonDatePicker
+                                selectedDate={selectedDate}
+                                handleSelectDate={handleDateSelect}
+                            />
                         </div>
                     </Col>
                 </Row>
 
-                <Row className="text-right">
+                <Row className="text-right m-t">
                     <Col lg={12}>
                         <div className="viewAllEmployeesButton" onClick={goToEmployeeList}>View All Employees</div>
                     </Col>
@@ -88,7 +102,7 @@ function ManPowerMangementList(props) {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <Row className="m-t-lg teamListDiv">
                                 <Col lg={6} className="m-b">
                                     <img src={mediumRiskIcon} />
@@ -110,7 +124,7 @@ function ManPowerMangementList(props) {
                                     <span className="font-bold">HR Team</span>
                                 </Col>
 
-                                
+
                             </Row>
                         </div>
                     </Col>

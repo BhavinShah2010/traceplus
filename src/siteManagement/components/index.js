@@ -8,36 +8,53 @@ import { selectedPinkArrowIcon, tagIcon } from '../../common/images';
 import { getSiteLocations } from '../actionMethods/actionMethods';
 
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
+import CommonDatePicker from '../../common/commonDatePicker';
+
+import '../../dashboard/styles/dashboard.scss'
 
 function SiteMangementList(props) {
 
-    const [dashboardDate, updateDateboardDate] = useState(new Date())
+    
     const [siteLocationsList, updateSiteLocationsList] = useState([])
 
     const [preDefinedSiteLocationsList, updatePreDefinedSiteLocationList] = useState([])
 
     const [searchValue, updateSearchValue] = useState('')
-
+    const [selectedDate, updateSelectedDate] = useState(new Date())
     const [isLoading, updateIsLoading] = useState(true)
 
 
     useEffect(() => {
 
         let requestBody = {}
-        requestBody.date = moment(dashboardDate).format('YYYY-MM-DD')
+        requestBody.date = getDateFormat(selectedDate)
         getSiteLocationsValues(requestBody)
 
     }, []);
 
     function getSiteLocationsValues(requestBody) {
+        updateIsLoading(true)
         getSiteLocations(requestBody).then(res => {
             if (res && res.data) {
-               
+
                 updatePreDefinedSiteLocationList(res.data)
                 updateSiteLocationsList(res.data)
                 updateIsLoading(false)
             }
         })
+    }
+
+    function handleDateSelect(date) {
+        updateSelectedDate(date)
+        //updateThreatWatchColor('')
+
+        let requestBody = {}
+        requestBody.date = getDateFormat(date)
+        getSiteLocationsValues(requestBody)
+    }
+
+    function getDateFormat(date) {
+        return moment(date).format('YYYY-MM-DD')
     }
 
 
@@ -46,7 +63,7 @@ function SiteMangementList(props) {
     }
 
     function setTagStatus(status) {
-        
+
         let statusValue = ''
 
         switch (status) {
@@ -54,14 +71,14 @@ function SiteMangementList(props) {
                 statusValue = 'overCrowdedGradientColor'
                 break;
 
-                case "Normal":
+            case "Normal":
                 statusValue = 'normalGradientColor'
                 break;
 
-                case "Crowded":
+            case "Crowded":
                 statusValue = 'crowdedGradientColor'
                 break;
-        
+
             default:
                 break;
         }
@@ -71,17 +88,17 @@ function SiteMangementList(props) {
 
 
     function handleSiteLocationSearch(searchText) {
-        
+
         let invalid = /[°"§%()[\]{}=\\?´`'#<>|,;.:+_-]+/g;
         let value = searchText.replace(invalid, "")
         let siteLocationsList = preDefinedSiteLocationsList.filter(function (siteList) {
-            return (siteList.name.toLowerCase().search(value.toLowerCase()) !== -1) || (siteList.status.toLowerCase().search(value.toLowerCase()) !== -1) || (siteList.category_name.toLowerCase().search(value.toLowerCase()) !== -1) 
-            
+            return (siteList.name.toLowerCase().search(value.toLowerCase()) !== -1) || (siteList.status.toLowerCase().search(value.toLowerCase()) !== -1) || (siteList.category_name.toLowerCase().search(value.toLowerCase()) !== -1)
+
         })
 
         updateSiteLocationsList(siteLocationsList)
 
-        
+
         updateSearchValue(searchText)
     }
 
@@ -96,11 +113,11 @@ function SiteMangementList(props) {
                         <Row>
                             <Col lg={12}>
                                 <span className="eachTag">
-                                <img src={tagIcon} /> {element.category_name}
-                                </span> 
+                                    <img src={tagIcon} /> {element.category_name}
+                                </span>
 
-                                <span className={ 'eachTag ' + setTagStatus(element.status)}>{element.status}</span>
-                                
+                                <span className={'eachTag ' + setTagStatus(element.status)}>{element.status}</span>
+
                             </Col>
                         </Row>
 
@@ -135,29 +152,36 @@ function SiteMangementList(props) {
         return arr
     }
 
-    if(isLoading){
-        return(
-            <div className="text-center m-t-lg">
-                <img  src={spinnerLoader} className="m-t-lg" />
-            </div>
-        )
-    }
-    else{
 
-        return (
-            <div className="siteManagementMainDiv">
-                <Container >
-                    <Row>
-                        <Col lg={6} >
-                            <CommonHeading title="Site Listing" />
-                        </Col>
-                        <Col lg={6} className="text-right">
-                            <div className="dashboardLanguageMainDiv">
+
+    return (
+        <div className="dashboardComponentMainDiv siteManagementMainDiv">
+            <Container >
+                <Row>
+                    <Col lg={6} >
+                        <div className="siteViewHeaderDiv">
+                            <span className="smallHeader">Site Management</span>
+                            <span className="breadCrumbArrow"> > </span>
+                            <span className="mediumHeader">Site Listing</span>
+                        </div>
+                    </Col>
+                    <Col lg={6} className="text-right">
+                        <div className="siteHeadingDatePickerDiv">
+                            <CommonDatePicker
+                                selectedDate={selectedDate}
+                                handleSelectDate={handleDateSelect}
+
+                            />
+                        </div>
+                        {/* <div className="dashboardLanguageMainDiv">
                                 <DashboardLanguage />
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row>
+                            </div> */}
+                    </Col>
+                </Row>
+
+                {
+
+                    <Row className="m-t">
                         <Col lg={12}>
                             <div className="siteListMainDiv">
                                 <Row>
@@ -170,32 +194,39 @@ function SiteMangementList(props) {
                                         </div>
                                     </Col>
                                 </Row>
-    
-                                <Row>
-                                    <Col lg={12}>
-                                        <div className="listingRecordMainDiv">
-    
-                                            {
-                                                siteLocationsList && siteLocationsList.length > 0 ?
-    
-                                                    showCardList(siteLocationsList) : ''
-                                            }
-    
-                                            {
-                                                searchValue && siteLocationsList.length == 0 ? 
-    
-                                                <h3 className="text-center m-t-lg">No Records Found !</h3> : ''
-                                            }
-                                        </div>
-                                    </Col>
-                                </Row>
+
+                                {
+                                    isLoading ? <div className="text-center m-t-lg">
+                                        <img src={spinnerLoader} className="m-t-lg" />
+                                    </div> :
+                                        <Row>
+                                            <Col lg={12}>
+                                                <div className="listingRecordMainDiv">
+
+                                                    {
+                                                        siteLocationsList && siteLocationsList.length > 0 ?
+
+                                                            showCardList(siteLocationsList) : ''
+                                                    }
+
+                                                    {
+                                                        searchValue && siteLocationsList.length == 0 ?
+
+                                                            <h3 className="text-center m-t-lg">No Site List Found !</h3> : ''
+                                                    }
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                }
+
                             </div>
                         </Col>
                     </Row>
-                </Container>
-            </div>
-        )
-    }
+                }
+            </Container>
+        </div>
+    )
+
 
 }
 

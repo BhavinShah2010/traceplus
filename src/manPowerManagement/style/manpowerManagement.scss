@@ -79,7 +79,7 @@
             width: 100%;
 
             .eachDiv{
-                padding: 0.75rem 1rem;
+                padding: 0.5rem 1rem;
                 border-radius: 0.5rem;
                 text-align: center;
 
@@ -146,6 +146,32 @@
             background-image: linear-gradient(294deg, #404255, #6a6d83);
             padding: 1rem 0.5rem;
             border-radius: 0.5rem;
+            position: relative;
+
+            .attendancePercentageRoundDiv{
+                position: absolute;
+                top: 1rem;
+                right: 0.5rem;
+                width: 75px;
+                height: 75px;
+                background: #81eda6;
+                border-radius: 50px;
+                border:5px solid #79e127;
+
+                .percentageText{
+                    position: relative;
+                    color: #2f3249;
+                    text-align: center;
+                    top: 1rem;
+                    font-size: 0.975rem;
+                }
+
+                .thisMonthText{
+                    font-size: 10px;
+                }
+
+
+            }
 
             .infectedText{
                 font-size: 0.85rem;

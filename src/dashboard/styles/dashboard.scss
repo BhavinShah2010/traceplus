@@ -3,7 +3,7 @@
 
     .threatWatchMainDiv {
         padding: 1rem;
-        margin-top: 0.5rem;
+        margin-top: 0.25rem;
         border-radius: 10px;
 
         .threatWatchTextDiv {
@@ -13,7 +13,7 @@
             }
 
             .subTitle {
-                font-size: 1rem;
+                font-size: 0.875rem;
                 font-weight: 600;
             }
 
@@ -23,7 +23,7 @@
                 text-align: center;
                 color: #55597c;
                 background: #FFFFFF;
-                width: 240px;
+                width: 245px;
                 border-radius: 80px;
                 padding: 1rem 0.5rem;
                 padding-left: 3rem;
@@ -34,6 +34,11 @@
                 line-height: 1.21;
                 letter-spacing: normal;
                 color: #31334c;
+
+                @media only screen and (max-width: 1250px) {
+                    width: 230px !important;
+                    font-size: 11px !important;
+                }
 
                 .thumbIconDiv {
                     width: 47px;
@@ -63,9 +68,7 @@
 
         .dashboardPeopleAndEmployeeMainDiv {
             display: inline-block;
-
-            //width: 300px;
-            padding: 0.25rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 25px;
             background-color: #55597c;
             color: #FFFFFF;
@@ -76,6 +79,7 @@
                 text-align: left;
                 display: inline-block;
                 vertical-align: middle;
+                padding-top: 0.25rem;
 
                 img {
                     margin-right: 0.5rem;
@@ -101,11 +105,7 @@
         }
     }
 
-    .dashboardDateMainDiv {
-        display: inline-block;
-        vertical-align: text-bottom;
-        padding: 0 1rem;
-    }
+    
 
     .dashboardLanguageMainDiv {
         display: inline-block;
@@ -114,7 +114,7 @@
     }
 
     .dashboardGraphAndIndexMainDiv {
-        margin-top: 2rem;
+        margin-top: 1rem;
         background: #FFFFFF;
         padding: 1rem;
         border-radius: 10px;
@@ -196,19 +196,19 @@
 
     .contaminatedMainDiv {
         background: #f5f7fa;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
     }
 
     .contactRankStartDateEndDateMainDiv {
         background: rgba(245, 247, 250, 1);
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
 
         .contactRankText {
             font-size: 0.875rem;
             color: #31334c;
-            padding: 0rem 1rem;
+            padding: 0rem 0.75rem;
         }
     }
 
@@ -231,7 +231,7 @@
             vertical-align: middle;
 
             .countDiv {
-                margin-top: 1.5rem;
+                margin-top: 1.8rem;
                 font-size: 1.5rem;
             }
 
@@ -255,12 +255,12 @@
 }
 
 .contactRankSelectDropdownDiv {
-    padding: 0.15rem 1rem;
+    padding: 0.15rem 0.75rem;
     position: relative;
 
     select {
         width: 100%;
-        padding: 0.15rem 0.5rem;
+        padding: 0.05rem 0.5rem;
         border: thin #e3e4eb solid;
         outline: none;
         border-radius: 0.25rem;
@@ -281,11 +281,11 @@
     }
     .dropdownIconDiv{
         position: absolute;
-        right: 1.5rem;
-        top: 0.3rem;
+        right: 1.2rem;
+        top: 0.15rem;
 
         img{
-            width: 18px;
+            width: 16px;
 
         }
 

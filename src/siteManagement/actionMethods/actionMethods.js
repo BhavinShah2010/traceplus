@@ -27,3 +27,12 @@ export function getSiteFootFall(requestBody) {
     return axios.get(prefixURL + `/get_site_footfall?session=${userSession}&org_id=${org_id}&date=${requestBody.date}&location_id=${requestBody.locationID}`)
         .then(res => res.data).catch(err => err)
 }
+
+export function getSiteAreaIndex(requestBody) {
+    
+
+    return axios.get(prefixURL + `/get_site_area_index?session=${userSession}&org_id=${org_id}&date=${requestBody.date}&location_id=${requestBody.locationID}`)
+        .then(res => res.data).catch(err => err)
+}
+
+
