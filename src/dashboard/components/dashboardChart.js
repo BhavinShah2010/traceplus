@@ -2,6 +2,7 @@ import React from 'react'
 import { Select } from 'antd';
 import { Container, Row, Col } from 'react-bootstrap';
 
+import Chart from './areaChart'
 
 const { Option } = Select;
 
@@ -10,6 +11,7 @@ class DashboardChart extends React.Component {
     render() {
         return (
             <React.Fragment>
+            <div>
                 <Select defaultValue="Day" >
                     <Option value="Day">Day View</Option>
                     <Option value="Week">Week View</Option>
@@ -17,14 +19,19 @@ class DashboardChart extends React.Component {
                 </Select>
                 <Row>
                     <Col lg={12}>
-                        <h3 className="text-center m-l-md m-t-md">Dashboart Chart</h3>
+                    <Chart {...this.props} />
                     </Col>
                 </Row>
-            </React.Fragment>
+            
 
-                )
-            }
-        
-        }
+                
+            </div>
+            </React.Fragment>
+        )
+    }
+
+}
+
+         
         
 export default DashboardChart

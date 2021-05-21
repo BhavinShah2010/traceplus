@@ -25,3 +25,12 @@ export function getEmployeeIndex(requestBody) {
     return axios.get(prefixURL + `/get_employee_index?session=${userSession}&emp_id=${requestBody.emp_id}&date=${requestBody.date}&org_id=${org_id}&index_name=${indexName}`)
         .then(res => res.data).catch(err => err)
 }
+
+export const attendanceChart = async (date) => {
+    try {
+        const res = await axios.get(`${prefixURL}/get_attendance_trend?session=${userSession}&org_id=${org_id}&date=${date}`);
+        return res.data;
+    } catch (err) {
+        return err;
+    } 
+}

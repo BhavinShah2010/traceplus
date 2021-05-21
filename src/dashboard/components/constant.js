@@ -1,0 +1,1 @@
+export const titles = ['Population', 'Spread', 'Mobility', 'Area']

@@ -8,7 +8,7 @@ import '../../assets/styles/common.scss'
 import '../styles/dashboard.scss'
 import ThreatWatch from './threatWatch';
 import { peopleOnPremisesIcon, pinkArrowIcon, selectedPinkArrowIcon } from '../../common/images';
-import { getDashboardData, getThreatWatchData, getLanguageTranslation,setSelectedLanguage } from '../actionMethods/actionMethods';
+import { getDashboardData, getThreatWatchData, getLanguageTranslation, setSelectedLanguage } from '../actionMethods/actionMethods';
 
 
 import DashboardChart from './dashboardChart';
@@ -20,9 +20,10 @@ import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 
 import ContentLoader from 'react-content-loader'
 import CommonDatePicker from '../../common/commonDatePicker';
+import { titles } from './constant'
 import { getTranslatedText } from '../../common/utilities';
-function Dashboard(props) {
 
+function Dashboard(props) {
 
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [orgId, updateOrgId] = useState(1)
@@ -62,6 +63,8 @@ function Dashboard(props) {
 
 
         ])
+    const [indexTitle, updateIndexTitle] = useState(0)
+
 
     useEffect(() => {
 
@@ -71,10 +74,10 @@ function Dashboard(props) {
         getDashboardDataValues(requestBody)
         getThreatWatchDataValues(requestBody)
 
-        
 
-        getLanguageTranslation(selectedLangValue).then(res=> {
-            console.log("Res : " , res)
+
+        getLanguageTranslation(selectedLangValue).then(res => {
+            console.log("Res : ", res)
         })
 
     }, []);
@@ -107,21 +110,7 @@ function Dashboard(props) {
     }
 
     function handleIndexTabClick(index) {
-        let arr = [...indexTitleArray]
-
-        for (let indexVal = 0; indexVal < arr.length; indexVal++) {
-            const element = arr[indexVal];
-
-            if (indexVal == index) {
-                arr[indexVal].isSelected = true
-            }
-            else {
-                arr[indexVal].isSelected = false
-            }
-
-        }
-
-        updateIndexTitleArray(arr)
+        updateIndexTitle(index)
     }
 
 
@@ -136,7 +125,7 @@ function Dashboard(props) {
                 <div className={'populationRiskMainDiv ' +
                     (index == 0 ? ' populationRiskPadding ' : 'utilityPadding mb-3 spreadMobilityAreaIndexMainDiv') +
                     (index == 1 ? ' negativeMarginTop' : '') +
-                    (element.isSelected ? ' activeTab' : '')
+                    (index === indexTitle ? ' activeTab' : '')
                 }
                     onClick={() => handleIndexTabClick(index)}
                 >
@@ -144,17 +133,16 @@ function Dashboard(props) {
                         <Col lg={4}>
                             <div className="indexText">
                                 {getTranslatedText(element.title)}
-
-                                        </div>
+                            </div>
                         </Col>
                         <Col lg={5}>
                             <div className="riskLevelMainDiv ">
                                 <div className="riskLevelTitleDiv">
                                     Low
-                                        </div>
+                                </div>
                                 <div className="riskLevelSubtitleDiv">
                                     Risk Level
-                                        </div>
+                                </div>
                             </div>
                         </Col>
                         <Col lg={3}>
@@ -217,7 +205,7 @@ function Dashboard(props) {
         let startDate = moment(startDateValue)
         let endDate = moment(endDateValue)
 
-        let days = startDate.diff(endDate , 'days')
+        let days = startDate.diff(endDate, 'days')
 
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
@@ -236,15 +224,15 @@ function Dashboard(props) {
 
     function changeLanguage(lang) {
         getLanguageTranslation(lang).then(res => {
-            if(res && res.status>=200 && res.status<=200){
-                localStorage.setItem('languageData' , JSON.stringify(res.data))
-                localStorage.setItem('selectedLanguage' , lang)
+            if (res && res.status >= 200 && res.status <= 200) {
+                localStorage.setItem('languageData', JSON.stringify(res.data))
+                localStorage.setItem('selectedLanguage', lang)
                 props.setSelectedLanguage(lang)
-                
+
             }
         })
     }
-    
+
 
     return (
         <div className="dashboardComponentMainDiv">
@@ -255,9 +243,9 @@ function Dashboard(props) {
                     </Col>
                     <Col lg={9} className="text-right">
                         <div className="dashboardLanguageMainDiv m-r-md">
-                            <DashboardLanguage 
-                            selectedLangValue={selectedLangValue}
-                            changeLanguage={changeLanguage}
+                            <DashboardLanguage
+                                selectedLangValue={selectedLangValue}
+                                changeLanguage={changeLanguage}
                             />
                         </div>
                         <div className="commonHeadingDateMainDiv">
@@ -298,7 +286,7 @@ function Dashboard(props) {
                                 <ThreatWatch
                                     handleSelectStartDate={handleSelectStartDate}
                                     handleSelectEndDate={handleSelectEndDate}
-                                    
+
                                     startDate={startDateValue}
                                     endDate={endDateValue}
                                     selectedDate={selectedDate}
@@ -321,7 +309,10 @@ function Dashboard(props) {
                             {showIndexTab(indexTitleArray)}
                         </Col>
                         <Col lg={7}>
-                            <DashboardChart />
+                            <DashboardChart
+                                yAxisTitle={`${titles[indexTitle]} Risk Index`}
+                                risk={'high'}
+                            />
                         </Col>
                     </Row>
 

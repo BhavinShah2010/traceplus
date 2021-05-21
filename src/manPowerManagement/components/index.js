@@ -8,8 +8,11 @@ import DashboardLanguage from '../../components/dashboardLanguage';
 import '../style/manpowerManagement.scss'
 import { mediumRiskIcon } from '../../common/images';
 import CommonDatePicker from '../../common/commonDatePicker';
-import { getTranslatedText } from '../../common/utilities';
+import { attendanceChart } from '../actionMethods/actionMethods'
+
 import moment from 'moment'
+import Chart from './areaChart'
+import { getTranslatedText } from '../../common/utilities';
 
 const { Option } = Select;
 
@@ -17,6 +20,7 @@ const { Option } = Select;
 function ManPowerMangementList(props) {
 
     const [selectedDate, updateSelectedDate] = useState(new Date())
+    const [chartData, setChartData] = useState({ categories: [], series: [] })
 
     function goToEmployeeList() {
         props.history.push('/manpower-management/employee-list')
@@ -25,6 +29,37 @@ function ManPowerMangementList(props) {
     function handleDateSelect(date) {
         updateSelectedDate(date)
     }
+
+    function getDateFormat(date) {
+        return moment(date).format('YYYY-MM-DD')
+    }
+
+    const getChartData = () => {
+        setChartData({ categories: [], series: [] })
+        
+        let date = getDateFormat(selectedDate)
+        attendanceChart(date).then((res) => {
+            let data = res?.attendance
+            let categories = []
+            let series = []
+            
+            if (data && Array.isArray(data)) {
+                data.forEach((i) => {
+                    let d = moment(i.date).format('DD MMM')
+                    categories.push(d)
+                    series.push(i.num_attended)
+                })
+            }
+
+            setChartData({ categories, series })
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+    useEffect(() => {
+        getChartData()
+    }, [selectedDate])
 
     return (
         <div className="manpowerManagementMainDiv">
@@ -37,6 +72,7 @@ function ManPowerMangementList(props) {
                         {/* <div className="dashboardLanguageMainDiv">
                             <DashboardLanguage />
                         </div> */}
+
 
                         <div className="siteHeadingDatePickerDiv" style={{ width: '20%' }}>
                             <CommonDatePicker
@@ -73,7 +109,7 @@ function ManPowerMangementList(props) {
                     </Col>
 
                     <Col lg={4}>
-                        <div className="attendanceTrendMainDiv" style={{height:'250px'}}>
+                        <div className="attendanceTrendMainDiv" >
                             <h5 className="font-bold ">{getTranslatedText('Attendance Trends')}</h5>
                             <div className="dateText">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
                             <div className="yesterdayPresentMainDiv text-center text-white">
@@ -89,7 +125,7 @@ function ManPowerMangementList(props) {
                             </div>
 
                             <div className="m-t-lg m-b-lg">
-                                <h3>Chart</h3>
+                                <Chart chartData={chartData} />
                             </div>
                         </div>
                     </Col>
