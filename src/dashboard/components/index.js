@@ -204,9 +204,6 @@ function Dashboard(props) {
 
         let days = startDate.diff(endDate , 'days')
 
-        console.log("Days : " , days)
-
-
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
         requestBody.contactRank = contactRankValue
@@ -217,6 +214,10 @@ function Dashboard(props) {
 
     }
 
+
+    function handleEmployeeClick() {
+        props.history.push('/manpower-management/employee-list')
+    }
     
 
     return (
@@ -248,7 +249,7 @@ function Dashboard(props) {
                                     </Col>
 
                                     <Col lg={5}>
-                                        <div className="employeeCountInnerDiv">
+                                        <div className="employeeCountInnerDiv cursor-pointer" onClick={handleEmployeeClick}>
                                             <div className="empCount">{employeeCount}</div>
                                             <div>Employees</div>
                                         </div>

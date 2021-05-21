@@ -53,7 +53,7 @@ function ManPowerMangementList(props) {
 
                 <Row className="m-t-lg">
                     <Col lg={4}>
-                        <div className="populationRiskMainDiv">
+                        <div className="populationRiskMainDiv" style={{height:'250px'}}>
                             <div className="font-bold text-white titleText">Overall <br /> Population Risk Index</div>
 
                             <Row className="m-t-lg">
@@ -71,7 +71,7 @@ function ManPowerMangementList(props) {
                     </Col>
 
                     <Col lg={4}>
-                        <div className="attendanceTrendMainDiv">
+                        <div className="attendanceTrendMainDiv" style={{height:'250px'}}>
                             <h5 className="font-bold ">Attendance Trend</h5>
                             <div className="dateText">As of 15th May 2021</div>
                             <div className="yesterdayPresentMainDiv text-center text-white">
@@ -93,7 +93,7 @@ function ManPowerMangementList(props) {
                     </Col>
 
                     <Col lg={4}>
-                        <div className="teamsMainDiv">
+                        <div className="teamsMainDiv" style={{height:'250px'}}>
                             <h4 className="font-bold">Teams</h4>
                             <div className="allOrPinnedMainDiv">
                                 <div className="eachDiv active"> All

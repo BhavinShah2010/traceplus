@@ -23,6 +23,20 @@ function EmployeeList(props) {
 
     function handleDateSelect(date) {
         updateSelectedDate(date)
+
+        let requestBody = {}
+        requestBody.date = getDateFormat(date)
+        updateIsLoading(true)
+        getEmployeeList(requestBody).then(res => {
+            updateIsLoading(false)
+
+            if (res) {
+                updateEmployeeCount(res.count)
+                updateEmployeeList(res.data)
+                updatePredefinedEmployeeList(res.data)
+            }
+        })
+
     }
 
     useEffect(() => {

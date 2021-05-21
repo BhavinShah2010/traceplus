@@ -57,7 +57,7 @@ function SiteViewDetails(props) {
             })
 
             getSiteAreaIndex(requestBody).then(res => {
-                console.log("Response : ", res)
+
             })
         }
 
@@ -69,6 +69,31 @@ function SiteViewDetails(props) {
 
     function handleDateSelect(date) {
         updateSelectedDate(date)
+
+
+        let requestBody = {}
+        requestBody.date = getDateFormat(date)
+        requestBody.locationID = locationID
+
+        
+
+        getSiteOverview(requestBody).then(res => {
+
+            if (res && res.data && res.data.length > 0) {
+                updateSiteViewData(res.data[0])
+            }
+
+            getSiteFootFall(requestBody).then(res => {
+                if (res) {
+                    updateFootFallData(res)
+                    updateFootFallValue(res.day_footfall)
+                }
+            })
+        })
+
+        getSiteAreaIndex(requestBody).then(res => {
+
+        })
     }
 
     function handleChangeFootFallType(type) {
@@ -196,10 +221,10 @@ function SiteViewDetails(props) {
                                                 <button type="button" onClick={() => handleChangeFootFallType('week')} className={'buttonDiv ' + (selectedFootfallType == 'week' ? 'activeFootfall' : '')}>Week</button>
                                             </div>
                                             <div className="m-t-7rem">
-                                                <h2 className="areaIndexValue font-bold site-color">
+                                                <h2 className="areaIndexValue font-bold commonBlackColor">
                                                     {footFallValue}
                                                 </h2>
-                                                <div className="riskLevelText site-color">No. of Employees</div>
+                                                <div className="riskLevelText commonBlackColor">No. of Employees</div>
                                             </div>
                                         </div>
                                     </Col>

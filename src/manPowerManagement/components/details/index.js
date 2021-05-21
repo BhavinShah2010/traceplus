@@ -18,7 +18,7 @@ import CommonDatePicker from '../../../common/commonDatePicker';
 function EmployeeDetails(props) {
 
     const [employeeDetails, updateEmployeeDetails] = useState('')
-    const [locationID, updateLocationID] = useState('')
+    const [employeeID, updateEmployeeID] = useState('')
 
 
     const [infectedFlag, updateInfectedFlag] = useState(false)
@@ -37,7 +37,7 @@ function EmployeeDetails(props) {
 
         if (idVal) {
 
-            updateLocationID(idVal)
+            updateEmployeeID(idVal)
 
             let requestBody = {}
             requestBody.date = getDateFormat(selectedDate)
@@ -105,6 +105,24 @@ function EmployeeDetails(props) {
 
     function handleDateSelect(date) {
         updateSelectedDate(date)
+
+        let requestBody = {}
+        requestBody.date = getDateFormat(date)
+        requestBody.emp_id = employeeID
+
+        getEmployeeDetails(requestBody).then(res => {
+
+            if (res && res.data) {
+                updateEmployeeDetails(res.data)
+            }
+        })
+
+        getEmployeeIndex(requestBody).then(res => {
+            if (res && res.data) {
+                updateEmployeeIndexData(res.data)
+            }
+        })
+
     }
 
 
