@@ -11,6 +11,7 @@ import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../common/commonDatePicker';
 
 import '../../dashboard/styles/dashboard.scss'
+import { getTranslatedText } from '../../common/utilities';
 
 function SiteMangementList(props) {
 
@@ -123,7 +124,7 @@ function SiteMangementList(props) {
 
                         <Row className="m-t-lg">
                             <Col lg={4}>
-                                <div className="locationNameDiv">{element.name}</div>
+                                <div className="locationNameDiv">{getTranslatedText(element.name)}</div>
                                 <div className="nearByLocationDiv">{element.description}</div>
                             </Col>
 

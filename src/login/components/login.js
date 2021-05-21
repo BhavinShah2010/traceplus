@@ -68,7 +68,7 @@ function LoginComponent(props) {
                                 if(res && res.status>=200 && res.status<=200){
                                     localStorage.setItem('languageData' , JSON.stringify(res.data))
                                     localStorage.setItem('selectedLanguage' , 'en')
-                                    setSelectedLanguage('en')
+                                    props.setSelectedLanguage('en')
                                     
                                 }
                             })

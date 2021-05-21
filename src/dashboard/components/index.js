@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { CommonHeading } from '../../common/commonHeading';
 import { Container, Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
+
 import '../../assets/styles/common.scss'
 import '../styles/dashboard.scss'
 import ThreatWatch from './threatWatch';
 import { peopleOnPremisesIcon, pinkArrowIcon, selectedPinkArrowIcon } from '../../common/images';
-import { getDashboardData, getThreatWatchData, getLanguageTranslation } from '../actionMethods/actionMethods';
+import { getDashboardData, getThreatWatchData, getLanguageTranslation,setSelectedLanguage } from '../actionMethods/actionMethods';
+
+
 import DashboardChart from './dashboardChart';
 import moment from 'moment'
 import 'antd/dist/antd.css';
@@ -234,6 +239,7 @@ function Dashboard(props) {
             if(res && res.status>=200 && res.status<=200){
                 localStorage.setItem('languageData' , JSON.stringify(res.data))
                 localStorage.setItem('selectedLanguage' , lang)
+                props.setSelectedLanguage(lang)
                 
             }
         })
@@ -325,4 +331,4 @@ function Dashboard(props) {
     )
 }
 
-export default Dashboard
+export default connect(null, { setSelectedLanguage })(withRouter(Dashboard))
