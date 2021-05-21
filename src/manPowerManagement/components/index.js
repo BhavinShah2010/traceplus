@@ -8,6 +8,7 @@ import DashboardLanguage from '../../components/dashboardLanguage';
 import '../style/manpowerManagement.scss'
 import { mediumRiskIcon } from '../../common/images';
 import CommonDatePicker from '../../common/commonDatePicker';
+import { getTranslatedText } from '../../common/utilities';
 
 const { Option } = Select;
 
@@ -54,7 +55,7 @@ function ManPowerMangementList(props) {
                 <Row className="m-t-lg">
                     <Col lg={4}>
                         <div className="populationRiskMainDiv" style={{height:'250px'}}>
-                            <div className="font-bold text-white titleText">Overall <br /> Population Risk Index</div>
+                            <div className="font-bold text-white titleText">Overall <br /> {getTranslatedText('Population risk index')}</div>
 
                             <Row className="m-t-lg">
                                 <Col lg={6} className="b-r">

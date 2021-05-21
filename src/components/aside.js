@@ -2,12 +2,15 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom'
 
 import { sidebarMenuItems } from '../common/menuItems';
+import { getTranslatedText } from '../common/utilities';
 
 
 
 class Aside extends React.Component {
     
     getActiveTab = (eachMenuItem) =>{
+
+        
 
         let className = ''
 
@@ -28,7 +31,11 @@ class Aside extends React.Component {
 
             content = <Link to={element.paths} >
                 <img src={this.getActiveTab(element) !== '' ? element.activeIcon : element.defaultIcon} alt="" title={element.title} />
-                <span className={this.getActiveTab(element)}>{element.title}</span>
+                <span className={this.getActiveTab(element)}>
+                {getTranslatedText(element.title)}
+                
+                
+                </span>
             </Link>
 
 

@@ -14,6 +14,7 @@ import { emailIcon, empIDIcon, batteryIcon } from '../../../common/images';
 
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
+import { getTranslatedText } from '../../../common/utilities';
 
 function EmployeeDetails(props) {
 
@@ -230,7 +231,7 @@ function EmployeeDetails(props) {
                                             <Row>
                                                 <Col lg={4}>
                                                     <div className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.pri_level))}>
-                                                        <h6 className="font-bold ">Population Risk Index</h6>
+                                                        <h6 className="font-bold ">{getTranslatedText('Population risk index')}</h6>
                                                         <br />
                                                         <div className="m-t-lg font-normal">Risk Level</div>
 

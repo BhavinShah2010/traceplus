@@ -5,6 +5,8 @@ import { downThumbIcon, dashboardPeopleImage, green, greenThumbIcon } from '../.
 
 import dropdownIcon from '../../assets/images/down-arrow.png'
 import DatePicker from "react-datepicker";
+import { getLanguageTranslation } from '../actionMethods/actionMethods';
+import { getTranslatedText } from '../../common/utilities';
 
 function ThreatWatch(props) {
 
@@ -17,13 +19,16 @@ function ThreatWatch(props) {
             <Row>
                 <Col lg={3}>
                     <div className="threatWatchTextDiv">
-                        <div className="title">Threat Watch</div>
+                        <div className="title">
+                        {getTranslatedText('Threat Watch')}
+                        </div>
                         <div className="subTitle">As of {moment(props.selectedDate).format('Do MMM YYYY')}</div>
 
                         <div className="workSpaceStripeDiv">
-                            Hey, your Workspace is
-                                {props.threatWatchColor && props.threatWatchColor == 'green' ? ' ' : ' not '}
-                            Safe !
+                        {
+                            props.threatWatchColor && props.threatWatchColor == 'green' ? getTranslatedText('Hey, your Workplace is Safe!') : getTranslatedText('Hey, your Workplace is not Safe!')
+                        }
+                            
 
                             <div className={'thumbIconDiv ' + (props.threatWatchColor && props.threatWatchColor == 'green' ? ' greenBorderColor' : ' redBorderColor')}>
                                 <img src={props.threatWatchColor && props.threatWatchColor == 'green' ? greenThumbIcon : downThumbIcon} />
@@ -37,19 +42,19 @@ function ThreatWatch(props) {
                         <div className="eachColumnDiv contaminatedMainDiv">
 
                             <div className="contaminatedDetails">
-                                <div className="titleText font-bold">Contaminated</div>
+                                <div className="titleText font-bold">{getTranslatedText('Contaminated')}</div>
 
                                 <div className="eachRecordDiv">
                                     <div className="font-bold countDiv">{props.contaminatedEmployeeCount}</div>
-                                    <div className="labelDiv">Employees</div>
+                                    <div className="labelDiv">{getTranslatedText('Employees')}</div>
                                 </div>
                             </div>
 
                             <div className="contaminatedDetails">
-                                <div className="titleText font-bold">At Risk</div>
+                                <div className="titleText font-bold">{getTranslatedText('At Risk')}</div>
                                 <div className="eachRecordDiv">
                                     <div className="font-bold countDiv">{props.atRiskCount}</div>
-                                    <div className="labelDiv">Employees</div>
+                                    <div className="labelDiv">{getTranslatedText('Employees')}</div>
                                 </div>
 
                             </div>
@@ -57,7 +62,7 @@ function ThreatWatch(props) {
                         <div className="eachColumnDiv contactRankStartDateEndDateMainDiv">
                             <Row>
                                 <Col lg={12}>
-                                    <div className="contactRankText m-t">Contact Rank</div>
+                                    <div className="contactRankText m-t">{getTranslatedText('Contact Rank')}</div>
                                     <div className="contactRankSelectDropdownDiv">
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />
@@ -79,7 +84,7 @@ function ThreatWatch(props) {
 
                             <Row className="m-t-xs">
                                 <Col lg={6} className="p-r-0">
-                                    <div className="contactRankText">Start Date</div>
+                                    <div className="contactRankText">{getTranslatedText('Start Date')}</div>
                                     <div className="startDateEndDateMainDiv">
                                         <DatePicker
                                             selected={props.startDate}
@@ -93,7 +98,7 @@ function ThreatWatch(props) {
                                 </Col>
 
                                 <Col lg={6} className="p-l-0">
-                                    <div className="contactRankText">End Date</div>
+                                    <div className="contactRankText">{getTranslatedText('End Date')}</div>
                                     <div className="startDateEndDateMainDiv">
                                         <DatePicker
                                             selected={props.endDate}

@@ -9,6 +9,7 @@ import { getSiteOverview, getSiteFootFall, getSiteAreaIndex } from '../../action
 
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
+import { getTranslatedText } from '../../../common/utilities';
 
 function SiteViewDetails(props) {
 
@@ -123,9 +124,9 @@ function SiteViewDetails(props) {
                     <Row>
                         <Col lg={6}>
                             <div className="siteViewHeaderDiv">
-                                <span className="smallHeader" onClick={handleSiteListClick}>Site Management</span>
+                                <span className="smallHeader" onClick={handleSiteListClick}>{getTranslatedText('Site Management')}</span>
                                 <span className="breadCrumbArrow"> > </span>
-                                <span className="mediumHeader">Site View</span>
+                                <span className="mediumHeader">{getTranslatedText('Site View')}</span>
                             </div>
                         </Col>
                         <Col lg={6} className="text-right">

@@ -5,7 +5,7 @@ import '../../assets/styles/common.scss'
 import '../styles/dashboard.scss'
 import ThreatWatch from './threatWatch';
 import { peopleOnPremisesIcon, pinkArrowIcon, selectedPinkArrowIcon } from '../../common/images';
-import { getDashboardData, getThreatWatchData } from '../actionMethods/actionMethods';
+import { getDashboardData, getThreatWatchData, getLanguageTranslation } from '../actionMethods/actionMethods';
 import DashboardChart from './dashboardChart';
 import moment from 'moment'
 import 'antd/dist/antd.css';
@@ -15,6 +15,7 @@ import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 
 import ContentLoader from 'react-content-loader'
 import CommonDatePicker from '../../common/commonDatePicker';
+import { getTranslatedText } from '../../common/utilities';
 function Dashboard(props) {
 
 
@@ -30,25 +31,27 @@ function Dashboard(props) {
 
     const [contactRankValue, updateContactRankValue] = useState(1)
 
+    const [selectedLangValue, updateSelectedLangValue] = useState('en')
+
 
     const [indexTitleArray, updateIndexTitleArray] =
 
         useState([
             {
-                title: 'Population',
+                title: 'Population risk index',
                 isSelected: false
             }, {
-                title: 'Spread',
+                title: 'Spread Index',
                 isSelected: false
             },
 
             {
-                title: 'Mobility',
+                title: 'Mobility Index',
                 isSelected: false
             },
 
             {
-                title: 'Area',
+                title: 'Area Index',
                 isSelected: false
             }
 
@@ -63,7 +66,14 @@ function Dashboard(props) {
         getDashboardDataValues(requestBody)
         getThreatWatchDataValues(requestBody)
 
+        
+
+        getLanguageTranslation(selectedLangValue).then(res=> {
+            console.log("Res : " , res)
+        })
+
     }, []);
+
 
     function getThreatWatchDataValues(requestBody) {
         requestBody.startDate = getDateFormat(startDateValue)
@@ -128,7 +138,7 @@ function Dashboard(props) {
                     <Row>
                         <Col lg={4}>
                             <div className="indexText">
-                                {element.title} Risk Index
+                                {getTranslatedText(element.title)}
 
                                         </div>
                         </Col>
@@ -218,6 +228,16 @@ function Dashboard(props) {
     function handleEmployeeClick() {
         props.history.push('/manpower-management/employee-list')
     }
+
+    function changeLanguage(lang) {
+        getLanguageTranslation(lang).then(res => {
+            if(res && res.status>=200 && res.status<=200){
+                localStorage.setItem('languageData' , JSON.stringify(res.data))
+                localStorage.setItem('selectedLanguage' , lang)
+                
+            }
+        })
+    }
     
 
     return (
@@ -225,11 +245,14 @@ function Dashboard(props) {
             <Container >
                 <Row>
                     <Col lg={3} className="m-t-sm">
-                        <CommonHeading title="Dashboard" />
+                        <CommonHeading title={getTranslatedText('Dashboard')} />
                     </Col>
                     <Col lg={9} className="text-right">
                         <div className="dashboardLanguageMainDiv m-r-md">
-                            <DashboardLanguage />
+                            <DashboardLanguage 
+                            selectedLangValue={selectedLangValue}
+                            changeLanguage={changeLanguage}
+                            />
                         </div>
                         <div className="commonHeadingDateMainDiv">
                             <CommonDatePicker
@@ -251,7 +274,7 @@ function Dashboard(props) {
                                     <Col lg={5}>
                                         <div className="employeeCountInnerDiv cursor-pointer" onClick={handleEmployeeClick}>
                                             <div className="empCount">{employeeCount}</div>
-                                            <div>Employees</div>
+                                            <div>{getTranslatedText('Employees')}</div>
                                         </div>
 
                                     </Col>

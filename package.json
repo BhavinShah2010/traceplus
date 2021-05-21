@@ -22,6 +22,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "reactstrap": "^8.9.0",
+    "redux": "^4.1.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "rsuite": "^4.10.1",
     "web-vitals": "^1.1.1"
   },

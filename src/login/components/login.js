@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
 import { Container, Row, Col } from 'react-bootstrap';
 import { Form, Input, Button, Checkbox } from 'antd';
 
@@ -11,6 +12,7 @@ import { emailPattern } from '../../common/utilities';
 import { userLogin, forgotPassword } from '../actionMethods/actionMethods';
 
 import infiniteLoader from '../../assets/images/infinite_loader.gif'
+import { getLanguageTranslation,setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
 
 function LoginComponent(props) {
 
@@ -60,6 +62,16 @@ function LoginComponent(props) {
                         if (res.data && res.data.status == 200) {
                             localStorage.setItem('userLoginDetails', JSON.stringify(res.data))
                             localStorage.setItem('isLoggedIn', true)
+
+                            getLanguageTranslation('en').then(res => {
+                                console.log("Lang data : " , res)
+                                if(res && res.status>=200 && res.status<=200){
+                                    localStorage.setItem('languageData' , JSON.stringify(res.data))
+                                    localStorage.setItem('selectedLanguage' , 'en')
+                                    setSelectedLanguage('en')
+                                    
+                                }
+                            })
                             props.history.push('/dashboard')
                         }
                         else {
@@ -271,4 +283,5 @@ function LoginComponent(props) {
     }
 }
 
-export default LoginComponent
+
+export default connect(null, { setSelectedLanguage })(withRouter(LoginComponent))
