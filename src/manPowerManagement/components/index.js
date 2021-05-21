@@ -8,6 +8,9 @@ import DashboardLanguage from '../../components/dashboardLanguage';
 import '../style/manpowerManagement.scss'
 import { mediumRiskIcon } from '../../common/images';
 import CommonDatePicker from '../../common/commonDatePicker';
+import { attendanceChart } from '../actionMethods/actionMethods'
+import moment from 'moment'
+import Chart from './areaChart'
 
 const { Option } = Select;
 
@@ -15,6 +18,7 @@ const { Option } = Select;
 function ManPowerMangementList(props) {
 
     const [selectedDate, updateSelectedDate] = useState(new Date())
+    const [chartData, setChartData] = useState({ categories: [], series: [] })
 
     function goToEmployeeList() {
         props.history.push('/manpower-management/employee-list')
@@ -23,6 +27,37 @@ function ManPowerMangementList(props) {
     function handleDateSelect(date) {
         updateSelectedDate(date)
     }
+
+    function getDateFormat(date) {
+        return moment(date).format('YYYY-MM-DD')
+    }
+
+    const getChartData = () => {
+        setChartData({ categories: [], series: [] })
+        
+        let date = getDateFormat(selectedDate)
+        attendanceChart(date).then((res) => {
+            let data = res?.attendance
+            let categories = []
+            let series = []
+            
+            if (data && Array.isArray(data)) {
+                data.forEach((i) => {
+                    let d = moment(i.date).format('DD MMM')
+                    categories.push(d)
+                    series.push(i.num_attended)
+                })
+            }
+
+            setChartData({ categories, series })
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+    useEffect(() => {
+        getChartData()
+    }, [selectedDate])
 
     return (
         <div className="manpowerManagementMainDiv">
@@ -87,7 +122,7 @@ function ManPowerMangementList(props) {
                             </div>
 
                             <div className="m-t-lg m-b-lg">
-                                <h3>Chart</h3>
+                                <Chart chartData={chartData} />
                             </div>
                         </div>
                     </Col>

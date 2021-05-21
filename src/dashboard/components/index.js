@@ -15,8 +15,10 @@ import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 
 import ContentLoader from 'react-content-loader'
 import CommonDatePicker from '../../common/commonDatePicker';
-function Dashboard(props) {
+import { titles } from './constant'
 
+
+function Dashboard(props) {
 
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [orgId, updateOrgId] = useState(1)
@@ -30,30 +32,8 @@ function Dashboard(props) {
 
     const [contactRankValue, updateContactRankValue] = useState(1)
 
+    const [indexTitle, updateIndexTitle] = useState(0)
 
-    const [indexTitleArray, updateIndexTitleArray] =
-
-        useState([
-            {
-                title: 'Population',
-                isSelected: false
-            }, {
-                title: 'Spread',
-                isSelected: false
-            },
-
-            {
-                title: 'Mobility',
-                isSelected: false
-            },
-
-            {
-                title: 'Area',
-                isSelected: false
-            }
-
-
-        ])
 
     useEffect(() => {
 
@@ -92,21 +72,7 @@ function Dashboard(props) {
     }
 
     function handleIndexTabClick(index) {
-        let arr = [...indexTitleArray]
-
-        for (let indexVal = 0; indexVal < arr.length; indexVal++) {
-            const element = arr[indexVal];
-
-            if (indexVal == index) {
-                arr[indexVal].isSelected = true
-            }
-            else {
-                arr[indexVal].isSelected = false
-            }
-
-        }
-
-        updateIndexTitleArray(arr)
+        updateIndexTitle(index)
     }
 
 
@@ -121,25 +87,24 @@ function Dashboard(props) {
                 <div className={'populationRiskMainDiv ' +
                     (index == 0 ? ' populationRiskPadding ' : 'utilityPadding mb-3 spreadMobilityAreaIndexMainDiv') +
                     (index == 1 ? ' negativeMarginTop' : '') +
-                    (element.isSelected ? ' activeTab' : '')
+                    (index === indexTitle ? ' activeTab' : '')
                 }
                     onClick={() => handleIndexTabClick(index)}
                 >
                     <Row>
                         <Col lg={4}>
                             <div className="indexText">
-                                {element.title} Risk Index
-
-                                        </div>
+                                {element} Risk Index
+                            </div>
                         </Col>
                         <Col lg={5}>
                             <div className="riskLevelMainDiv ">
                                 <div className="riskLevelTitleDiv">
                                     Low
-                                        </div>
+                                </div>
                                 <div className="riskLevelSubtitleDiv">
                                     Risk Level
-                                        </div>
+                                </div>
                             </div>
                         </Col>
                         <Col lg={3}>
@@ -288,10 +253,13 @@ function Dashboard(props) {
                 <div className="dashboardGraphAndIndexMainDiv">
                     <Row>
                         <Col lg={5}>
-                            {showIndexTab(indexTitleArray)}
+                            {showIndexTab(titles)}
                         </Col>
                         <Col lg={7}>
-                            <DashboardChart />
+                            <DashboardChart  
+                                yAxisTitle={`${titles[indexTitle]} Risk Index`}
+                                risk={'high'}
+                            />
                         </Col>
                     </Row>
 
