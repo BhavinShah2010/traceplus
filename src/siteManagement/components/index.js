@@ -114,10 +114,12 @@ function SiteMangementList(props) {
                         <Row>
                             <Col lg={12}>
                                 <span className="eachTag">
-                                    <img src={tagIcon} /> {element.category_name}
+                                    <img src={tagIcon} /> {getTranslatedText(element.category_name)}
                                 </span>
 
-                                <span className={'eachTag ' + setTagStatus(element.status)}>{element.status}</span>
+                                <span className={'eachTag ' + setTagStatus(element.status)}>
+                                {getTranslatedText(element.status)}
+                                </span>
 
                             </Col>
                         </Row>
@@ -125,17 +127,17 @@ function SiteMangementList(props) {
                         <Row className="m-t-lg">
                             <Col lg={4}>
                                 <div className="locationNameDiv">{getTranslatedText(element.name)}</div>
-                                <div className="nearByLocationDiv">{element.description}</div>
+                                <div className="nearByLocationDiv">{getTranslatedText(element.description)}</div>
                             </Col>
 
                             <Col lg={4}>
-                                <div className="nearByLocationDiv">Area Index</div>
+                                <div className="nearByLocationDiv">{getTranslatedText('Area Index')}</div>
                                 <span className="locationNameDiv">{element.area_index}</span>
                                 <span className="indexCircleStatus lowStatus">{element.area_index_status}</span>
                             </Col>
 
                             <Col lg={3} className="b-l">
-                                <div className="nearByLocationDiv">Daily Avg. Footfall</div>
+                                <div className="nearByLocationDiv">{getTranslatedText('Daily Avg Footfall ')}</div>
                                 <div className="locationNameDiv">{element.avg_footfall}</div>
                             </Col>
 
@@ -161,9 +163,9 @@ function SiteMangementList(props) {
                 <Row>
                     <Col lg={6} >
                         <div className="siteViewHeaderDiv">
-                            <span className="smallHeader">Site Management</span>
+                            <span className="smallHeader">{getTranslatedText('Site Management')}</span>
                             <span className="breadCrumbArrow"> > </span>
-                            <span className="mediumHeader">Site Listing</span>
+                            <span className="mediumHeader">{getTranslatedText('Site Listing')}</span>
                         </div>
                     </Col>
                     <Col lg={6} className="text-right">
@@ -187,7 +189,7 @@ function SiteMangementList(props) {
                             <div className="siteListMainDiv">
                                 <Row>
                                     <Col lg={8} >
-                                        <h3 className="locationsListing">Locations ({siteLocationsList.length})</h3>
+                                        <h3 className="locationsListing">{getTranslatedText('Locations')} ({siteLocationsList.length})</h3>
                                     </Col>
                                     <Col lg={4}>
                                         <div className="listingSearchMainDiv">

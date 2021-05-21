@@ -136,11 +136,11 @@ function EmployeeDetails(props) {
                         <Row>
                             <Col lg={8}>
                                 <div className="siteViewHeaderDiv">
-                                    <span className="smallHeader" onClick={handleManpowerManagementList}>Manpower Management</span>
+                                    <span className="smallHeader" onClick={handleManpowerManagementList}>{getTranslatedText('Manpower Management')}</span>
                                     <span className="breadCrumbArrow"> > </span>
-                                    <span className="smallHeader" onClick={handleEmployeeList}>Employee Listing</span>
+                                    <span className="smallHeader" onClick={handleEmployeeList}>{getTranslatedText('Employee Listing')}</span>
                                     <span className="breadCrumbArrow"> > </span>
-                                    <span className="mediumHeader">Employee View</span>
+                                    <span className="mediumHeader">{getTranslatedText('Employee View')}</span>
                                 </div>
                             </Col>
 

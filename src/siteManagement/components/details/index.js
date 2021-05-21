@@ -145,8 +145,8 @@ function SiteViewDetails(props) {
                     <Row className="m-t-lg">
                         <Col lg={4}>
                             <div className="siteViewDetailsLeftSideDiv">
-                                <div className="headerNameDiv">{siteViewData.location_name}</div>
-                                <div className="subHeaderDiv">{siteViewData.description}</div>
+                                <div className="headerNameDiv">{getTranslatedText(siteViewData.location_name)}</div>
+                                <div className="subHeaderDiv">{getTranslatedText(siteViewData.description)}</div>
                                 <div className="subHeaderDiv">9am - 6pm | 11pm - 6am</div>
 
                                 <div className="separaterLine"></div>
@@ -168,7 +168,7 @@ function SiteViewDetails(props) {
                                 <div className="separaterLine"></div>
 
                                 <div className="recommendMainDiv">
-                                    <h5 className="font-bold text-white">Recommend</h5>
+                                    <h5 className="font-bold text-white">{getTranslatedText('Recommend')}</h5>
 
                                     <div className="recommendListMainDiv m-t-lg text-white">
                                         <div className="eachRecommendCardDiv">
@@ -196,7 +196,7 @@ function SiteViewDetails(props) {
                                 <Row>
                                     <Col lg={4}>
                                         <div className="areaIndexMainDiv">
-                                            <h4 className="font-bold">Area Index</h4>
+                                            <h4 className="font-bold">{getTranslatedText('Area Index')}</h4>
                                             <div className="m-t-lg">
                                                 <h4 className="areaIndexValue font-bold">1.9</h4>
                                                 <div className="areaIndexRiskPercentageDiv font-normal">
@@ -206,16 +206,16 @@ function SiteViewDetails(props) {
 
                                             <div className="m-t-7rem">
                                                 <h3 className="areaIndexValue font-bold">
-                                                    Low
+                                                    {getTranslatedText('Low')}
                                                     </h3><br />
-                                                <div className="riskLevelText">Risk Level</div>
+                                                <div className="riskLevelText">{getTranslatedText('Risk Level')}</div>
                                             </div>
 
                                         </div>
                                     </Col>
                                     <Col lg={8}>
                                         <div className="footfallMainDiv">
-                                            <h4 className="font-bold">Footfall</h4>
+                                            <h4 className="font-bold">{getTranslatedText('Footfall')}</h4>
                                             <div className="dayWeekButtonMainDiv">
                                                 <button type="button" onClick={() => handleChangeFootFallType('day')} className={'buttonDiv ' + (selectedFootfallType == 'day' ? 'activeFootfall' : '')}
                                                 >Day</button>

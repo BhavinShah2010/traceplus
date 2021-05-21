@@ -9,6 +9,7 @@ import '../style/manpowerManagement.scss'
 import { mediumRiskIcon } from '../../common/images';
 import CommonDatePicker from '../../common/commonDatePicker';
 import { getTranslatedText } from '../../common/utilities';
+import moment from 'moment'
 
 const { Option } = Select;
 
@@ -48,14 +49,14 @@ function ManPowerMangementList(props) {
 
                 <Row className="text-right m-t">
                     <Col lg={12}>
-                        <div className="viewAllEmployeesButton" onClick={goToEmployeeList}>View All Employees</div>
+                        <div className="viewAllEmployeesButton" onClick={goToEmployeeList}>{getTranslatedText('View All Employees ')}</div>
                     </Col>
                 </Row>
 
                 <Row className="m-t-lg">
                     <Col lg={4}>
                         <div className="populationRiskMainDiv" style={{height:'250px'}}>
-                            <div className="font-bold text-white titleText">Overall <br /> {getTranslatedText('Population risk index')}</div>
+                            <div className="font-bold text-white titleText">{getTranslatedText('Overall')} <br /> {getTranslatedText('Population risk index')}</div>
 
                             <Row className="m-t-lg">
                                 <Col lg={6} className="b-r">
@@ -73,17 +74,17 @@ function ManPowerMangementList(props) {
 
                     <Col lg={4}>
                         <div className="attendanceTrendMainDiv" style={{height:'250px'}}>
-                            <h5 className="font-bold ">Attendance Trend</h5>
-                            <div className="dateText">As of 15th May 2021</div>
+                            <h5 className="font-bold ">{getTranslatedText('Attendance Trends')}</h5>
+                            <div className="dateText">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
                             <div className="yesterdayPresentMainDiv text-center text-white">
-                                <div>Yesterday</div>
+                                <div>{getTranslatedText('Yesterday')}</div>
                                 <div className="valueDiv font-bold">5</div>
-                                <div>Present</div>
+                                <div>{getTranslatedText('Present')}</div>
                             </div>
 
                             <div className="m-t-md">
                                 <Select defaultValue="dayView" >
-                                    <Option value="dayView">Day View</Option>
+                                    <Option value="dayView">{getTranslatedText('Day View')}</Option>
                                 </Select>
                             </div>
 
@@ -95,9 +96,9 @@ function ManPowerMangementList(props) {
 
                     <Col lg={4}>
                         <div className="teamsMainDiv" style={{height:'250px'}}>
-                            <h4 className="font-bold">Teams</h4>
+                            <h4 className="font-bold">{getTranslatedText('Teams ')}</h4>
                             <div className="allOrPinnedMainDiv">
-                                <div className="eachDiv active"> All
+                                <div className="eachDiv active"> {getTranslatedText('All ')}
                                 <div className="m-l-sm badgeBox activeBadge">
                                         <span>04</span>
                                     </div>
