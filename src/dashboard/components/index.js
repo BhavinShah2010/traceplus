@@ -110,6 +110,19 @@ function Dashboard(props) {
     }
 
     function handleIndexTabClick(index) {
+        let arr = [...indexTitleArray]
+
+        for (let indexVal = 0; indexVal < arr.length; indexVal++) {
+            const element = arr[indexVal];
+
+            if (indexVal == index) {
+                arr[indexVal].isSelected = true
+            }
+            else {
+                arr[indexVal].isSelected = false
+            }
+
+        }
         updateIndexTitle(index)
     }
 

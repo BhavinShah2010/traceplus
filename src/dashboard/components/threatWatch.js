@@ -90,7 +90,9 @@ function ThreatWatch(props) {
                                             selected={props.startDate}
                                             onChange={date => props.handleSelectStartDate(date)}
                                             dateFormat={'MMM dd'}
-                                            isClearable={false} />
+                                            isClearable={false}
+                                            maxDate={new Date()}
+                                            />
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />
                                         </div>
@@ -104,7 +106,9 @@ function ThreatWatch(props) {
                                             selected={props.endDate}
                                             onChange={date => props.handleSelectEndDate(date)}
                                             dateFormat={'MMM dd'}
-                                            isClearable={false} />
+                                            isClearable={false}
+                                            maxDate={new Date()}
+                                             />
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />
                                         </div>
