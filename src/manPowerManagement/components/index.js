@@ -29,7 +29,7 @@ function ManPowerMangementList(props) {
             <Container>
                 <Row>
                     <Col lg={6} >
-                        <CommonHeading title="Dashboard" />
+                        <CommonHeading title="Manpower Management" />
                     </Col>
                     <Col lg={6} className="text-right">
                         {/* <div className="dashboardLanguageMainDiv">
