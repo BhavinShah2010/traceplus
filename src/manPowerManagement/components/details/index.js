@@ -9,12 +9,14 @@ import moment from 'moment'
 import '../../../siteManagement/styles/siteManagement.scss'
 import '../../style/manpowerManagement.scss'
 
-import { getEmployeeDetails, getEmployeeIndex } from '../../actionMethods/actionMethods';
+import { employeeChart, getEmployeeDetails, getEmployeeIndex } from '../../actionMethods/actionMethods';
 import { emailIcon, empIDIcon, batteryIcon } from '../../../common/images';
 
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
 import { getTranslatedText } from '../../../common/utilities';
+import AreaChart from '../areaChart'
+
 
 function EmployeeDetails(props) {
 
@@ -29,6 +31,7 @@ function EmployeeDetails(props) {
     const [isLoading, updateIsLoading] = useState(true)
 
     const [selectedDate, updateSelectedDate] = useState(new Date())
+    const [chartData, setChartData] = useState({ series: [], categories: [] })
 
 
     useEffect(() => {
@@ -61,6 +64,39 @@ function EmployeeDetails(props) {
 
     }, []);
 
+    useEffect(() => {
+        getChartData()
+    }, [selectedDate])
+
+    const getChartData = () => {
+        setChartData({ categories: [], series: [] })
+
+        let idVal = props.match.params.id.replace(":", "")
+        let date = getDateFormat(selectedDate)
+        let obj = {
+            start: '2021-03-05',
+            end: date,
+            emp_id: idVal
+        }
+
+        employeeChart(obj).then((res) => {
+            let data = res?.emp_pri
+            let categories = []
+            let series = []
+
+            if (data && Array.isArray(data)) {
+                data.forEach((i) => {
+                    let d = moment(i.date).format('DD MMM')
+                    categories.push(d)
+                    series.push(i.pri)
+                })
+
+                setChartData({ categories, series })
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
     function getDateFormat(date) {
         return moment(date).format('YYYY-MM-DD')
@@ -296,6 +332,9 @@ function EmployeeDetails(props) {
                                                 </Col>
                                                 <Col lg={8}></Col>
                                             </Row>
+                                            <div className="m-t-lg m-b-lg">
+                                                <AreaChart chartData={chartData} yAxisTitle={'Populatn Risk Index'} />
+                                            </div>
                                         </div>
                                     </Col>
                                 </Row> : ''

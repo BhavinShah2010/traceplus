@@ -125,7 +125,7 @@ function ManPowerMangementList(props) {
                             </div>
 
                             <div className="m-t-lg m-b-lg">
-                                <Chart chartData={chartData} />
+                                <Chart chartData={chartData} yAxisTitle={'Attendance'} />
                             </div>
                         </div>
                     </Col>

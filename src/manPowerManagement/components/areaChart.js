@@ -24,7 +24,7 @@ const Chart = (props) => {
         },
         yAxis: {
             title: {
-                text: 'Attendance'
+                text: props.yAxisTitle
             },
             gridLineDashStyle: 'ShortDash',
             gridLineWidth: 1

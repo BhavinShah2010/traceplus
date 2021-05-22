@@ -35,3 +35,12 @@ export function setSelectedLanguage(langauge) {
         })
     }
 }
+
+export const getChartData = async (obj) => {
+    try {
+        let res = await axios.get(`${prefixURL}/get_index_data?session=${userSession}&org_id=${org_id}&index_name=${obj.index}&start_date=${obj.start}&end_date=${obj.end}`)
+        return res.data
+    } catch (err) {
+        return err
+    }
+}

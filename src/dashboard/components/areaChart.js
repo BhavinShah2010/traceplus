@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment';
 
 const ReactHighcharts = require('react-highcharts');
 
@@ -9,10 +10,99 @@ const riskLevelColor = {
 }
 
 const Chart = (props) => {
+
+    const getDateFormat = (date) => {
+        return moment(date).format('MMM DD HH:MM')
+    }
+
+    const getHtml = (data, title) => {
+        let detail = props.chartData?.chartData[data.point.index]
+        let date = getDateFormat(detail.timestamp)
+
+        switch (title) {
+            case 'Population':
+                return (
+                    '<div style="width: 250px; padding: 10px" >' +
+                        '<div style="margin-bottom: 20px">' +
+                            '<span style="font-size: 24px; font-weight: bold">' + detail.risk + '</span>'+
+                            '<span style="float: right; font-weight: bold; padding: 8px 24px; border-radius: 28px; font-size: 14px; background-color: #04e06e"> Low Risk </span> ' +
+                        '</div>' +
+                        '<div>' +
+                            '<span style="font-size: 16px">Spread</span>' +
+                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.spread + '</span>' +
+                        '</div>' +
+                        '<div>' +
+                            '<span style="font-size: 16px">Mobility</span>' +
+                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.mobility + '</span>' +
+                        '</div>' +
+                        '<div>' +
+                            '<span style="font-size: 16px">Area</span>' +
+                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.area + '</span>' +
+                        '</div>' +
+                        '<div>' +
+                            '<span style="font-size: 16px">Time</span>' +
+                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + date + '</span>' +
+                        '</div>' +
+                    '</div>'
+                )
+            case 'Spread':
+                return (
+                    '<div style="width: 250px; padding: 10px" >' +
+                        '<div style="margin-bottom: 20px; text-align: center">' +
+                            '<span style="font-weight: bold; padding: 8px 24px; border-radius: 28px; font-size: 14px; background-color: #04e06e"> Low Risk </span> ' +
+                        '</div>' +
+                        '<div>' +
+                            '<span style="font-size: 16px">Spread</span>' +
+                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.spread + '</span>' +
+                        '</div>' +
+                        '<div>' +
+                            '<span style="font-size: 16px">Time</span>' +
+                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + date + '</span>' +
+                        '</div>' +
+                    '</div>'
+                )
+            case 'Mobility':
+                return (
+                    '<div style="width: 250px; padding: 10px" >' +
+                        '<div style="margin-bottom: 20px; text-align: center">' +
+                            '<span style="font-weight: bold; padding: 8px 24px; border-radius: 28px; font-size: 14px; background-color: #04e06e"> Low Risk </span> ' +
+                        '</div>' +
+                        '<div>' +
+                            '<span style="font-size: 16px">Mobility</span>' +
+                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.mobility + '</span>' +
+                        '</div>' +
+                        '<div>' +
+                            '<span style="font-size: 16px">Time</span>' +
+                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + date + '</span>' +
+                        '</div>' +
+                    '</div>'
+                )
+            case "Area":
+                return (
+                    '<div style="width: 250px; padding: 10px" >' +
+                        '<div style="margin-bottom: 20px; text-align: center">' +
+                            '<span style="font-weight: bold; padding: 8px 24px; border-radius: 28px; font-size: 14px; background-color: #04e06e"> Low Risk </span> ' +
+                        '</div>' +
+                        '<div>' +
+                            '<span style="font-size: 16px">Area</span>' +
+                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.area + '</span>' +
+                        '</div>' +
+                        '<div>' +
+                            '<span style="font-size: 16px">Time</span>' +
+                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + date + '</span>' +
+                        '</div>' +
+                    '</div>'
+                )
+            default: 
+                break
+        }
+    }
+
     let config = {
         chart: {
             type: 'area',
-            height: 500
+            height: 500,
+            zoomType: 'xy'
         },
         exporting: {
             enabled: false
@@ -21,8 +111,7 @@ const Chart = (props) => {
             text: null
         },
         xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-            allowDecimals: false,
+            categories: props.chartData?.categories || [],
             gridLineWidth: 1,
             gridLineDashStyle: 'ShortDash'
         },
@@ -42,29 +131,29 @@ const Chart = (props) => {
                 {
                     color: riskLevelColor.high,
                     width: 2,
-                    value: 600,
+                    value: 5,
                     dashStyle: 'LongDash'
                 },
                 {
                     color: riskLevelColor.medium,
                     width: 2,
-                    value: 300,
+                    value: 3,
                     dashStyle: 'LongDash'
                 },
                 {
                     color: riskLevelColor.low,
                     width: 2,
-                    value: 100,
+                    value: 1,
                     dashStyle: 'LongDash'
                 }
             ]
         },
         tooltip: {
-            // pointFormat: '{series.name} had stockpiled <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
-            style: {
-                fontWeight: 'bold'
+            formatter: function () {
+                return getHtml(this, props.chartType)
             },
-            padding: 16,
+            outside: true,
+            useHTML: true,
             borderColor: '#FFFFFF',
             backgroundColor: '#FFFFFF'
         },
@@ -89,10 +178,7 @@ const Chart = (props) => {
         series: [{
             name: 'Risk',
             showInLegend: false,
-            data: [
-                110, 320, 80, 369,
-                235, 540, 400, 600
-            ],
+            data: props.chartData?.series || [],
             color: riskLevelColor[props.risk],
         }]
     }

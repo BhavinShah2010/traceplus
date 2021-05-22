@@ -8,7 +8,7 @@ import '../../assets/styles/common.scss'
 import '../styles/dashboard.scss'
 import ThreatWatch from './threatWatch';
 import { peopleOnPremisesIcon, pinkArrowIcon, selectedPinkArrowIcon } from '../../common/images';
-import { getDashboardData, getThreatWatchData, getLanguageTranslation, setSelectedLanguage } from '../actionMethods/actionMethods';
+import { getDashboardData, getThreatWatchData, getLanguageTranslation, setSelectedLanguage, getChartData } from '../actionMethods/actionMethods';
 
 
 import DashboardChart from './dashboardChart';
@@ -38,6 +38,7 @@ function Dashboard(props) {
     const [contactRankValue, updateContactRankValue] = useState(1)
 
     const [selectedLangValue, updateSelectedLangValue] = useState('en')
+    const [chartData, setChartData] = useState({ categories: [], series: [], chartData: [] })
 
 
     const [indexTitleArray, updateIndexTitleArray] =
@@ -80,7 +81,57 @@ function Dashboard(props) {
             console.log("Res : ", res)
         })
 
+        setChartDetail()
     }, []);
+
+    useEffect(() => {
+        if (chartData.chartData && chartData.chartData.length) {
+            let data = chartData.chartData
+            let series = []
+            let type = titles[indexTitle].toLowerCase()
+
+            data.forEach((i) => {
+                series.push(i[type])
+            })
+
+            setChartData(prevState => ({ ...prevState, series }))
+        }
+    }, [indexTitle])
+
+
+    const setChartDetail = () => {
+        setChartData({ categories: [], series: [], chartData: [] })
+
+        let date = getDateFormat(selectedDate)
+
+        let obj = {
+            index: titles[indexTitle].toLowerCase(),
+            start: '2021-04-20',
+            end: date
+        }
+
+        getChartData(obj).then((res) => {
+            let data = res.index_data
+            let categories = []
+            let series = []
+            let chartData = []
+            
+            if (data && Array.isArray(data)) {
+                chartData = data
+
+                data.forEach((i) => {
+                    let d = moment(i.timestamp).format('MMM DD')
+                    categories.push(d)
+                    series.push(i[obj.index])
+                })
+            
+                setChartData({ series, categories, chartData })
+            }
+            
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
 
     function getThreatWatchDataValues(requestBody) {
@@ -246,7 +297,6 @@ function Dashboard(props) {
         })
     }
 
-
     return (
         <div className="dashboardComponentMainDiv">
             <Container >
@@ -324,7 +374,9 @@ function Dashboard(props) {
                         <Col lg={7}>
                             <DashboardChart
                                 yAxisTitle={`${titles[indexTitle]} Risk Index`}
-                                risk={'high'}
+                                risk={'low'}
+                                chartData={chartData}
+                                chartType={titles[indexTitle]}
                             />
                         </Col>
                     </Row>
@@ -335,4 +387,8 @@ function Dashboard(props) {
     )
 }
 
-export default connect(null, { setSelectedLanguage })(withRouter(Dashboard))
+const mapStateToProps = (state) => ({
+    language: state.dashboard.selectedLangaugeValue
+})
+
+export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(Dashboard))
