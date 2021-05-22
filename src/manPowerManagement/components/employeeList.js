@@ -10,6 +10,7 @@ import { getEmployeeList } from '../actionMethods/actionMethods';
 
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../common/commonDatePicker';
+import { getTranslatedText } from '../../common/utilities';
 
 function EmployeeList(props) {
 
@@ -23,6 +24,20 @@ function EmployeeList(props) {
 
     function handleDateSelect(date) {
         updateSelectedDate(date)
+
+        let requestBody = {}
+        requestBody.date = getDateFormat(date)
+        updateIsLoading(true)
+        getEmployeeList(requestBody).then(res => {
+            updateIsLoading(false)
+
+            if (res) {
+                updateEmployeeCount(res.count)
+                updateEmployeeList(res.data)
+                updatePredefinedEmployeeList(res.data)
+            }
+        })
+
     }
 
     useEffect(() => {
@@ -117,7 +132,7 @@ function EmployeeList(props) {
                             </Col>
 
                             <Col lg={2} className="b-r">
-                                <div className="priSriMriText">Status</div>
+                                <div className="priSriMriText">{getTranslatedText('Status ')}</div>
                                 <div className="emplStatusDiv">{element.status}</div>
                             </Col>
                             <Col lg={1}>
@@ -142,9 +157,9 @@ function EmployeeList(props) {
                 <Row>
                     <Col lg={6}>
                         <div className="siteViewHeaderDiv">
-                            <span className="smallHeader" onClick={handleManpowerManagementList}>Manpower Management</span>
+                            <span className="smallHeader" onClick={handleManpowerManagementList}>{getTranslatedText('Manpower Management')}</span>
                             <span className="breadCrumbArrow"> > </span>
-                            <span className="mediumHeader">Employee Listing</span>
+                            <span className="mediumHeader">{getTranslatedText('Employee Listing')}</span>
                         </div>
                     </Col>
 
@@ -168,7 +183,7 @@ function EmployeeList(props) {
                         <div className="siteListMainDiv">
                             <Row>
                                 <Col lg={8} >
-                                    <h3 className="locationsListing">Employees ({employeeList.length})</h3>
+                                    <h3 className="locationsListing">{getTranslatedText('Employees')} ({employeeList.length})</h3>
                                 </Col>
                                 <Col lg={4}>
                                     <div className="listingSearchMainDiv">

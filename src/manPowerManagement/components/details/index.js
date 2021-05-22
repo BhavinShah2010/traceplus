@@ -14,11 +14,12 @@ import { emailIcon, empIDIcon, batteryIcon } from '../../../common/images';
 
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
+import { getTranslatedText } from '../../../common/utilities';
 
 function EmployeeDetails(props) {
 
     const [employeeDetails, updateEmployeeDetails] = useState('')
-    const [locationID, updateLocationID] = useState('')
+    const [employeeID, updateEmployeeID] = useState('')
 
 
     const [infectedFlag, updateInfectedFlag] = useState(false)
@@ -37,7 +38,7 @@ function EmployeeDetails(props) {
 
         if (idVal) {
 
-            updateLocationID(idVal)
+            updateEmployeeID(idVal)
 
             let requestBody = {}
             requestBody.date = getDateFormat(selectedDate)
@@ -105,6 +106,24 @@ function EmployeeDetails(props) {
 
     function handleDateSelect(date) {
         updateSelectedDate(date)
+
+        let requestBody = {}
+        requestBody.date = getDateFormat(date)
+        requestBody.emp_id = employeeID
+
+        getEmployeeDetails(requestBody).then(res => {
+
+            if (res && res.data) {
+                updateEmployeeDetails(res.data)
+            }
+        })
+
+        getEmployeeIndex(requestBody).then(res => {
+            if (res && res.data) {
+                updateEmployeeIndexData(res.data)
+            }
+        })
+
     }
 
 
@@ -117,11 +136,11 @@ function EmployeeDetails(props) {
                         <Row>
                             <Col lg={8}>
                                 <div className="siteViewHeaderDiv">
-                                    <span className="smallHeader" onClick={handleManpowerManagementList}>Manpower Management</span>
+                                    <span className="smallHeader" onClick={handleManpowerManagementList}>{getTranslatedText('Manpower Management')}</span>
                                     <span className="breadCrumbArrow"> > </span>
-                                    <span className="smallHeader" onClick={handleEmployeeList}>Employee Listing</span>
+                                    <span className="smallHeader" onClick={handleEmployeeList}>{getTranslatedText('Employee Listing')}</span>
                                     <span className="breadCrumbArrow"> > </span>
-                                    <span className="mediumHeader">Employee View</span>
+                                    <span className="mediumHeader">{getTranslatedText('Employee View')}</span>
                                 </div>
                             </Col>
 
@@ -212,7 +231,7 @@ function EmployeeDetails(props) {
                                             <Row>
                                                 <Col lg={4}>
                                                     <div className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.pri_level))}>
-                                                        <h6 className="font-bold ">Population Risk Index</h6>
+                                                        <h6 className="font-bold ">{getTranslatedText('Population risk index')}</h6>
                                                         <br />
                                                         <div className="m-t-lg font-normal">Risk Level</div>
 

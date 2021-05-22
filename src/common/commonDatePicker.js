@@ -20,6 +20,7 @@ function CommonDatePicker(props) {
                 onChange={date => handleDateSelect(date)}
                 dateFormat={'MMM dd'}
                 isClearable={false}
+                maxDate={new Date()}
                 
 
             />

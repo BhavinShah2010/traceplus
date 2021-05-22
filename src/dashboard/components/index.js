@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { CommonHeading } from '../../common/commonHeading';
 import { Container, Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
+
 import '../../assets/styles/common.scss'
 import '../styles/dashboard.scss'
 import ThreatWatch from './threatWatch';
 import { peopleOnPremisesIcon, pinkArrowIcon, selectedPinkArrowIcon } from '../../common/images';
-import { getDashboardData, getThreatWatchData } from '../actionMethods/actionMethods';
+import { getDashboardData, getThreatWatchData, getLanguageTranslation, setSelectedLanguage } from '../actionMethods/actionMethods';
+
+
 import DashboardChart from './dashboardChart';
 import moment from 'moment'
 import 'antd/dist/antd.css';
@@ -16,7 +21,7 @@ import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 import ContentLoader from 'react-content-loader'
 import CommonDatePicker from '../../common/commonDatePicker';
 import { titles } from './constant'
-
+import { getTranslatedText } from '../../common/utilities';
 
 function Dashboard(props) {
 
@@ -32,6 +37,32 @@ function Dashboard(props) {
 
     const [contactRankValue, updateContactRankValue] = useState(1)
 
+    const [selectedLangValue, updateSelectedLangValue] = useState('en')
+
+
+    const [indexTitleArray, updateIndexTitleArray] =
+
+        useState([
+            {
+                title: 'Population risk index',
+                isSelected: false
+            }, {
+                title: 'Spread Index',
+                isSelected: false
+            },
+
+            {
+                title: 'Mobility Index',
+                isSelected: false
+            },
+
+            {
+                title: 'Area Index',
+                isSelected: false
+            }
+
+
+        ])
     const [indexTitle, updateIndexTitle] = useState(0)
 
 
@@ -43,7 +74,14 @@ function Dashboard(props) {
         getDashboardDataValues(requestBody)
         getThreatWatchDataValues(requestBody)
 
+
+
+        getLanguageTranslation(selectedLangValue).then(res => {
+            console.log("Res : ", res)
+        })
+
     }, []);
+
 
     function getThreatWatchDataValues(requestBody) {
         requestBody.startDate = getDateFormat(startDateValue)
@@ -72,6 +110,19 @@ function Dashboard(props) {
     }
 
     function handleIndexTabClick(index) {
+        let arr = [...indexTitleArray]
+
+        for (let indexVal = 0; indexVal < arr.length; indexVal++) {
+            const element = arr[indexVal];
+
+            if (indexVal == index) {
+                arr[indexVal].isSelected = true
+            }
+            else {
+                arr[indexVal].isSelected = false
+            }
+
+        }
         updateIndexTitle(index)
     }
 
@@ -94,7 +145,7 @@ function Dashboard(props) {
                     <Row>
                         <Col lg={4}>
                             <div className="indexText">
-                                {element} Risk Index
+                                {getTranslatedText(element.title)}
                             </div>
                         </Col>
                         <Col lg={5}>
@@ -167,10 +218,7 @@ function Dashboard(props) {
         let startDate = moment(startDateValue)
         let endDate = moment(endDateValue)
 
-        let days = startDate.diff(endDate , 'days')
-
-        console.log("Days : " , days)
-
+        let days = startDate.diff(endDate, 'days')
 
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
@@ -182,18 +230,36 @@ function Dashboard(props) {
 
     }
 
-    
+
+    function handleEmployeeClick() {
+        props.history.push('/manpower-management/employee-list')
+    }
+
+    function changeLanguage(lang) {
+        getLanguageTranslation(lang).then(res => {
+            if (res && res.status >= 200 && res.status <= 200) {
+                localStorage.setItem('languageData', JSON.stringify(res.data))
+                localStorage.setItem('selectedLanguage', lang)
+                props.setSelectedLanguage(lang)
+
+            }
+        })
+    }
+
 
     return (
         <div className="dashboardComponentMainDiv">
             <Container >
                 <Row>
                     <Col lg={3} className="m-t-sm">
-                        <CommonHeading title="Dashboard" />
+                        <CommonHeading title={getTranslatedText('Dashboard')} />
                     </Col>
                     <Col lg={9} className="text-right">
                         <div className="dashboardLanguageMainDiv m-r-md">
-                            <DashboardLanguage />
+                            <DashboardLanguage
+                                selectedLangValue={selectedLangValue}
+                                changeLanguage={changeLanguage}
+                            />
                         </div>
                         <div className="commonHeadingDateMainDiv">
                             <CommonDatePicker
@@ -213,9 +279,9 @@ function Dashboard(props) {
                                     </Col>
 
                                     <Col lg={5}>
-                                        <div className="employeeCountInnerDiv">
+                                        <div className="employeeCountInnerDiv cursor-pointer" onClick={handleEmployeeClick}>
                                             <div className="empCount">{employeeCount}</div>
-                                            <div>Employees</div>
+                                            <div>{getTranslatedText('Employees')}</div>
                                         </div>
 
                                     </Col>
@@ -233,7 +299,7 @@ function Dashboard(props) {
                                 <ThreatWatch
                                     handleSelectStartDate={handleSelectStartDate}
                                     handleSelectEndDate={handleSelectEndDate}
-                                    
+
                                     startDate={startDateValue}
                                     endDate={endDateValue}
                                     selectedDate={selectedDate}
@@ -253,10 +319,10 @@ function Dashboard(props) {
                 <div className="dashboardGraphAndIndexMainDiv">
                     <Row>
                         <Col lg={5}>
-                            {showIndexTab(titles)}
+                            {showIndexTab(indexTitleArray)}
                         </Col>
                         <Col lg={7}>
-                            <DashboardChart  
+                            <DashboardChart
                                 yAxisTitle={`${titles[indexTitle]} Risk Index`}
                                 risk={'high'}
                             />
@@ -269,4 +335,4 @@ function Dashboard(props) {
     )
 }
 
-export default Dashboard
+export default connect(null, { setSelectedLanguage })(withRouter(Dashboard))

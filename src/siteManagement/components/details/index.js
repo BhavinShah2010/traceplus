@@ -10,6 +10,7 @@ import { getSiteOverview, getSiteFootFall, getSiteAreaIndex, areaIndexChart } fr
 
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
+import { getTranslatedText } from '../../../common/utilities';
 
 function SiteViewDetails(props) {
 
@@ -100,6 +101,31 @@ function SiteViewDetails(props) {
 
     function handleDateSelect(date) {
         updateSelectedDate(date)
+
+
+        let requestBody = {}
+        requestBody.date = getDateFormat(date)
+        requestBody.locationID = locationID
+
+        
+
+        getSiteOverview(requestBody).then(res => {
+
+            if (res && res.data && res.data.length > 0) {
+                updateSiteViewData(res.data[0])
+            }
+
+            getSiteFootFall(requestBody).then(res => {
+                if (res) {
+                    updateFootFallData(res)
+                    updateFootFallValue(res.day_footfall)
+                }
+            })
+        })
+
+        getSiteAreaIndex(requestBody).then(res => {
+
+        })
     }
 
     function handleChangeFootFallType(type) {
@@ -128,9 +154,9 @@ function SiteViewDetails(props) {
                     <Row>
                         <Col lg={6}>
                             <div className="siteViewHeaderDiv">
-                                <span className="smallHeader" onClick={handleSiteListClick}>Site Management</span>
+                                <span className="smallHeader" onClick={handleSiteListClick}>{getTranslatedText('Site Management')}</span>
                                 <span className="breadCrumbArrow"> > </span>
-                                <span className="mediumHeader">Site View</span>
+                                <span className="mediumHeader">{getTranslatedText('Site View')}</span>
                             </div>
                         </Col>
                         <Col lg={6} className="text-right">
@@ -149,8 +175,8 @@ function SiteViewDetails(props) {
                     <Row className="m-t-lg">
                         <Col lg={4}>
                             <div className="siteViewDetailsLeftSideDiv">
-                                <div className="headerNameDiv">{siteViewData.location_name}</div>
-                                <div className="subHeaderDiv">{siteViewData.description}</div>
+                                <div className="headerNameDiv">{getTranslatedText(siteViewData.location_name)}</div>
+                                <div className="subHeaderDiv">{getTranslatedText(siteViewData.description)}</div>
                                 <div className="subHeaderDiv">9am - 6pm | 11pm - 6am</div>
 
                                 <div className="separaterLine"></div>
@@ -172,7 +198,7 @@ function SiteViewDetails(props) {
                                 <div className="separaterLine"></div>
 
                                 <div className="recommendMainDiv">
-                                    <h5 className="font-bold text-white">Recommend</h5>
+                                    <h5 className="font-bold text-white">{getTranslatedText('Recommend')}</h5>
 
                                     <div className="recommendListMainDiv m-t-lg text-white">
                                         <div className="eachRecommendCardDiv">
@@ -200,7 +226,7 @@ function SiteViewDetails(props) {
                                 <Row>
                                     <Col lg={4}>
                                         <div className="areaIndexMainDiv">
-                                            <h4 className="font-bold">Area Index</h4>
+                                            <h4 className="font-bold">{getTranslatedText('Area Index')}</h4>
                                             <div className="m-t-lg">
                                                 <h4 className="areaIndexValue font-bold">1.9</h4>
                                                 <div className="areaIndexRiskPercentageDiv font-normal">
@@ -210,26 +236,26 @@ function SiteViewDetails(props) {
 
                                             <div className="m-t-7rem">
                                                 <h3 className="areaIndexValue font-bold">
-                                                    Low
+                                                    {getTranslatedText('Low')}
                                                     </h3><br />
-                                                <div className="riskLevelText">Risk Level</div>
+                                                <div className="riskLevelText">{getTranslatedText('Risk Level')}</div>
                                             </div>
 
                                         </div>
                                     </Col>
                                     <Col lg={8}>
                                         <div className="footfallMainDiv">
-                                            <h4 className="font-bold">Footfall</h4>
+                                            <h4 className="font-bold">{getTranslatedText('Footfall')}</h4>
                                             <div className="dayWeekButtonMainDiv">
                                                 <button type="button" onClick={() => handleChangeFootFallType('day')} className={'buttonDiv ' + (selectedFootfallType == 'day' ? 'activeFootfall' : '')}
                                                 >Day</button>
                                                 <button type="button" onClick={() => handleChangeFootFallType('week')} className={'buttonDiv ' + (selectedFootfallType == 'week' ? 'activeFootfall' : '')}>Week</button>
                                             </div>
                                             <div className="m-t-7rem">
-                                                <h2 className="areaIndexValue font-bold site-color">
+                                                <h2 className="areaIndexValue font-bold commonBlackColor">
                                                     {footFallValue}
                                                 </h2>
-                                                <div className="riskLevelText site-color">No. of Employees</div>
+                                                <div className="riskLevelText commonBlackColor">No. of Employees</div>
                                             </div>
                                         </div>
                                     </Col>

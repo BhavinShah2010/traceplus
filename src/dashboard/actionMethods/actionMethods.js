@@ -19,3 +19,19 @@ export function getThreatWatchData(requestBody) {
         .then(res => res.data).catch(err => err)
 }
 
+
+export function getLanguageTranslation(langCode) {
+    return axios.get(prefixURL + `/get_lang_pack?session=${userSession}&lang_code=${langCode}`)
+        .then(res => res.data).catch(err => err)
+}
+
+export function setSelectedLanguage(langauge) {
+
+
+    return dispatch => {
+        dispatch({
+            type: 'selectedLangauge',
+            data:langauge
+        })
+    }
+}
