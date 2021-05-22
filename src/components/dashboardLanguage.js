@@ -7,12 +7,20 @@ const { Option } = Select;
 
 
 function DashboardLanguage(props) {
+
+    function handleChangeLanguage(lang) {
+        console.log("Labg : " , lang)
+        props.changeLanguage(lang)
+    }
+
     return (
         <div className="commonLanguageDropDownDiv">
-            <Select defaultValue="English" >
-                <Option value="English">English</Option>
-                <Option value="Thai">Thai</Option>
-                <Option value="Vietenamese">Vietenamese</Option>
+            <Select defaultValue={props.selectedLangValue} 
+            onChange={handleChangeLanguage}
+            >
+                <Option value="en">English</Option>
+                <Option value="th">Thai</Option>
+                {/* <Option value="Vietenamese">Vietenamese</Option> */}
             </Select>
         </div>
     )
