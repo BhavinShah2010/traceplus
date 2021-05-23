@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import { useHistory } from "react-router-dom";
+
 import { Container, Row, Col } from 'react-bootstrap';
 import moment from 'moment'
 import DashboardLanguage from '../../components/dashboardLanguage';
@@ -21,6 +23,8 @@ function EmployeeList(props) {
     const [isLoading, updateIsLoading] = useState(true)
 
     const [selectedDate, updateSelectedDate] = useState(new Date())
+
+    let history = useHistory();
 
     function handleDateSelect(date) {
         updateSelectedDate(date)
@@ -62,7 +66,7 @@ function EmployeeList(props) {
 
 
     function handleManpowerManagementList() {
-        props.history.push('/manpower-management')
+        history.push('/manpower-management')
     }
 
     function handleSiteLocationSearch(searchText) {
@@ -81,7 +85,7 @@ function EmployeeList(props) {
     }
 
     function handleClickCard(id) {
-        props.history.push(`/manpower-management/employee-list/view/:${id}`)
+        history.push(`/manpower-management/employee-list/view/:${id}`)
     }
 
     function showShiftType(type) {
@@ -136,7 +140,7 @@ function EmployeeList(props) {
                                 <div className="emplStatusDiv">{element.status}</div>
                             </Col>
                             <Col lg={1}>
-                                <div className="arrowDiv m-t-md">
+                                <div className="arrowDiv m-t-md" style={props.hideHeading ? {width:'100%'} : {} }>
                                     <img src={selectedPinkArrowIcon} />
                                 </div>
                             </Col>
@@ -152,77 +156,90 @@ function EmployeeList(props) {
 
 
     return (
-        <div className="siteViewMainDiv siteManagementMainDiv">
+        <div className="siteViewMainDiv siteManagementMainDiv" style={props.hideHeading ? {paddingTop:0, paddingBottom:0} :{}}>
             <Container>
-                <Row>
-                    <Col lg={6}>
-                        <div className="siteViewHeaderDiv">
-                            <span className="smallHeader" onClick={handleManpowerManagementList}>{getTranslatedText('Manpower Management')}</span>
-                            <span className="breadCrumbArrow"> > </span>
-                            <span className="mediumHeader">{getTranslatedText('Employee Listing')}</span>
-                        </div>
-                    </Col>
 
-                    <Col lg={6} className="text-right">
-                        {/* <div className="dashboardLanguageMainDiv">
+                {props.hideHeading ? '' :
+                    <Row>
+                        <Col lg={6}>
+                            <div className="siteViewHeaderDiv">
+                                <span className="smallHeader" onClick={handleManpowerManagementList}>{getTranslatedText('Manpower Management')}</span>
+                                <span className="breadCrumbArrow"> > </span>
+                                <span className="mediumHeader">{getTranslatedText('Employee Listing')}</span>
+                            </div>
+                        </Col>
+
+                        <Col lg={6} className="text-right">
+                            {/* <div className="dashboardLanguageMainDiv">
                             <DashboardLanguage />
                         </div> */}
 
-                        <div className="siteHeadingDatePickerDiv" style={{ width: '20%' }}>
-                            <CommonDatePicker
-                                selectedDate={selectedDate}
-                                handleSelectDate={handleDateSelect}
-                            />
-                        </div>
-                    </Col>
-                    
-                </Row>
+                            <div className="siteHeadingDatePickerDiv" style={{ width: '20%' }}>
+                                <CommonDatePicker
+                                    selectedDate={selectedDate}
+                                    handleSelectDate={handleDateSelect}
+                                />
+                            </div>
+                        </Col>
 
-                <Row className="m-t">
+                    </Row>}
+
+
+
+
+                <Row className={props.hideHeading ? '' : 'm-t'}>
                     <Col lg={12}>
-                        <div className="siteListMainDiv">
-                            <Row>
-                                <Col lg={8} >
-                                    <h3 className="locationsListing">{getTranslatedText('Employees')} ({employeeList.length})</h3>
-                                </Col>
-                                <Col lg={4}>
-                                    <div className="listingSearchMainDiv">
-                                        <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
-                                    </div>
-                                </Col>
-                            </Row>
+                        <div className={'siteListMainDiv ' + (props.hideHeading ? 'p-l-0 p-r-0' : '') } style={props.hideHeading ? {paddingTop:0, paddingBottom:0} :{}}>
 
-                            <Row>
-                                <Col lg={12}>
-                                    <div className="listingRecordMainDiv">
+                            {
+                                props.hideHeading ? '' :
 
-                                        {
-                                            isLoading ?
-
-                                                <div className="text-center m-t-lg">
-                                                    <img src={spinnerLoader} className="m-t-lg" />
-                                                </div> :
-                                                employeeList && employeeList.length > 0 ?
-
-                                                    showCardList(employeeList) : ''
-                                        }
+                                    <Row>
+                                        <Col lg={8} >
+                                            <h3 className="locationsListing">{getTranslatedText('Employees')} ({employeeList.length})</h3>
+                                        </Col>
+                                        <Col lg={4}>
+                                            <div className="listingSearchMainDiv">
+                                                <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
+                                            </div>
+                                        </Col>
+                                    </Row>
 
 
+                            }
 
-                                        {
-                                            searchValue && employeeList.length == 0 ?
 
-                                                <h3 className="text-center m-t-lg">No Records Found !</h3> : ''
-                                        }
-                                    </div>
-                                </Col>
+                            < Row >
+                            <Col lg={12} className={props.hideHeading ? 'p-l-0 p-r-0' : ''}>
+                                <div className="listingRecordMainDiv">
+
+                                    {
+                                        isLoading ?
+
+                                            <div className="text-center m-t-lg">
+                                                <img src={spinnerLoader} className="m-t-lg" />
+                                            </div> :
+                                            employeeList && employeeList.length > 0 ?
+
+                                                showCardList(employeeList) : ''
+                                    }
+
+
+
+                                    {
+                                        searchValue && employeeList.length == 0 ?
+
+                                            <h3 className="text-center m-t-lg">No Records Found !</h3> : ''
+                                    }
+                                </div>
+                            </Col>
                             </Row>
                         </div>
                     </Col>
                 </Row>
 
             </Container>
-        </div>
+        </div >
     )
 }
 

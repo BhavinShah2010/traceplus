@@ -27,6 +27,7 @@ function Dashboard(props) {
 
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [orgId, updateOrgId] = useState(1)
+    const [orgCount, updateOrgCount] = useState(0)
     const [contaminatedEmployeeCount, updateContaminatedEmployeeCount] = useState(0);
     const [atRiskCount, updateAtRiskCount] = useState(0);
     const [threatWatchColor, updateThreatWatchColor] = useState('')
@@ -142,6 +143,7 @@ function Dashboard(props) {
             if (res && res.status >= 200 && res.status <= 299) {
                 updateThreatWatchColor(res.color)
                 updateContaminatedEmployeeCount(res.contaminated.num_employees)
+                updateOrgCount(res.contaminated.org_locations)
                 updateAtRiskCount(res.contaminated.at_risk)
             }
         })
@@ -349,7 +351,7 @@ function Dashboard(props) {
                                 <ThreatWatch
                                     handleSelectStartDate={handleSelectStartDate}
                                     handleSelectEndDate={handleSelectEndDate}
-
+                                    orgCount={orgCount}
                                     startDate={startDateValue}
                                     endDate={endDateValue}
                                     selectedDate={selectedDate}

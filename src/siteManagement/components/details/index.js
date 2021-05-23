@@ -178,6 +178,7 @@ function SiteViewDetails(props) {
                                 <div className="headerNameDiv">{getTranslatedText(siteViewData.location_name)}</div>
                                 <div className="subHeaderDiv">{getTranslatedText(siteViewData.description)}</div>
                                 <div className="subHeaderDiv">9am - 6pm | 11pm - 6am</div>
+                                <div className="subHeaderDiv">Location ID : {locationID}</div>
 
                                 <div className="separaterLine"></div>
 

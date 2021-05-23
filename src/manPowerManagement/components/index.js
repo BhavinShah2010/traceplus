@@ -13,6 +13,7 @@ import { attendanceChart } from '../actionMethods/actionMethods'
 import moment from 'moment'
 import Chart from './areaChart'
 import { getTranslatedText } from '../../common/utilities';
+import EmployeeList from './employeeList';
 
 const { Option } = Select;
 
@@ -36,13 +37,13 @@ function ManPowerMangementList(props) {
 
     const getChartData = () => {
         setChartData({ categories: [], series: [] })
-        
+
         let date = getDateFormat(selectedDate)
         attendanceChart(date).then((res) => {
-            let data = res?.attendance
+            let data = res ?.attendance
             let categories = []
             let series = []
-            
+
             if (data && Array.isArray(data)) {
                 data.forEach((i) => {
                     let d = moment(i.date).format('DD MMM')
@@ -91,7 +92,7 @@ function ManPowerMangementList(props) {
 
                 <Row className="m-t-lg">
                     <Col lg={4}>
-                        <div className="populationRiskMainDiv" style={{height:'250px'}}>
+                        <div className="populationRiskMainDiv" style={{ height: '250px' }}>
                             <div className="font-bold text-white titleText">{getTranslatedText('Overall')} <br /> {getTranslatedText('Population risk index')}</div>
 
                             <Row className="m-t-lg">
@@ -108,65 +109,80 @@ function ManPowerMangementList(props) {
                         </div>
                     </Col>
 
-                    <Col lg={4}>
-                        <div className="attendanceTrendMainDiv" >
-                            <h5 className="font-bold ">{getTranslatedText('Attendance Trends')}</h5>
-                            <div className="dateText">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
-                            <div className="yesterdayPresentMainDiv text-center text-white">
-                                <div>{getTranslatedText('Yesterday')}</div>
-                                <div className="valueDiv font-bold">5</div>
-                                <div>{getTranslatedText('Present')}</div>
-                            </div>
+                    <Col lg={8}>
+                        <Row>
+                            <Col lg={6}>
+                                <div className="attendanceTrendMainDiv" >
+                                    <h5 className="font-bold ">{getTranslatedText('Attendance Trends')}</h5>
+                                    <div className="dateText">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
+                                    <div className="yesterdayPresentMainDiv text-center text-white">
+                                        <div>{getTranslatedText('Yesterday')}</div>
+                                        <div className="valueDiv font-bold">5</div>
+                                        <div>{getTranslatedText('Present')}</div>
+                                    </div>
 
-                            <div className="m-t-md">
-                                <Select defaultValue="dayView" >
-                                    <Option value="dayView">{getTranslatedText('Day View')}</Option>
-                                </Select>
-                            </div>
+                                    <div className="m-t-md">
+                                        <Select defaultValue="dayView" >
+                                            <Option value="dayView">{getTranslatedText('Day View')}</Option>
+                                        </Select>
+                                    </div>
 
-                            <div className="m-t-lg m-b-lg">
-                                <Chart chartData={chartData} yAxisTitle={'Attendance'} />
-                            </div>
-                        </div>
-                    </Col>
-
-                    <Col lg={4}>
-                        <div className="teamsMainDiv" style={{height:'250px'}}>
-                            <h4 className="font-bold">{getTranslatedText('Teams ')}</h4>
-                            <div className="allOrPinnedMainDiv">
-                                <div className="eachDiv active"> {getTranslatedText('All ')}
-                                <div className="m-l-sm badgeBox activeBadge">
-                                        <span>04</span>
+                                    <div className="m-t-lg m-b-lg">
+                                        <Chart chartData={chartData} yAxisTitle={'Attendance'} />
                                     </div>
                                 </div>
+                            </Col>
+
+                            <Col lg={6}>
+                                <div className="teamsMainDiv" style={{ height: '250px' }}>
+                                    <h4 className="font-bold">{getTranslatedText('Teams ')}</h4>
+                                    <div className="allOrPinnedMainDiv">
+                                        <div className="eachDiv active"> {getTranslatedText('All ')}
+                                            <div className="m-l-sm badgeBox activeBadge">
+                                                <span>04</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <Row className="m-t-lg teamListDiv">
+                                        <Col lg={6} className="m-b">
+                                            <img src={mediumRiskIcon} />
+                                            <span className="font-bold">HR Team</span>
+                                        </Col>
+
+                                        <Col lg={6} className="m-b">
+                                            <img src={mediumRiskIcon} />
+                                            <span className="font-bold">Sales Team</span>
+                                        </Col>
+
+                                        <Col lg={6} className="m-b">
+                                            <img src={mediumRiskIcon} />
+                                            <span className="font-bold">Eng. Team</span>
+                                        </Col>
+
+                                        <Col lg={6} className="m-b">
+                                            <img src={mediumRiskIcon} />
+                                            <span className="font-bold">HR Team</span>
+                                        </Col>
+
+
+                                    </Row>
+                                </div>
+                            </Col>
+                        </Row>
+
+                        <Row className="m-t">
+                            <Col lg={12}>
+                            <div className="manpowerManagementEmployeeListMainDiv">
+                                <h5 className="font-bold">Non Complient</h5>
+                                <EmployeeList hideHeading={true} />
                             </div>
-
-                            <Row className="m-t-lg teamListDiv">
-                                <Col lg={6} className="m-b">
-                                    <img src={mediumRiskIcon} />
-                                    <span className="font-bold">HR Team</span>
-                                </Col>
-
-                                <Col lg={6} className="m-b">
-                                    <img src={mediumRiskIcon} />
-                                    <span className="font-bold">Sales Team</span>
-                                </Col>
-
-                                <Col lg={6} className="m-b">
-                                    <img src={mediumRiskIcon} />
-                                    <span className="font-bold">Eng. Team</span>
-                                </Col>
-
-                                <Col lg={6} className="m-b">
-                                    <img src={mediumRiskIcon} />
-                                    <span className="font-bold">HR Team</span>
-                                </Col>
-
-
-                            </Row>
-                        </div>
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
+
+                
 
 
             </Container>

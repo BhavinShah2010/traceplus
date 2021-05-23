@@ -17,6 +17,8 @@ import CommonDatePicker from '../../../common/commonDatePicker';
 import { getTranslatedText } from '../../../common/utilities';
 import AreaChart from '../areaChart'
 
+import downArrowFill from '../../../assets/images/down-arrowFill.png'
+
 
 function EmployeeDetails(props) {
 
@@ -32,6 +34,7 @@ function EmployeeDetails(props) {
 
     const [selectedDate, updateSelectedDate] = useState(new Date())
     const [chartData, setChartData] = useState({ series: [], categories: [] })
+    const [testedPositiveDate, updateTestedPositiveDate] = useState(null)
 
 
     useEffect(() => {
@@ -64,6 +67,10 @@ function EmployeeDetails(props) {
 
     }, []);
 
+    function handleTestedPositiveDateSelect (date){
+        updateTestedPositiveDate(date)
+    }
+
     useEffect(() => {
         getChartData()
     }, [selectedDate])
@@ -80,7 +87,7 @@ function EmployeeDetails(props) {
         }
 
         employeeChart(obj).then((res) => {
-            let data = res?.emp_pri
+            let data = res ?.emp_pri
             let categories = []
             let series = []
 
@@ -162,6 +169,38 @@ function EmployeeDetails(props) {
 
     }
 
+    function showEmployeeMonthView(monthView) {
+
+        let arr = []
+
+        for (let index = 0; index < monthView.length; index++) {
+            const element = monthView[index];
+
+            for (var month in element) {
+
+                let daysPecent = ((element[month]) / 30) + '%'
+
+                arr.push(
+                    <div className="eachAttendanceDiv">
+                        <div className="monthDiv">
+                            {month}
+                        </div>
+                        <div className="progressBarDiv">
+                            <div className="daysProgressBG" style={{ width: daysPecent }}></div>
+                        </div>
+                        <div className="daysDiv">{element[month]} days</div>
+                    </div>
+                )
+            }
+        }
+
+
+
+
+
+        return arr
+    }
+
 
     if (employeeDetails && employeeIndexData) {
 
@@ -233,30 +272,65 @@ function EmployeeDetails(props) {
                                                     infectedFlag ?
 
                                                         <Row className="m-t">
-                                                            <Col lg={8}>
+                                                            <Col lg={7}>
                                                                 <span>Tested Positive On</span>
                                                             </Col>
-                                                            <Col lg={4} className="text-right">
-
+                                                            <Col lg={5} className="text-right">
+                                                                <div className="testedPositiveDatePickerMainDiv">
+                                                                    <CommonDatePicker
+                                                                    selectedDate={testedPositiveDate}
+                                                                    handleSelectDate={handleTestedPositiveDateSelect}
+                                                                    hideIcon={true} />
+                                                                    <div className="downArrowDiv">
+                                                                        <img src={downArrowFill} />
+                                                                    </div>
+                                                                </div>
                                                             </Col>
                                                         </Row> : ''
                                                 }
                                             </div>
 
-                                            <div className="historyOfInfectionDiv m-t">
-                                                <h6 className=" text-white"> Employee Attendance </h6>
-                                                <div className="text-white">As of 18th May 2021</div>
+                                            <div className="historyOfInfectionDiv m-t p-l-0 p-r-0">
+                                                <div className="p_0_5rem p-t-0 p-b-0">
 
-                                                <div className="attendanceDaysMainDiv">
-                                                    <span className="noOfDays font-bold">{employeeDetails.emp_attendance.days_present}</span> &nbsp;
-                                                    <span className="daysText">Days Present this month</span>
-                                                </div>
-                                                <div className="attendancePercentageRoundDiv">
-                                                    <div className="percentageText ">
-                                                        <span className="font-bold">{employeeDetails.emp_attendance.attendance_percentage} %</span>
-                                                        <div className="thisMonthText">This Month</div>
+                                                    <h6 className=" text-white"> Employee Attendance </h6>
+                                                    <div className="text-white">As of 18th May 2021</div>
+
+                                                    <div className="attendanceDaysMainDiv">
+                                                        <span className="noOfDays font-bold">{employeeDetails.emp_attendance.days_present}</span> &nbsp;
+                                                        <span className="daysText">Days Present this month</span>
                                                     </div>
+                                                    <div className="attendancePercentageRoundDiv">
+                                                        <div className="percentageText ">
+                                                            <span className="font-bold">{employeeDetails.emp_attendance.attendance_percentage} %</span>
+                                                            <div className="thisMonthText">This Month</div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
+
+                                                {
+                                                    employeeDetails.emp_attendance.month_view && employeeDetails.emp_attendance.month_view.length ?
+
+                                                        <React.Fragment>
+
+                                                            <div className=" b-b m-t-sm"></div>
+                                                            <div className="p_0_5rem p-t-0 p-b-0">
+                                                                <div className="empAttendanceMainDiv">
+                                                                    <h6 className="font-bold text-white">Month View</h6>
+
+                                                                    {
+                                                                        employeeDetails.emp_attendance.month_view && employeeDetails.emp_attendance.month_view.length > 0 ?
+
+                                                                            showEmployeeMonthView(employeeDetails.emp_attendance.month_view) : ''
+                                                                    }
+                                                                    <div></div>
+                                                                </div>
+                                                            </div>
+                                                        </React.Fragment> : ''
+                                                }
+
+
                                                 {/* <div className="percentageBorderDiv"></div> */}
                                             </div>
                                         </div>
@@ -336,6 +410,18 @@ function EmployeeDetails(props) {
                                                 <AreaChart chartData={chartData} yAxisTitle={'Populatn Risk Index'} />
                                             </div>
                                         </div>
+
+                                        <div className="mostInteractedMainDiv m-t-md">
+                                            <Row >
+                                                <Col lg={4}>
+                                                    <h5 className="font-bold">Most Visited Areas :</h5>
+                                                </Col>
+                                                <Col lg={8}></Col>
+                                            </Row>
+
+                                        </div>
+
+
                                     </Col>
                                 </Row> : ''
 
