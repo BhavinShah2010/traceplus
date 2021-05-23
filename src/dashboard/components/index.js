@@ -79,7 +79,7 @@ function Dashboard(props) {
 
 
         getLanguageTranslation(selectedLangValue).then(res => {
-            console.log("Res : ", res)
+           // console.log("Res : ", res)
         })
 
         setChartDetail()

@@ -9,7 +9,6 @@ const { Option } = Select;
 function DashboardLanguage(props) {
 
     function handleChangeLanguage(lang) {
-        console.log("Labg : " , lang)
         props.changeLanguage(lang)
     }
 
