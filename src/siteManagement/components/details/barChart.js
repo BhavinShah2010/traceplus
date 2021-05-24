@@ -25,7 +25,7 @@ const BarChart = (props) => {
         },
         yAxis: {
             title: {
-                text: 'Area'
+                text: 'Footfall'
             },
             gridLineDashStyle: 'ShortDash',
             gridLineWidth: 1
