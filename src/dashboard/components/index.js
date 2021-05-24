@@ -47,7 +47,7 @@ function Dashboard(props) {
         useState([
             {
                 title: 'Population risk index',
-                isSelected: false
+                isSelected: true
             }, {
                 title: 'Spread Index',
                 isSelected: false
@@ -186,6 +186,8 @@ function Dashboard(props) {
 
         for (let index = 0; index < titleArray.length; index++) {
             const element = titleArray[index];
+
+            
 
             arr.push(
                 <div className={'populationRiskMainDiv ' +

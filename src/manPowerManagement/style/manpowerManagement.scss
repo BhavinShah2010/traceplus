@@ -129,6 +129,12 @@
             span{
                 font-size: 1rem;
                 padding-left: 0.5rem;
+                width: 60%;
+                vertical-align: middle;
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
         }
     }
@@ -342,4 +348,31 @@
         color: #e9ecef;
       }
       
+}
+
+
+.manPowerEmpListMainDiv{
+    .eachCardDiv{
+        border-radius: 0.5rem;
+        background: #4b4d61;
+        margin-bottom: 0.75rem;
+        
+        .headingNameMainDiv{
+            padding: 0.5rem 0.75rem;
+            .empName{
+                font-size: 1rem;
+            }
+            .empTitle{
+                font-size: 0.75rem;
+            }
+
+            .priDiv{
+                .priValue{
+                    font-size: 1rem;
+                }
+            }
+
+        }
+
+    }
 }

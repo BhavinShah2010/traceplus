@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 
 import { Container, Row, Col } from 'react-bootstrap';
 import moment from 'moment'
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
+
 
 import Barchart from './barChart'
 import '../../styles/siteManagement.scss'
@@ -11,6 +14,7 @@ import { getSiteOverview, getSiteFootFall, getSiteAreaIndex, areaIndexChart } fr
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
 import { getTranslatedText } from '../../../common/utilities';
+import { getLanguageTranslation, setSelectedLanguage } from '../../../dashboard/actionMethods/actionMethods';
 
 function SiteViewDetails(props) {
 
@@ -22,6 +26,8 @@ function SiteViewDetails(props) {
     const [footFallData, updateFootFallData] = useState('')
 
     const [selectedFootfallType, updateFootfallType] = useState('day')
+
+    const [selectedLangValue, updateSelectedLangValue] = useState('en')
 
     const [locationID, updateLocationID] = useState('')
 
@@ -92,7 +98,7 @@ function SiteViewDetails(props) {
             }
         }).catch((err) => {
             console.log(err)
-        } )
+        })
     }
 
     function getDateFormat(date) {
@@ -107,7 +113,7 @@ function SiteViewDetails(props) {
         requestBody.date = getDateFormat(date)
         requestBody.locationID = locationID
 
-        
+
 
         getSiteOverview(requestBody).then(res => {
 
@@ -140,9 +146,17 @@ function SiteViewDetails(props) {
                 type == 'week' ? updateFootFallValue(res.week_footfall) : updateFootFallValue(res.day_footfall)
             }
         })
+    }
 
+    function changeLanguage(lang) {
+        getLanguageTranslation(lang).then(res => {
+            if (res && res.status >= 200 && res.status <= 200) {
+                localStorage.setItem('languageData', JSON.stringify(res.data))
+                localStorage.setItem('selectedLanguage', lang)
+                props.setSelectedLanguage(lang)
 
-
+            }
+        })
     }
 
     if (siteViewData) {
@@ -160,9 +174,12 @@ function SiteViewDetails(props) {
                             </div>
                         </Col>
                         <Col lg={6} className="text-right">
-                            {/* <div className="dashboardLanguageMainDiv">
-                                <DashboardLanguage />
-                            </div> */}
+                            <div className="commonLangaugeStyleDiv">
+                                <DashboardLanguage
+                                    selectedLangValue={selectedLangValue}
+                                    changeLanguage={changeLanguage}
+                                />
+                            </div>
                             <div className="siteHeadingDatePickerDiv">
                                 <CommonDatePicker
                                     selectedDate={selectedDate}
@@ -238,7 +255,7 @@ function SiteViewDetails(props) {
                                             <div className="m-t-7rem">
                                                 <h3 className="areaIndexValue font-bold">
                                                     {getTranslatedText('Low')}
-                                                    </h3><br />
+                                                </h3><br />
                                                 <div className="riskLevelText">{getTranslatedText('Risk Level')}</div>
                                             </div>
 
@@ -264,7 +281,7 @@ function SiteViewDetails(props) {
                             </div>
 
                             <div className="white-bg m-t wrapper areaIndexChartMainDiv">
-                                <Barchart chartData={chartData} />   
+                                <Barchart chartData={chartData} />
                             </div>
                         </Col>
                     </Row>
@@ -283,4 +300,8 @@ function SiteViewDetails(props) {
 
 }
 
-export default SiteViewDetails
+const mapStateToProps = (state) => ({
+    language: state.dashboard.selectedLangaugeValue
+})
+
+export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(SiteViewDetails))

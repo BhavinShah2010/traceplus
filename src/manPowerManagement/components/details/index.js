@@ -294,7 +294,9 @@ function EmployeeDetails(props) {
                                                 <div className="p_0_5rem p-t-0 p-b-0">
 
                                                     <h6 className=" text-white"> Employee Attendance </h6>
-                                                    <div className="text-white">As of 18th May 2021</div>
+                        
+                                                    
+                                                    <div className="text-white">As of {moment(new Date()).format('Do MMM YYYY')}</div>
 
                                                     <div className="attendanceDaysMainDiv">
                                                         <span className="noOfDays font-bold">{employeeDetails.emp_attendance.days_present}</span> &nbsp;
@@ -358,17 +360,17 @@ function EmployeeDetails(props) {
                                                         </Row>
                                                     </div>
                                                 </Col>
-                                                <Col lg={4}>
+                                                <Col lg={4} >
                                                     <div className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.sri_level))}>
                                                         <h6 className="font-bold ">Spread  Index</h6>
                                                         <br />
                                                         <div className="m-t-lg font-normal">Risk Level</div>
 
                                                         <Row>
-                                                            <Col lg={5}>
+                                                            <Col lg={5} >
                                                                 <h5 className="font-bold">{employeeIndexData.sri_level}</h5>
                                                             </Col>
-                                                            <Col lg={7}>
+                                                            <Col lg={7} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.spread_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">10%</div>
@@ -387,7 +389,7 @@ function EmployeeDetails(props) {
                                                             <Col lg={5}>
                                                                 <h5 className="font-bold">{employeeIndexData.mri_level}</h5>
                                                             </Col>
-                                                            <Col lg={7}>
+                                                            <Col lg={7} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.mobility_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">10%</div>

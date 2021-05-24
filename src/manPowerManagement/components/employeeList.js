@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 
 import { useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
+
 
 import { Container, Row, Col } from 'react-bootstrap';
 import moment from 'moment'
@@ -13,10 +16,12 @@ import { getEmployeeList } from '../actionMethods/actionMethods';
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../common/commonDatePicker';
 import { getTranslatedText } from '../../common/utilities';
+import { getLanguageTranslation,setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
 
 function EmployeeList(props) {
 
     const [searchValue, updateSearchValue] = useState('')
+    const [selectedLangValue, updateSelectedLangValue] = useState('en')
     const [employeeList, updateEmployeeList] = useState([])
     const [preDefinedEmployeeList, updatePredefinedEmployeeList] = useState([])
     const [employeeCount, updateEmployeeCount] = useState(0)
@@ -140,7 +145,7 @@ function EmployeeList(props) {
                                 <div className="emplStatusDiv">{element.status}</div>
                             </Col>
                             <Col lg={1}>
-                                <div className="arrowDiv m-t-md" style={props.hideHeading ? {width:'100%'} : {} }>
+                                <div className="arrowDiv m-t-md" style={props.hideHeading ? {width:'50%'} : {} }>
                                     <img src={selectedPinkArrowIcon} />
                                 </div>
                             </Col>
@@ -151,6 +156,17 @@ function EmployeeList(props) {
         }
 
         return arr
+    }
+
+    function changeLanguage(lang) {
+        getLanguageTranslation(lang).then(res => {
+            if (res && res.status >= 200 && res.status <= 200) {
+                localStorage.setItem('languageData', JSON.stringify(res.data))
+                localStorage.setItem('selectedLanguage', lang)
+                props.setSelectedLanguage(lang)
+
+            }
+        })
     }
 
 
@@ -170,9 +186,10 @@ function EmployeeList(props) {
                         </Col>
 
                         <Col lg={6} className="text-right">
-                            {/* <div className="dashboardLanguageMainDiv">
-                            <DashboardLanguage />
-                        </div> */}
+                        <DashboardLanguage
+                                selectedLangValue={selectedLangValue}
+                                changeLanguage={changeLanguage}
+                            />
 
                             <div className="siteHeadingDatePickerDiv" style={{ width: '20%' }}>
                                 <CommonDatePicker
@@ -243,4 +260,8 @@ function EmployeeList(props) {
     )
 }
 
-export default EmployeeList
+const mapStateToProps = (state) => ({
+    language: state.dashboard.selectedLangaugeValue
+})
+
+export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(EmployeeList))
