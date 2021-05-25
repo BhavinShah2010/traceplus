@@ -129,7 +129,7 @@ function ManPowerMangementList(props) {
             const element = teamList[index];
 
             arr.push(
-                <Col lg={6} className="m-b">
+                <Col lg={12} className="m-b">
                     <img src={showRiskTypeIcon(element)} />
                     <span className="font-bold" title={element.dep_name + ' Team'}>{element.dep_name} Team</span>
                 </Col>
@@ -220,7 +220,7 @@ function ManPowerMangementList(props) {
 
                 <Row className="m-t-lg">
                     <Col lg={4}>
-                        <div className="populationRiskMainDiv" style={{ height: '455px' }}>
+                        <div className="populationRiskMainDiv" style={{ height: '420px' }}>
                             <div className="font-bold text-white titleText">{getTranslatedText('Overall')} <br /> {getTranslatedText('Population risk index')}</div>
 
                             <Row className="m-t-lg">
@@ -242,7 +242,7 @@ function ManPowerMangementList(props) {
                             </Row>
 
                             {
-                                PriData.emp_list && PriData.emp_list.length > 0 ?
+                                PriData.emp_list && PriData.emp_list.length > 0 && false ?
                                     <Scrollbars style={{ width: '100%', height: 310 }} autoHide>
 
                                         <div className="manPowerEmpListMainDiv m-t-lg">{showEmpListData(PriData.emp_list)}</div>
@@ -258,7 +258,7 @@ function ManPowerMangementList(props) {
                     <Col lg={8}>
                         <Row>
                             <Col lg={6}>
-                                <div className="attendanceTrendMainDiv" style={{ height: '455px' }}>
+                                <div className="attendanceTrendMainDiv" style={{ height: '420px' }}>
                                     <h5 className="font-bold ">{getTranslatedText('Attendance Trends')}</h5>
                                     <div className="dateText">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
                                     <div className="yesterdayPresentMainDiv text-center text-white">
@@ -280,12 +280,12 @@ function ManPowerMangementList(props) {
                             </Col>
 
                             <Col lg={6}>
-                                <div className="teamsMainDiv" style={{ height: '455px' }}>
+                                <div className="teamsMainDiv" style={{ height: '420px' }}>
                                     <h4 className="font-bold">{getTranslatedText('Teams ')}</h4>
                                     <div className="allOrPinnedMainDiv">
                                         <div className="eachDiv active"> {getTranslatedText('All ')}
                                             <div className="m-l-sm badgeBox activeBadge">
-                                                <span>04</span>
+                                                <span>{teamList.length || 0}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -309,7 +309,7 @@ function ManPowerMangementList(props) {
                 <Row className="m-t">
                     <Col lg={12}>
                         <div className="manpowerManagementEmployeeListMainDiv">
-                            <h5 className="font-bold">Non Compliance</h5>
+                            <h5 className="font-bold">Employees</h5>
                             <EmployeeList hideHeading={true} />
                         </div>
                     </Col>
