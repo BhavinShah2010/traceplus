@@ -171,6 +171,12 @@ function SiteMangementList(props) {
         })
     }
 
+    useEffect (() =>{
+        if(props.language){
+            updateSelectedLangValue(props.language)
+        }
+    }, [props.language])
+
 
 
     return (

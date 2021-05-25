@@ -85,6 +85,12 @@ function Dashboard(props) {
         setChartDetail()
     }, []);
 
+    useEffect (() =>{
+        if(props.language){
+            updateSelectedLangValue(props.language)
+        }
+    }, [props.language])
+
     useEffect(() => {
         if (chartData.chartData && chartData.chartData.length) {
             let data = chartData.chartData

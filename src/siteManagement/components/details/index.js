@@ -159,6 +159,12 @@ function SiteViewDetails(props) {
         })
     }
 
+    useEffect (() =>{
+        if(props.language){
+            updateSelectedLangValue(props.language)
+        }
+    }, [props.language])
+
     if (siteViewData) {
 
 
@@ -191,7 +197,7 @@ function SiteViewDetails(props) {
                     </Row>
                     <Row className="m-t-lg">
                         <Col lg={4}>
-                            <div className="siteViewDetailsLeftSideDiv">
+                            <div className="siteViewDetailsLeftSideDiv" style={{height:'750px'}}>
                                 <div className="headerNameDiv">{getTranslatedText(siteViewData.location_name)}</div>
                                 <div className="subHeaderDiv">{getTranslatedText(siteViewData.description)}</div>
                                 <div className="subHeaderDiv">9am - 6pm | 11pm - 6am</div>
@@ -218,11 +224,7 @@ function SiteViewDetails(props) {
                                 <div className="recommendMainDiv">
                                     <h5 className="font-bold text-white">{getTranslatedText('Recommend')}</h5>
 
-                                    <div className="recommendListMainDiv m-t-lg text-white">
-                                        <div className="eachRecommendCardDiv">
-                                            Limit Accessibility of Coffee Machine
-                                            </div>
-
+                                    <div className="recommendListMainDiv m-t-md text-white">
                                         <div className="eachRecommendCardDiv">
                                             Limit Accessibility of Coffee Machine
                                             </div>

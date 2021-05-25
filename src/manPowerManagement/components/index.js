@@ -5,6 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Select } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { CommonHeading } from '../../common/commonHeading';
 import DashboardLanguage from '../../components/dashboardLanguage';
@@ -181,6 +182,12 @@ function ManPowerMangementList(props) {
         })
     }
 
+    useEffect (() =>{
+        if(props.language){
+            updateSelectedLangValue(props.language)
+        }
+    }, [props.language])
+
     return (
         <div className="manpowerManagementMainDiv">
             <Container>
@@ -213,7 +220,7 @@ function ManPowerMangementList(props) {
 
                 <Row className="m-t-lg">
                     <Col lg={4}>
-                        <div className="populationRiskMainDiv" >
+                        <div className="populationRiskMainDiv" style={{ height: '455px' }}>
                             <div className="font-bold text-white titleText">{getTranslatedText('Overall')} <br /> {getTranslatedText('Population risk index')}</div>
 
                             <Row className="m-t-lg">
@@ -236,12 +243,11 @@ function ManPowerMangementList(props) {
 
                             {
                                 PriData.emp_list && PriData.emp_list.length > 0 ?
+                                    <Scrollbars style={{ width: '100%', height: 310 }} autoHide>
 
-                                    <Row>
-                                        <Col lg={12}>
-                                            <div className="manPowerEmpListMainDiv m-t-md">{showEmpListData(PriData.emp_list)}</div>
-                                        </Col>
-                                    </Row>
+                                        <div className="manPowerEmpListMainDiv m-t-lg">{showEmpListData(PriData.emp_list)}</div>
+
+                                    </Scrollbars>
                                     : ''
                             }
 
@@ -252,7 +258,7 @@ function ManPowerMangementList(props) {
                     <Col lg={8}>
                         <Row>
                             <Col lg={6}>
-                                <div className="attendanceTrendMainDiv" >
+                                <div className="attendanceTrendMainDiv" style={{ height: '455px' }}>
                                     <h5 className="font-bold ">{getTranslatedText('Attendance Trends')}</h5>
                                     <div className="dateText">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
                                     <div className="yesterdayPresentMainDiv text-center text-white">
@@ -274,7 +280,7 @@ function ManPowerMangementList(props) {
                             </Col>
 
                             <Col lg={6}>
-                                <div className="teamsMainDiv" style={{ height: '250px' }}>
+                                <div className="teamsMainDiv" style={{ height: '455px' }}>
                                     <h4 className="font-bold">{getTranslatedText('Teams ')}</h4>
                                     <div className="allOrPinnedMainDiv">
                                         <div className="eachDiv active"> {getTranslatedText('All ')}
