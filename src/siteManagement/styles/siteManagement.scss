@@ -297,3 +297,31 @@
         }
     }
 }
+
+.mostInteractedListMainDiv{
+    background: #f5f7fa;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+
+    .dateInnerMainDiv{
+        padding: 0.35rem 0;
+        border-bottom: thin #e3e5eb solid;
+        img{
+            width: 18px;
+            transform: rotate(90deg);
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    .mostInereractedEmpDiv{
+        padding: 0.5rem 0;
+        border-bottom: thin #e3e5eb solid;
+
+        &:last-child{
+            border-bottom: none;
+        }
+    }
+
+}
+

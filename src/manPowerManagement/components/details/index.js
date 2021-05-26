@@ -6,11 +6,14 @@ import { Switch } from 'antd';
 
 import moment from 'moment'
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
+
 import '../../../siteManagement/styles/siteManagement.scss'
 import '../../style/manpowerManagement.scss'
 
 import { employeeChart, getEmployeeDetails, getEmployeeIndex } from '../../actionMethods/actionMethods';
-import { emailIcon, empIDIcon, batteryIcon } from '../../../common/images';
+import { emailIcon, empIDIcon, batteryIcon, selectedPinkArrowIcon } from '../../../common/images';
 
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
@@ -67,7 +70,7 @@ function EmployeeDetails(props) {
 
     }, []);
 
-    function handleTestedPositiveDateSelect (date){
+    function handleTestedPositiveDateSelect(date) {
         updateTestedPositiveDate(date)
     }
 
@@ -201,6 +204,53 @@ function EmployeeDetails(props) {
         return arr
     }
 
+    function showEmployeeList(employeeList) {
+        let arr = []
+
+        for (let index = 0; index < employeeList.length; index++) {
+            const element = employeeList[index];
+
+            arr.push(
+                <React.Fragment>
+                    <div className="mostInereractedEmpDiv">{element.person_name}</div>
+                </React.Fragment>
+            )
+
+        }
+
+        return arr
+    }
+
+    function showMostVisitedAreas(mostVisitedAreas) {
+
+        let arr = []
+
+        for (let index = 0; index < mostVisitedAreas.length; index++) {
+            const element = mostVisitedAreas[index];
+
+            arr.push(
+                <Col lg={4}>
+                    <div className="eachMostVisitedAreaDiv">
+                        <div className="iconDiv greenGradientBGColor">
+                        <img src={empIDIcon}/>
+                        </div>
+                        <div className="areaNameDiv">
+                            <h6 className="font-bold">{element.area}</h6>
+                            <div>
+                            <div className="categoryName">{element.area_category}</div>
+                            
+
+                            </div>
+                        </div>
+                    </div>
+                </Col>
+            )
+
+        }
+
+        return arr
+    }
+
 
     if (employeeDetails && employeeIndexData) {
 
@@ -278,9 +328,9 @@ function EmployeeDetails(props) {
                                                             <Col lg={5} className="text-right">
                                                                 <div className="testedPositiveDatePickerMainDiv">
                                                                     <CommonDatePicker
-                                                                    selectedDate={testedPositiveDate}
-                                                                    handleSelectDate={handleTestedPositiveDateSelect}
-                                                                    hideIcon={true} />
+                                                                        selectedDate={testedPositiveDate}
+                                                                        handleSelectDate={handleTestedPositiveDateSelect}
+                                                                        hideIcon={true} />
                                                                     <div className="downArrowDiv">
                                                                         <img src={downArrowFill} />
                                                                     </div>
@@ -294,8 +344,8 @@ function EmployeeDetails(props) {
                                                 <div className="p_0_5rem p-t-0 p-b-0">
 
                                                     <h6 className=" text-white"> Employee Attendance </h6>
-                        
-                                                    
+
+
                                                     <div className="text-white">As of {moment(new Date()).format('Do MMM YYYY')}</div>
 
                                                     <div className="attendanceDaysMainDiv">
@@ -408,8 +458,36 @@ function EmployeeDetails(props) {
                                                 </Col>
                                                 <Col lg={8}></Col>
                                             </Row>
-                                            <div className="m-t-lg m-b-lg">
-                                                <AreaChart chartData={chartData} yAxisTitle={'Populatn Risk Index'} />
+                                            <div className="m-t-lg m-b">
+                                                <Row>
+                                                    <Col lg={4} className="p-r-0">
+                                                        <div className="mostInteractedListMainDiv">
+                                                            <div className="dateInnerMainDiv">
+                                                                <span className="font-bold">As of {moment(new Date()).format('Do MMM YYYY')}</span>
+                                                                <span className="float-right">
+                                                                    <img src={selectedPinkArrowIcon} />
+                                                                </span>
+                                                            </div>
+
+                                                            {
+                                                                employeeDetails.most_interacted && employeeDetails.most_interacted.length > 0 ?
+
+                                                                    <Scrollbars style={{ width: '100%', height: 220 }} autoHide>
+
+                                                                        {showEmployeeList(employeeDetails.most_interacted)}
+                                                                    </Scrollbars>
+
+                                                                    :
+
+                                                                    <div style={{ height: '200px' }}></div>
+                                                            }
+                                                        </div>
+                                                    </Col>
+                                                    <Col lg={8}>
+                                                        <AreaChart chartData={chartData} yAxisTitle={'Population Risk Index'} />
+                                                    </Col>
+                                                </Row>
+
                                             </div>
                                         </div>
 
@@ -418,8 +496,15 @@ function EmployeeDetails(props) {
                                                 <Col lg={4}>
                                                     <h5 className="font-bold">Most Visited Areas :</h5>
                                                 </Col>
-                                                <Col lg={8}></Col>
                                             </Row>
+                                            {
+                                                employeeDetails.most_visited && employeeDetails.most_visited.length > 0 ?
+
+                                                    <Row className="m-t">
+                                                        {showMostVisitedAreas(employeeDetails.most_visited)}
+                                                    </Row> : ''
+                                            }
+                                            <Row></Row>
 
                                         </div>
 
