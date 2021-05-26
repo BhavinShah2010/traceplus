@@ -102,7 +102,12 @@ const Chart = (props) => {
         chart: {
             type: 'area',
             height: 500,
-            zoomType: 'xy'
+            zoomType: 'xy',
+            scrollablePlotArea: {
+                minWidth: 2500,
+                scrollPositionX: 1,
+                opacity: 0
+            }
         },
         exporting: {
             enabled: false
@@ -113,7 +118,8 @@ const Chart = (props) => {
         xAxis: {
             categories: props.chartData?.categories || [],
             gridLineWidth: 1,
-            gridLineDashStyle: 'ShortDash'  
+            gridLineDashStyle: 'ShortDash',
+            tickInterval: 25
         },
         credits: {
             enabled: false
@@ -124,9 +130,9 @@ const Chart = (props) => {
             },
             gridLineDashStyle: 'ShortDash',
             gridLineWidth: 1,
-            labels: {
-                enabled: false
-            },
+            // labels: {
+            //     enabled: false
+            // },
             plotLines: [
                 {
                     color: riskLevelColor.high,
