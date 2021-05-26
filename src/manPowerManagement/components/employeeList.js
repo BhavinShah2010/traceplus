@@ -16,7 +16,7 @@ import { getEmployeeList } from '../actionMethods/actionMethods';
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../common/commonDatePicker';
 import { getTranslatedText } from '../../common/utilities';
-import { getLanguageTranslation,setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
+import { getLanguageTranslation, setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
 
 function EmployeeList(props) {
 
@@ -145,7 +145,7 @@ function EmployeeList(props) {
                                 <div className="emplStatusDiv">{element.status}</div>
                             </Col>
                             <Col lg={1}>
-                                <div className="arrowDiv m-t-md" style={props.hideHeading ? {width:'50%'} : {} }>
+                                <div className="arrowDiv m-t-md" style={props.hideHeading ? { width: '50%' } : {}}>
                                     <img src={selectedPinkArrowIcon} />
                                 </div>
                             </Col>
@@ -169,15 +169,15 @@ function EmployeeList(props) {
         })
     }
 
-    useEffect (() =>{
-        if(props.language){
+    useEffect(() => {
+        if (props.language) {
             updateSelectedLangValue(props.language)
         }
     }, [props.language])
 
 
     return (
-        <div className="siteViewMainDiv siteManagementMainDiv" style={props.hideHeading ? {paddingTop:0, paddingBottom:0} :{}}>
+        <div className="siteViewMainDiv siteManagementMainDiv" style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
             <Container>
 
                 {props.hideHeading ? '' :
@@ -191,10 +191,12 @@ function EmployeeList(props) {
                         </Col>
 
                         <Col lg={6} className="text-right">
-                        <DashboardLanguage
-                                selectedLangValue={selectedLangValue}
-                                changeLanguage={changeLanguage}
-                            />
+                            <div className="commonLangaugeStyleDiv">
+                                <DashboardLanguage
+                                    selectedLangValue={selectedLangValue}
+                                    changeLanguage={changeLanguage}
+                                />
+                            </div>
 
                             <div className="siteHeadingDatePickerDiv" style={{ width: '20%' }}>
                                 <CommonDatePicker
@@ -211,7 +213,7 @@ function EmployeeList(props) {
 
                 <Row className={props.hideHeading ? '' : 'm-t'}>
                     <Col lg={12}>
-                        <div className={'siteListMainDiv ' + (props.hideHeading ? 'p-l-0 p-r-0' : '') } style={props.hideHeading ? {paddingTop:0, paddingBottom:0} :{}}>
+                        <div className={'siteListMainDiv ' + (props.hideHeading ? 'p-l-0 p-r-0' : '')} style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
 
                             {
                                 props.hideHeading ? '' :
@@ -232,29 +234,29 @@ function EmployeeList(props) {
 
 
                             < Row >
-                            <Col lg={12} className={props.hideHeading ? 'p-l-0 p-r-0' : ''}>
-                                <div className="listingRecordMainDiv">
+                                <Col lg={12} className={props.hideHeading ? 'p-l-0 p-r-0' : ''}>
+                                    <div className="listingRecordMainDiv">
 
-                                    {
-                                        isLoading ?
+                                        {
+                                            isLoading ?
 
-                                            <div className="text-center m-t-lg">
-                                                <img src={spinnerLoader} className="m-t-lg" />
-                                            </div> :
-                                            employeeList && employeeList.length > 0 ?
+                                                <div className="text-center m-t-lg">
+                                                    <img src={spinnerLoader} className="m-t-lg" />
+                                                </div> :
+                                                employeeList && employeeList.length > 0 ?
 
-                                                showCardList(employeeList) : ''
-                                    }
+                                                    showCardList(employeeList) : ''
+                                        }
 
 
 
-                                    {
-                                        searchValue && employeeList.length == 0 ?
+                                        {
+                                            searchValue && employeeList.length == 0 ?
 
-                                            <h3 className="text-center m-t-lg">No Records Found !</h3> : ''
-                                    }
-                                </div>
-                            </Col>
+                                                <h3 className="text-center m-t-lg">No Records Found !</h3> : ''
+                                        }
+                                    </div>
+                                </Col>
                             </Row>
                         </div>
                     </Col>

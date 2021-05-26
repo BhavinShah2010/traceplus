@@ -142,7 +142,7 @@ function SiteMangementList(props) {
                             </Col>
 
                             <Col lg={3} className="b-l">
-                                <div className="nearByLocationDiv">{getTranslatedText('Daily Avg Footfall ')}</div>
+                                <div className="nearByLocationDiv">{getTranslatedText('Daily Avg Footfall')}</div>
                                 <div className="locationNameDiv">{element.avg_footfall}</div>
                             </Col>
 

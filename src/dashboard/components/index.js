@@ -333,7 +333,7 @@ function Dashboard(props) {
                                     <Col lg={6}>
                                         <div className="peopleOnPremisesInnerDiv">
                                             <img src={peopleOnPremisesIcon} />
-                                            <span>People on Premises</span>
+                                            <span>People on premises</span>
                                         </div>
 
                                     </Col>
