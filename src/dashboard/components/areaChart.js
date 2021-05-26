@@ -22,74 +22,74 @@ const Chart = (props) => {
         switch (title) {
             case 'Population':
                 return (
-                    '<div style="width: 250px; padding: 10px" >' +
-                        '<div style="margin-bottom: 20px">' +
-                            '<span style="font-size: 24px; font-weight: bold">' + detail.risk + '</span>'+
-                            '<span style="float: right; font-weight: bold; padding: 8px 24px; border-radius: 28px; font-size: 14px; background-color: #04e06e"> Low Risk </span> ' +
+                    '<div style="width: 200px; height: 175px; padding: 10px;" >' +
+                        '<div style="margin-bottom: 10px">' +
+                            '<span style="font-size: 18px; font-weight: bold">' + detail.risk + '</span>'+
+                            '<span style="float: right; padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
                         '</div>' +
-                        '<div>' +
-                            '<span style="font-size: 16px">Spread</span>' +
-                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.spread + '</span>' +
+                        '<div style="padding-top: 8px">' +
+                            '<span style="font-size: 14px">Spread</span>' +
+                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.spread + '</span>' +
                         '</div>' +
-                        '<div>' +
-                            '<span style="font-size: 16px">Mobility</span>' +
-                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.mobility + '</span>' +
+                        '<div style="padding-top: 8px">' +
+                            '<span style="font-size: 14px">Mobility</span>' +
+                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.mobility + '</span>' +
                         '</div>' +
-                        '<div>' +
-                            '<span style="font-size: 16px">Area</span>' +
-                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.area + '</span>' +
+                        '<div style="padding-top: 8px">' +
+                            '<span style="font-size: 14px">Area</span>' +
+                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.area + '</span>' +
                         '</div>' +
-                        '<div>' +
-                            '<span style="font-size: 16px">Time</span>' +
-                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + date + '</span>' +
+                        '<div style="padding-top: 8px">' +
+                            '<span style="font-size: 14px">Time</span>' +
+                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
                         '</div>' +
                     '</div>'
                 )
             case 'Spread':
                 return (
-                    '<div style="width: 250px; padding: 10px" >' +
-                        '<div style="margin-bottom: 20px; text-align: center">' +
-                            '<span style="font-weight: bold; padding: 8px 24px; border-radius: 28px; font-size: 14px; background-color: #04e06e"> Low Risk </span> ' +
+                    '<div style="width: 200px; height: 110px; padding: 10px; margin-top: 10px" >' +
+                        '<div style="margin-bottom: 15px; text-align: center">' +
+                            '<span style="padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
                         '</div>' +
-                        '<div>' +
-                            '<span style="font-size: 16px">Spread</span>' +
-                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.spread + '</span>' +
+                        '<div style="padding-top: 8px">' +
+                            '<span style="font-size: 14px">Spread</span>' +
+                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.spread + '</span>' +
                         '</div>' +
-                        '<div>' +
-                            '<span style="font-size: 16px">Time</span>' +
-                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + date + '</span>' +
+                        '<div style="padding-top: 8px">' +
+                            '<span style="font-size: 14px">Time</span>' +
+                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
                         '</div>' +
                     '</div>'
                 )
             case 'Mobility':
                 return (
-                    '<div style="width: 250px; padding: 10px" >' +
-                        '<div style="margin-bottom: 20px; text-align: center">' +
-                            '<span style="font-weight: bold; padding: 8px 24px; border-radius: 28px; font-size: 14px; background-color: #04e06e"> Low Risk </span> ' +
+                    '<div style="width: 200px; height: 110px; padding: 10px; margin-top: 10px" >' +
+                        '<div style="margin-bottom: 15px; text-align: center">' +
+                            '<span style="padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
                         '</div>' +
-                        '<div>' +
-                            '<span style="font-size: 16px">Mobility</span>' +
-                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.mobility + '</span>' +
+                        '<div style="padding-top: 8px">' +
+                            '<span style="font-size: 14px">Mobility</span>' +
+                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.mobility + '</span>' +
                         '</div>' +
-                        '<div>' +
-                            '<span style="font-size: 16px">Time</span>' +
-                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + date + '</span>' +
+                        '<div style="padding-top: 8px">' +
+                            '<span style="font-size: 14px">Time</span>' +
+                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
                         '</div>' +
                     '</div>'
                 )
             case "Area":
                 return (
-                    '<div style="width: 250px; padding: 10px" >' +
-                        '<div style="margin-bottom: 20px; text-align: center">' +
-                            '<span style="font-weight: bold; padding: 8px 24px; border-radius: 28px; font-size: 14px; background-color: #04e06e"> Low Risk </span> ' +
+                    '<div style="width: 200px; height: 110px; padding: 10px; margin-top: 10px" >' +
+                        '<div style="margin-bottom: 15px; text-align: center">' +
+                            '<span style="padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
                         '</div>' +
-                        '<div>' +
-                            '<span style="font-size: 16px">Area</span>' +
-                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + detail.area + '</span>' +
+                        '<div style="padding-top: 8px">' +
+                            '<span style="font-size: 14px">Area</span>' +
+                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.area + '</span>' +
                         '</div>' +
-                        '<div>' +
-                            '<span style="font-size: 16px">Time</span>' +
-                            '<span style="float: right; font-size: 16px;  font-weight: bold">' + date + '</span>' +
+                        '<div style="padding-top: 8px">' +
+                            '<span style="font-size: 14px">Time</span>' +
+                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
                         '</div>' +
                     '</div>'
                 )
@@ -113,7 +113,7 @@ const Chart = (props) => {
         xAxis: {
             categories: props.chartData?.categories || [],
             gridLineWidth: 1,
-            gridLineDashStyle: 'ShortDash'
+            gridLineDashStyle: 'ShortDash'  
         },
         credits: {
             enabled: false
@@ -155,7 +155,8 @@ const Chart = (props) => {
             outside: true,
             useHTML: true,
             borderColor: '#FFFFFF',
-            backgroundColor: '#FFFFFF'
+            backgroundColor: '#FFFFFF',
+            borderRadius: 15
         },
         plotOptions: {
             area: {
