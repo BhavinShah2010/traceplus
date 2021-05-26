@@ -22,24 +22,24 @@ const Chart = (props) => {
         switch (title) {
             case 'Population':
                 return (
-                    '<div style="width: 200px; height: 175px; padding: 10px;" >' +
+                    '<div style="width: 200px; height: 150px; padding: 5px;" >' +
                         '<div style="margin-bottom: 10px">' +
                             '<span style="font-size: 18px; font-weight: bold">' + detail.risk + '</span>'+
-                            '<span style="float: right; padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
+                            '<span style="float: right; padding: 0px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
                         '</div>' +
-                        '<div style="padding-top: 8px">' +
+                        '<div style="padding-top: 2px">' +
                             '<span style="font-size: 14px">Spread</span>' +
                             '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.spread + '</span>' +
                         '</div>' +
-                        '<div style="padding-top: 8px">' +
+                        '<div style="padding-top: 2px">' +
                             '<span style="font-size: 14px">Mobility</span>' +
                             '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.mobility + '</span>' +
                         '</div>' +
-                        '<div style="padding-top: 8px">' +
+                        '<div style="padding-top: 2px">' +
                             '<span style="font-size: 14px">Area</span>' +
                             '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.area + '</span>' +
                         '</div>' +
-                        '<div style="padding-top: 8px">' +
+                        '<div style="padding-top: 2px">' +
                             '<span style="font-size: 14px">Time</span>' +
                             '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
                         '</div>' +

@@ -306,6 +306,7 @@ function ManPowerMangementList(props) {
                     </Col>
                 </Row>
 
+
                 <Row className="m-t">
                     <Col lg={12}>
                         <div className="manpowerManagementEmployeeListMainDiv">
