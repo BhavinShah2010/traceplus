@@ -13,11 +13,23 @@ $font-bold: 600;
 }
 
 .p-l-0{
-    padding-left: 0;
+    padding-left: 0 !important;
 }
 
 .p-r-0{
-    padding-right: 0;
+    padding-right: 0 !important;
+}
+
+.p-t-0{
+    padding-top: 0 !important;
+}
+
+.p-b-0{
+    padding-bottom: 0 !important;
+}
+
+.p_0_5rem{
+    padding: 0.5rem
 }
 
 .m-l-r-0{
@@ -113,6 +125,10 @@ $font-bold: 600;
     border-right: 1px solid #e9ecef;
 }
 
+.b-b {
+    border-bottom: 1px solid #e9ecef;
+}
+
 .commonLanguageDropDownDiv {
     width: 100%;
 }
@@ -202,4 +218,18 @@ $font-bold: 600;
 
 .cursor-pointer{
     cursor: pointer;
+}
+
+.commonLangaugeStyleDiv{
+    width: 20%;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.v-middle{
+    vertical-align: middle;
+}
+
+.greenGradientBGColor{
+    background: linear-gradient(181deg, #04e06e, #a5e006)
 }

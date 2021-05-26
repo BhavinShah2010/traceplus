@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
+
 import { Container, Row, Col } from 'react-bootstrap';
 import { CommonHeading } from '../../common/commonHeading';
 import '../styles/siteManagement.scss'
@@ -12,13 +15,15 @@ import CommonDatePicker from '../../common/commonDatePicker';
 
 import '../../dashboard/styles/dashboard.scss'
 import { getTranslatedText } from '../../common/utilities';
+import { getLanguageTranslation, setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
 
 function SiteMangementList(props) {
 
-    
+
     const [siteLocationsList, updateSiteLocationsList] = useState([])
 
     const [preDefinedSiteLocationsList, updatePreDefinedSiteLocationList] = useState([])
+    const [selectedLangValue, updateSelectedLangValue] = useState('en')
 
     const [searchValue, updateSearchValue] = useState('')
     const [selectedDate, updateSelectedDate] = useState(new Date())
@@ -118,7 +123,7 @@ function SiteMangementList(props) {
                                 </span>
 
                                 <span className={'eachTag ' + setTagStatus(element.status)}>
-                                {getTranslatedText(element.status)}
+                                    {getTranslatedText(element.status)}
                                 </span>
 
                             </Col>
@@ -137,7 +142,7 @@ function SiteMangementList(props) {
                             </Col>
 
                             <Col lg={3} className="b-l">
-                                <div className="nearByLocationDiv">{getTranslatedText('Daily Avg Footfall ')}</div>
+                                <div className="nearByLocationDiv">{getTranslatedText('Daily Avg Footfall')}</div>
                                 <div className="locationNameDiv">{element.avg_footfall}</div>
                             </Col>
 
@@ -155,6 +160,23 @@ function SiteMangementList(props) {
         return arr
     }
 
+    function changeLanguage(lang) {
+        getLanguageTranslation(lang).then(res => {
+            if (res && res.status >= 200 && res.status <= 200) {
+                localStorage.setItem('languageData', JSON.stringify(res.data))
+                localStorage.setItem('selectedLanguage', lang)
+                props.setSelectedLanguage(lang)
+
+            }
+        })
+    }
+
+    useEffect (() =>{
+        if(props.language){
+            updateSelectedLangValue(props.language)
+        }
+    }, [props.language])
+
 
 
     return (
@@ -169,6 +191,12 @@ function SiteMangementList(props) {
                         </div>
                     </Col>
                     <Col lg={6} className="text-right">
+                        <div className="commonLangaugeStyleDiv">
+                            <DashboardLanguage
+                                selectedLangValue={selectedLangValue}
+                                changeLanguage={changeLanguage}
+                            />
+                        </div>
                         <div className="siteHeadingDatePickerDiv">
                             <CommonDatePicker
                                 selectedDate={selectedDate}
@@ -176,9 +204,6 @@ function SiteMangementList(props) {
 
                             />
                         </div>
-                        {/* <div className="dashboardLanguageMainDiv">
-                                <DashboardLanguage />
-                            </div> */}
                     </Col>
                 </Row>
 
@@ -233,4 +258,8 @@ function SiteMangementList(props) {
 
 }
 
-export default SiteMangementList
+const mapStateToProps = (state) => ({
+    language: state.dashboard.selectedLangaugeValue
+})
+
+export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(SiteMangementList))

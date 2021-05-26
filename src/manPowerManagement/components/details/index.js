@@ -6,16 +6,21 @@ import { Switch } from 'antd';
 
 import moment from 'moment'
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
+
 import '../../../siteManagement/styles/siteManagement.scss'
 import '../../style/manpowerManagement.scss'
 
 import { employeeChart, getEmployeeDetails, getEmployeeIndex } from '../../actionMethods/actionMethods';
-import { emailIcon, empIDIcon, batteryIcon } from '../../../common/images';
+import { emailIcon, empIDIcon, batteryIcon, selectedPinkArrowIcon } from '../../../common/images';
 
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
 import { getTranslatedText } from '../../../common/utilities';
 import AreaChart from '../areaChart'
+
+import downArrowFill from '../../../assets/images/down-arrowFill.png'
 
 
 function EmployeeDetails(props) {
@@ -32,6 +37,7 @@ function EmployeeDetails(props) {
 
     const [selectedDate, updateSelectedDate] = useState(new Date())
     const [chartData, setChartData] = useState({ series: [], categories: [] })
+    const [testedPositiveDate, updateTestedPositiveDate] = useState(null)
 
 
     useEffect(() => {
@@ -64,6 +70,10 @@ function EmployeeDetails(props) {
 
     }, []);
 
+    function handleTestedPositiveDateSelect(date) {
+        updateTestedPositiveDate(date)
+    }
+
     useEffect(() => {
         getChartData()
     }, [selectedDate])
@@ -80,7 +90,7 @@ function EmployeeDetails(props) {
         }
 
         employeeChart(obj).then((res) => {
-            let data = res?.emp_pri
+            let data = res ?.emp_pri
             let categories = []
             let series = []
 
@@ -162,6 +172,85 @@ function EmployeeDetails(props) {
 
     }
 
+    function showEmployeeMonthView(monthView) {
+
+        let arr = []
+
+        for (let index = 0; index < monthView.length; index++) {
+            const element = monthView[index];
+
+            for (var month in element) {
+
+                let daysPecent = ((element[month]) / 30) + '%'
+
+                arr.push(
+                    <div className="eachAttendanceDiv">
+                        <div className="monthDiv">
+                            {month}
+                        </div>
+                        <div className="progressBarDiv">
+                            <div className="daysProgressBG" style={{ width: daysPecent }}></div>
+                        </div>
+                        <div className="daysDiv">{element[month]} days</div>
+                    </div>
+                )
+            }
+        }
+
+
+
+
+
+        return arr
+    }
+
+    function showEmployeeList(employeeList) {
+        let arr = []
+
+        for (let index = 0; index < employeeList.length; index++) {
+            const element = employeeList[index];
+
+            arr.push(
+                <React.Fragment>
+                    <div className="mostInereractedEmpDiv">{element.person_name}</div>
+                </React.Fragment>
+            )
+
+        }
+
+        return arr
+    }
+
+    function showMostVisitedAreas(mostVisitedAreas) {
+
+        let arr = []
+
+        for (let index = 0; index < mostVisitedAreas.length; index++) {
+            const element = mostVisitedAreas[index];
+
+            arr.push(
+                <Col lg={4}>
+                    <div className="eachMostVisitedAreaDiv">
+                        <div className="iconDiv greenGradientBGColor">
+                        <img src={empIDIcon}/>
+                        </div>
+                        <div className="areaNameDiv">
+                            <h6 className="font-bold">{element.area}</h6>
+                            <div>
+                            <div className="categoryName">{element.area_category}</div>
+                            
+
+                            </div>
+                        </div>
+                    </div>
+                </Col>
+            )
+
+        }
+
+        return arr
+    }
+
 
     if (employeeDetails && employeeIndexData) {
 
@@ -233,30 +322,67 @@ function EmployeeDetails(props) {
                                                     infectedFlag ?
 
                                                         <Row className="m-t">
-                                                            <Col lg={8}>
+                                                            <Col lg={7}>
                                                                 <span>Tested Positive On</span>
                                                             </Col>
-                                                            <Col lg={4} className="text-right">
-
+                                                            <Col lg={5} className="text-right">
+                                                                <div className="testedPositiveDatePickerMainDiv">
+                                                                    <CommonDatePicker
+                                                                        selectedDate={testedPositiveDate}
+                                                                        handleSelectDate={handleTestedPositiveDateSelect}
+                                                                        hideIcon={true} />
+                                                                    <div className="downArrowDiv">
+                                                                        <img src={downArrowFill} />
+                                                                    </div>
+                                                                </div>
                                                             </Col>
                                                         </Row> : ''
                                                 }
                                             </div>
 
-                                            <div className="historyOfInfectionDiv m-t">
-                                                <h6 className=" text-white"> Employee Attendance </h6>
-                                                <div className="text-white">As of 18th May 2021</div>
+                                            <div className="historyOfInfectionDiv m-t p-l-0 p-r-0">
+                                                <div className="p_0_5rem p-t-0 p-b-0">
 
-                                                <div className="attendanceDaysMainDiv">
-                                                    <span className="noOfDays font-bold">{employeeDetails.emp_attendance.days_present}</span> &nbsp;
-                                                    <span className="daysText">Days Present this month</span>
-                                                </div>
-                                                <div className="attendancePercentageRoundDiv">
-                                                    <div className="percentageText ">
-                                                        <span className="font-bold">{employeeDetails.emp_attendance.attendance_percentage} %</span>
-                                                        <div className="thisMonthText">This Month</div>
+                                                    <h6 className=" text-white"> Employee Attendance </h6>
+
+
+                                                    <div className="text-white">As of {moment(new Date()).format('Do MMM YYYY')}</div>
+
+                                                    <div className="attendanceDaysMainDiv">
+                                                        <span className="noOfDays font-bold">{employeeDetails.emp_attendance.days_present}</span> &nbsp;
+                                                        <span className="daysText">Days Present this month</span>
                                                     </div>
+                                                    <div className="attendancePercentageRoundDiv">
+                                                        <div className="percentageText ">
+                                                            <span className="font-bold">{employeeDetails.emp_attendance.attendance_percentage} %</span>
+                                                            <div className="thisMonthText">This Month</div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
+
+                                                {
+                                                    employeeDetails.emp_attendance.month_view && employeeDetails.emp_attendance.month_view.length ?
+
+                                                        <React.Fragment>
+
+                                                            <div className=" b-b m-t-sm"></div>
+                                                            <div className="p_0_5rem p-t-0 p-b-0">
+                                                                <div className="empAttendanceMainDiv">
+                                                                    <h6 className="font-bold text-white">Month View</h6>
+
+                                                                    {
+                                                                        employeeDetails.emp_attendance.month_view && employeeDetails.emp_attendance.month_view.length > 0 ?
+
+                                                                            showEmployeeMonthView(employeeDetails.emp_attendance.month_view) : ''
+                                                                    }
+                                                                    <div></div>
+                                                                </div>
+                                                            </div>
+                                                        </React.Fragment> : ''
+                                                }
+
+
                                                 {/* <div className="percentageBorderDiv"></div> */}
                                             </div>
                                         </div>
@@ -284,17 +410,17 @@ function EmployeeDetails(props) {
                                                         </Row>
                                                     </div>
                                                 </Col>
-                                                <Col lg={4}>
+                                                <Col lg={4} >
                                                     <div className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.sri_level))}>
                                                         <h6 className="font-bold ">Spread  Index</h6>
                                                         <br />
                                                         <div className="m-t-lg font-normal">Risk Level</div>
 
                                                         <Row>
-                                                            <Col lg={5}>
+                                                            <Col lg={5} >
                                                                 <h5 className="font-bold">{employeeIndexData.sri_level}</h5>
                                                             </Col>
-                                                            <Col lg={7}>
+                                                            <Col lg={7} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.spread_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">10%</div>
@@ -313,7 +439,7 @@ function EmployeeDetails(props) {
                                                             <Col lg={5}>
                                                                 <h5 className="font-bold">{employeeIndexData.mri_level}</h5>
                                                             </Col>
-                                                            <Col lg={7}>
+                                                            <Col lg={7} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.mobility_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">10%</div>
@@ -332,10 +458,57 @@ function EmployeeDetails(props) {
                                                 </Col>
                                                 <Col lg={8}></Col>
                                             </Row>
-                                            <div className="m-t-lg m-b-lg">
-                                                <AreaChart chartData={chartData} yAxisTitle={'Populatn Risk Index'} />
+                                            <div className="m-t-lg m-b">
+                                                <Row>
+                                                    <Col lg={4} className="p-r-0">
+                                                        <div className="mostInteractedListMainDiv">
+                                                            <div className="dateInnerMainDiv">
+                                                                <span className="font-bold">As of {moment(new Date()).format('Do MMM YYYY')}</span>
+                                                                <span className="float-right">
+                                                                    <img src={selectedPinkArrowIcon} />
+                                                                </span>
+                                                            </div>
+
+                                                            {
+                                                                employeeDetails.most_interacted && employeeDetails.most_interacted.length > 0 ?
+
+                                                                    <Scrollbars style={{ width: '100%', height: 220 }} autoHide>
+
+                                                                        {showEmployeeList(employeeDetails.most_interacted)}
+                                                                    </Scrollbars>
+
+                                                                    :
+
+                                                                    <div style={{ height: '200px' }}></div>
+                                                            }
+                                                        </div>
+                                                    </Col>
+                                                    <Col lg={8}>
+                                                        <AreaChart chartData={chartData} yAxisTitle={'Population Risk Index'} />
+                                                    </Col>
+                                                </Row>
+
                                             </div>
                                         </div>
+
+                                        <div className="mostInteractedMainDiv m-t-md">
+                                            <Row >
+                                                <Col lg={4}>
+                                                    <h5 className="font-bold">Most Visited Areas :</h5>
+                                                </Col>
+                                            </Row>
+                                            {
+                                                employeeDetails.most_visited && employeeDetails.most_visited.length > 0 ?
+
+                                                    <Row className="m-t">
+                                                        {showMostVisitedAreas(employeeDetails.most_visited)}
+                                                    </Row> : ''
+                                            }
+                                            <Row></Row>
+
+                                        </div>
+
+
                                     </Col>
                                 </Row> : ''
 

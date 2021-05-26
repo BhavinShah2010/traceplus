@@ -19,8 +19,18 @@ export function getEmployeeDetails(requestBody) {
         .then(res => res.data).catch(err => err)
 }
 
+export function getOrgPri(requestBody) {
+    return axios.get(prefixURL + `/get_org_pri?session=${userSession}&org_id=${org_id}&date=${requestBody.date}`)
+        .then(res => res.data).catch(err => err)
+}
+
+export function getDepartmentList(requestBody) {
+    return axios.get(prefixURL + `/get_departments?session=${userSession}&org_id=${org_id}&date=${requestBody.date}`)
+        .then(res => res.data).catch(err => err)
+}
+
 export function getEmployeeIndex(requestBody) {
-    
+
     let indexName = 'population'
     return axios.get(prefixURL + `/get_employee_index?session=${userSession}&emp_id=${requestBody.emp_id}&date=${requestBody.date}&org_id=${org_id}&index_name=${indexName}`)
         .then(res => res.data).catch(err => err)
@@ -32,7 +42,7 @@ export const attendanceChart = async (date) => {
         return res.data;
     } catch (err) {
         return err;
-    } 
+    }
 }
 
 export const employeeChart = async (requestBody) => {
@@ -43,3 +53,4 @@ export const employeeChart = async (requestBody) => {
         return err;
     }
 }
+

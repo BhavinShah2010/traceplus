@@ -14,13 +14,17 @@ function CommonDatePicker(props) {
 
     return (
         <React.Fragment>
-            <img src={calenderIcon} />
+            {
+                props.hideIcon ? '' : <img src={calenderIcon} />
+            }
+            
             <DatePicker
                 selected={props.selectedDate}
                 onChange={date => handleDateSelect(date)}
                 dateFormat={'MMM dd'}
                 isClearable={false}
                 maxDate={new Date()}
+                placeholderText={'Select Date'}
                 
 
             />

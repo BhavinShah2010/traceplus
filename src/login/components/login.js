@@ -64,7 +64,7 @@ function LoginComponent(props) {
                             localStorage.setItem('isLoggedIn', true)
 
                             getLanguageTranslation('en').then(res => {
-                                console.log("Lang data : " , res)
+                            //    console.log("Lang data : " , res)
                                 if(res && res.status>=200 && res.status<=200){
                                     localStorage.setItem('languageData' , JSON.stringify(res.data))
                                     localStorage.setItem('selectedLanguage' , 'en')

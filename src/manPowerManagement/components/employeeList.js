@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
+import { useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
+
+
 import { Container, Row, Col } from 'react-bootstrap';
 import moment from 'moment'
 import DashboardLanguage from '../../components/dashboardLanguage';
@@ -11,16 +16,20 @@ import { getEmployeeList } from '../actionMethods/actionMethods';
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../common/commonDatePicker';
 import { getTranslatedText } from '../../common/utilities';
+import { getLanguageTranslation, setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
 
 function EmployeeList(props) {
 
     const [searchValue, updateSearchValue] = useState('')
+    const [selectedLangValue, updateSelectedLangValue] = useState('en')
     const [employeeList, updateEmployeeList] = useState([])
     const [preDefinedEmployeeList, updatePredefinedEmployeeList] = useState([])
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [isLoading, updateIsLoading] = useState(true)
 
     const [selectedDate, updateSelectedDate] = useState(new Date())
+
+    let history = useHistory();
 
     function handleDateSelect(date) {
         updateSelectedDate(date)
@@ -62,7 +71,7 @@ function EmployeeList(props) {
 
 
     function handleManpowerManagementList() {
-        props.history.push('/manpower-management')
+        history.push('/manpower-management')
     }
 
     function handleSiteLocationSearch(searchText) {
@@ -81,7 +90,7 @@ function EmployeeList(props) {
     }
 
     function handleClickCard(id) {
-        props.history.push(`/manpower-management/employee-list/view/:${id}`)
+        history.push(`/manpower-management/employee-list/view/:${id}`)
     }
 
     function showShiftType(type) {
@@ -136,7 +145,7 @@ function EmployeeList(props) {
                                 <div className="emplStatusDiv">{element.status}</div>
                             </Col>
                             <Col lg={1}>
-                                <div className="arrowDiv m-t-md">
+                                <div className="arrowDiv m-t-md" style={props.hideHeading ? { width: '50%' } : {}}>
                                     <img src={selectedPinkArrowIcon} />
                                 </div>
                             </Col>
@@ -149,51 +158,83 @@ function EmployeeList(props) {
         return arr
     }
 
+    function changeLanguage(lang) {
+        getLanguageTranslation(lang).then(res => {
+            if (res && res.status >= 200 && res.status <= 200) {
+                localStorage.setItem('languageData', JSON.stringify(res.data))
+                localStorage.setItem('selectedLanguage', lang)
+                props.setSelectedLanguage(lang)
+
+            }
+        })
+    }
+
+    useEffect(() => {
+        if (props.language) {
+            updateSelectedLangValue(props.language)
+        }
+    }, [props.language])
 
 
     return (
-        <div className="siteViewMainDiv siteManagementMainDiv">
+        <div className="siteViewMainDiv siteManagementMainDiv" style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
             <Container>
-                <Row>
-                    <Col lg={6}>
-                        <div className="siteViewHeaderDiv">
-                            <span className="smallHeader" onClick={handleManpowerManagementList}>{getTranslatedText('Manpower Management')}</span>
-                            <span className="breadCrumbArrow"> > </span>
-                            <span className="mediumHeader">{getTranslatedText('Employee Listing')}</span>
-                        </div>
-                    </Col>
 
-                    <Col lg={6} className="text-right">
-                        {/* <div className="dashboardLanguageMainDiv">
-                            <DashboardLanguage />
-                        </div> */}
+                {props.hideHeading ? '' :
+                    <Row>
+                        <Col lg={6}>
+                            <div className="siteViewHeaderDiv">
+                                <span className="smallHeader" onClick={handleManpowerManagementList}>{getTranslatedText('Manpower Management')}</span>
+                                <span className="breadCrumbArrow"> > </span>
+                                <span className="mediumHeader">{getTranslatedText('Employee Listing')}</span>
+                            </div>
+                        </Col>
 
-                        <div className="siteHeadingDatePickerDiv" style={{ width: '20%' }}>
-                            <CommonDatePicker
-                                selectedDate={selectedDate}
-                                handleSelectDate={handleDateSelect}
-                            />
-                        </div>
-                    </Col>
-                    
-                </Row>
+                        <Col lg={6} className="text-right">
+                            <div className="commonLangaugeStyleDiv">
+                                <DashboardLanguage
+                                    selectedLangValue={selectedLangValue}
+                                    changeLanguage={changeLanguage}
+                                />
+                            </div>
 
-                <Row className="m-t">
+                            <div className="siteHeadingDatePickerDiv" style={{ width: '20%' }}>
+                                <CommonDatePicker
+                                    selectedDate={selectedDate}
+                                    handleSelectDate={handleDateSelect}
+                                />
+                            </div>
+                        </Col>
+
+                    </Row>}
+
+
+
+
+                <Row className={props.hideHeading ? '' : 'm-t'}>
                     <Col lg={12}>
-                        <div className="siteListMainDiv">
-                            <Row>
-                                <Col lg={8} >
-                                    <h3 className="locationsListing">{getTranslatedText('Employees')} ({employeeList.length})</h3>
-                                </Col>
-                                <Col lg={4}>
-                                    <div className="listingSearchMainDiv">
-                                        <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
-                                    </div>
-                                </Col>
-                            </Row>
+                        <div className={'siteListMainDiv ' + (props.hideHeading ? 'p-l-0 p-r-0' : '')} style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
 
-                            <Row>
-                                <Col lg={12}>
+                            {
+                                props.hideHeading ? '' :
+
+                                    <Row>
+                                        <Col lg={8} >
+                                            <h3 className="locationsListing">{getTranslatedText('Employees')} ({employeeList.length})</h3>
+                                        </Col>
+                                        <Col lg={4}>
+                                            <div className="listingSearchMainDiv">
+                                                <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
+                                            </div>
+                                        </Col>
+                                    </Row>
+
+
+                            }
+
+
+                            < Row >
+                                <Col lg={12} className={props.hideHeading ? 'p-l-0 p-r-0' : ''}>
                                     <div className="listingRecordMainDiv">
 
                                         {
@@ -222,8 +263,12 @@ function EmployeeList(props) {
                 </Row>
 
             </Container>
-        </div>
+        </div >
     )
 }
 
-export default EmployeeList
+const mapStateToProps = (state) => ({
+    language: state.dashboard.selectedLangaugeValue
+})
+
+export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(EmployeeList))

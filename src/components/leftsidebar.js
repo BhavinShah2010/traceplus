@@ -1,5 +1,7 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
+
 import Aside from './aside';
 import { traceplusLogo } from '../common/images';
 import { logoutUser } from '../login/actionMethods/actionMethods';
@@ -42,4 +44,9 @@ function LeftSideBar(props) {
     )
 }
 
-export default withRouter(LeftSideBar)
+const mapStateToProps = (state) => ({
+    language: state.dashboard.selectedLangaugeValue
+})
+
+export default connect(mapStateToProps, { })(withRouter(LeftSideBar))
+

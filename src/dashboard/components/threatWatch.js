@@ -52,9 +52,14 @@ function ThreatWatch(props) {
 
                             <div className="contaminatedDetails">
                                 <div className="titleText font-bold">{getTranslatedText('At Risk')}</div>
+                                <div className="eachRecordDiv m-t">
+                                    <span className="font-bold countDiv">{props.atRiskCount}&nbsp;</span>
+                                    <span className="labelDiv">{getTranslatedText('Employees')}</span>
+                                </div>
+
                                 <div className="eachRecordDiv">
-                                    <div className="font-bold countDiv">{props.atRiskCount}</div>
-                                    <div className="labelDiv">{getTranslatedText('Employees')}</div>
+                                    <span className="font-bold countDiv">{props.orgCount}&nbsp;</span>
+                                    <span className="labelDiv">{getTranslatedText('Locations')}</span>
                                 </div>
 
                             </div>

@@ -16,9 +16,9 @@
             text-align: center;
             border-radius: 16px;
             border: solid 1px #ff6e6e;
-            font-size: 0.875rem;
+            font-size: 0.83rem;
             color: #ff6e6e;
-            margin-top: 1rem !important;
+            margin-top: 0.5rem !important;
         }
 
         .locationsListing {}
@@ -140,10 +140,11 @@
             .recommendListMainDiv {
                 .eachRecommendCardDiv {
                     margin-bottom: 1.25rem;
-                    padding: 1.5rem;
+                    padding: 1rem;
                     border-radius: 0.45rem;
                     background-image: linear-gradient(279deg, #404255, #5c5e74);
                     font-size: 1rem;
+                    
                 }
             }
         }
@@ -268,7 +269,7 @@
 .siteHeadingDatePickerDiv {
     width: 20%;
     display: inline-block;
-    vertical-align: text-bottom;
+    vertical-align: middle;
     padding: 0 1rem;
     padding-left: 0;
 
@@ -296,3 +297,31 @@
         }
     }
 }
+
+.mostInteractedListMainDiv{
+    background: #f5f7fa;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+
+    .dateInnerMainDiv{
+        padding: 0.35rem 0;
+        border-bottom: thin #e3e5eb solid;
+        img{
+            width: 18px;
+            transform: rotate(90deg);
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    .mostInereractedEmpDiv{
+        padding: 0.5rem 0;
+        border-bottom: thin #e3e5eb solid;
+
+        &:last-child{
+            border-bottom: none;
+        }
+    }
+
+}
+
