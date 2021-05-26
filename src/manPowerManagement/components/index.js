@@ -214,7 +214,7 @@ function ManPowerMangementList(props) {
 
                 <Row className="text-right m-t">
                     <Col lg={12}>
-                        <div className="viewAllEmployeesButton" onClick={goToEmployeeList}>{getTranslatedText('View All Employees ')}</div>
+                        <div className="viewAllEmployeesButton" onClick={goToEmployeeList}>{getTranslatedText('View All Employees')}</div>
                     </Col>
                 </Row>
 
@@ -281,9 +281,9 @@ function ManPowerMangementList(props) {
 
                             <Col lg={6}>
                                 <div className="teamsMainDiv" style={{ height: '420px' }}>
-                                    <h4 className="font-bold">{getTranslatedText('Teams ')}</h4>
+                                    <h4 className="font-bold">{getTranslatedText('Teams')}</h4>
                                     <div className="allOrPinnedMainDiv">
-                                        <div className="eachDiv active"> {getTranslatedText('All ')}
+                                        <div className="eachDiv active"> {getTranslatedText('All')}
                                             <div className="m-l-sm badgeBox activeBadge">
                                                 <span>{teamList.length || 0}</span>
                                             </div>
@@ -309,7 +309,7 @@ function ManPowerMangementList(props) {
                 <Row className="m-t">
                     <Col lg={12}>
                         <div className="manpowerManagementEmployeeListMainDiv">
-                            <h5 className="font-bold">Employees</h5>
+                            <h5 className="font-bold">{getTranslatedText('Employees')}</h5>
                             <EmployeeList hideHeading={true} />
                         </div>
                     </Col>
