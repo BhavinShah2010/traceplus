@@ -25,7 +25,7 @@ const Chart = (props) => {
                     '<div style="width: 200px; height: 150px; padding: 5px;" >' +
                         '<div style="margin-bottom: 10px">' +
                             '<span style="font-size: 18px; font-weight: bold">' + detail.risk + '</span>'+
-                            '<span style="float: right; padding: 0px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
+                            '<span style="float: right; padding: 2px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
                         '</div>' +
                         '<div style="padding-top: 2px">' +
                             '<span style="font-size: 14px">Spread</span>' +
