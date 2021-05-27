@@ -232,13 +232,13 @@ function EmployeeDetails(props) {
                 <Col lg={4}>
                     <div className="eachMostVisitedAreaDiv">
                         <div className="iconDiv greenGradientBGColor">
-                        <img src={empIDIcon}/>
+                            <img src={empIDIcon} />
                         </div>
                         <div className="areaNameDiv">
                             <h6 className="font-bold">{element.area}</h6>
                             <div>
-                            <div className="categoryName">{element.area_category}</div>
-                            
+                                <div className="categoryName">{element.area_category}</div>
+
 
                             </div>
                         </div>
@@ -392,7 +392,7 @@ function EmployeeDetails(props) {
                                         <div className="indexMainDiv">
                                             <Row>
                                                 <Col lg={4}>
-                                                    <div className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.pri_level))}>
+                                                    <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.pri_level))}>
                                                         <h6 className="font-bold ">{getTranslatedText('Population risk index')}</h6>
                                                         <br />
                                                         <div className="m-t-lg font-normal">Risk Level</div>
@@ -411,7 +411,7 @@ function EmployeeDetails(props) {
                                                     </div>
                                                 </Col>
                                                 <Col lg={4} >
-                                                    <div className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.sri_level))}>
+                                                    <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.sri_level))}>
                                                         <h6 className="font-bold ">Spread  Index</h6>
                                                         <br />
                                                         <div className="m-t-lg font-normal">Risk Level</div>
@@ -430,7 +430,7 @@ function EmployeeDetails(props) {
                                                     </div>
                                                 </Col>
                                                 <Col lg={4}>
-                                                    <div className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.mri_level))}>
+                                                    <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.mri_level))}>
                                                         <h6 className="font-bold ">Mobility Index</h6>
                                                         <br />
                                                         <div className="m-t-lg font-normal">Risk Level</div>
@@ -491,22 +491,24 @@ function EmployeeDetails(props) {
                                             </div>
                                         </div>
 
-                                        <div className="mostInteractedMainDiv m-t-md">
-                                            <Row >
-                                                <Col lg={4}>
-                                                    <h5 className="font-bold">Most Visited Areas :</h5>
-                                                </Col>
-                                            </Row>
-                                            {
-                                                employeeDetails.most_visited && employeeDetails.most_visited.length > 0 ?
+                                        {
+                                            employeeDetails.most_visited && employeeDetails.most_visited.length > 0 ?
+
+                                                <div className="mostInteractedMainDiv m-t-md">
+                                                    <Row >
+                                                        <Col lg={4}>
+                                                            <h5 className="font-bold">Most Visited Areas :</h5>
+                                                        </Col>
+                                                    </Row>
 
                                                     <Row className="m-t">
                                                         {showMostVisitedAreas(employeeDetails.most_visited)}
-                                                    </Row> : ''
-                                            }
-                                            <Row></Row>
+                                                    </Row>
 
-                                        </div>
+
+                                                </div> : ''
+                                        }
+
 
 
                                     </Col>

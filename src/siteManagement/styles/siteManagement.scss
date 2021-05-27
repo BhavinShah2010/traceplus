@@ -325,3 +325,31 @@
 
 }
 
+
+.empTeamTabMainDiv{
+    .eachTab{
+        display: inline-block;
+        vertical-align: middle;
+        width: 110px;
+        text-align: center;
+        padding: 0.25rem 0.5rem;
+        border: thin #ea5d8b solid;
+        cursor: pointer;
+
+        &:first-child{
+            border-top-left-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+            border-right: none;
+        }
+
+        &:nth-child(2){
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+        }
+    }
+
+    .activeTabBG{
+        background: #ea5d8b;
+        color: #FFFFFF !important;
+    }
+}

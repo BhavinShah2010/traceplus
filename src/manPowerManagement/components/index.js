@@ -219,7 +219,7 @@ function ManPowerMangementList(props) {
                 </Row>
 
                 <Row className="m-t-lg">
-                    <Col lg={4}>
+                    <Col lg={5}>
                         <div className="populationRiskMainDiv" style={{ height: '420px' }}>
                             <div className="font-bold text-white titleText">{getTranslatedText('Overall')} <br /> {getTranslatedText('Population risk index')}</div>
 
@@ -255,9 +255,9 @@ function ManPowerMangementList(props) {
                         </div>
                     </Col>
 
-                    <Col lg={8}>
+                    <Col lg={7}>
                         <Row>
-                            <Col lg={6}>
+                            <Col lg={12}>
                                 <div className="attendanceTrendMainDiv" style={{ height: '420px' }}>
                                     <h5 className="font-bold ">{getTranslatedText('Attendance Trends')}</h5>
                                     <div className="dateText">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
@@ -279,7 +279,7 @@ function ManPowerMangementList(props) {
                                 </div>
                             </Col>
 
-                            <Col lg={6}>
+                            <Col lg={6} style={{display:'none'}}>
                                 <div className="teamsMainDiv" style={{ height: '420px' }}>
                                     <h4 className="font-bold">{getTranslatedText('Teams')}</h4>
                                     <div className="allOrPinnedMainDiv">
@@ -303,6 +303,15 @@ function ManPowerMangementList(props) {
                         </Row>
 
 
+                    </Col>
+                </Row>
+
+                  <Row className="m-t-md">
+                    <Col lg={12}>
+                        <div className="empTeamTabMainDiv">
+                            <div className="eachTab activeTabBG">{getTranslatedText('Employees')}</div>
+                            <div className="eachTab">{getTranslatedText('Teams')}</div>
+                        </div>
                     </Col>
                 </Row>
 
