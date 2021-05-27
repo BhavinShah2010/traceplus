@@ -1,7 +1,13 @@
 import React from 'react'
 import moment from 'moment';
+import ReactHighcharts from 'react-highcharts'
+import HighchartsExporting from 'highcharts-exporting'
 
-const ReactHighcharts = require('react-highcharts');
+import rightIcon from '../styles/images/right-arrow.svg'
+import LeftIcon from '../styles/images/left-arrow.svg'
+
+HighchartsExporting(ReactHighcharts.Highcharts)
+
 
 const riskLevelColor = {
     "low": '#04e06e',
@@ -23,90 +29,122 @@ const Chart = (props) => {
             case 'Population':
                 return (
                     '<div style="width: 200px; height: 175px; padding: 10px;" >' +
-                        '<div style="margin-bottom: 10px">' +
-                            '<span style="font-size: 18px; font-weight: bold">' + detail.risk + '</span>'+
-                            '<span style="float: right; padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
-                        '</div>' +
-                        '<div style="padding-top: 8px">' +
-                            '<span style="font-size: 14px">Spread</span>' +
-                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.spread + '</span>' +
-                        '</div>' +
-                        '<div style="padding-top: 8px">' +
-                            '<span style="font-size: 14px">Mobility</span>' +
-                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.mobility + '</span>' +
-                        '</div>' +
-                        '<div style="padding-top: 8px">' +
-                            '<span style="font-size: 14px">Area</span>' +
-                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.area + '</span>' +
-                        '</div>' +
-                        '<div style="padding-top: 8px">' +
-                            '<span style="font-size: 14px">Time</span>' +
-                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
-                        '</div>' +
+                    '<div style="margin-bottom: 10px">' +
+                    '<span style="font-size: 18px; font-weight: bold">' + detail.risk + '</span>' +
+                    '<span style="float: right; padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
+                    '</div>' +
+                    '<div style="padding-top: 8px">' +
+                    '<span style="font-size: 14px">Spread</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.spread + '</span>' +
+                    '</div>' +
+                    '<div style="padding-top: 8px">' +
+                    '<span style="font-size: 14px">Mobility</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.mobility + '</span>' +
+                    '</div>' +
+                    '<div style="padding-top: 8px">' +
+                    '<span style="font-size: 14px">Area</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.area + '</span>' +
+                    '</div>' +
+                    '<div style="padding-top: 8px">' +
+                    '<span style="font-size: 14px">Time</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
+                    '</div>' +
                     '</div>'
                 )
             case 'Spread':
                 return (
                     '<div style="width: 200px; height: 110px; padding: 10px; margin-top: 10px" >' +
-                        '<div style="margin-bottom: 15px; text-align: center">' +
-                            '<span style="padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
-                        '</div>' +
-                        '<div style="padding-top: 8px">' +
-                            '<span style="font-size: 14px">Spread</span>' +
-                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.spread + '</span>' +
-                        '</div>' +
-                        '<div style="padding-top: 8px">' +
-                            '<span style="font-size: 14px">Time</span>' +
-                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
-                        '</div>' +
+                    '<div style="margin-bottom: 15px; text-align: center">' +
+                    '<span style="padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
+                    '</div>' +
+                    '<div style="padding-top: 8px">' +
+                    '<span style="font-size: 14px">Spread</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.spread + '</span>' +
+                    '</div>' +
+                    '<div style="padding-top: 8px">' +
+                    '<span style="font-size: 14px">Time</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
+                    '</div>' +
                     '</div>'
                 )
             case 'Mobility':
                 return (
                     '<div style="width: 200px; height: 110px; padding: 10px; margin-top: 10px" >' +
-                        '<div style="margin-bottom: 15px; text-align: center">' +
-                            '<span style="padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
-                        '</div>' +
-                        '<div style="padding-top: 8px">' +
-                            '<span style="font-size: 14px">Mobility</span>' +
-                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.mobility + '</span>' +
-                        '</div>' +
-                        '<div style="padding-top: 8px">' +
-                            '<span style="font-size: 14px">Time</span>' +
-                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
-                        '</div>' +
+                    '<div style="margin-bottom: 15px; text-align: center">' +
+                    '<span style="padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
+                    '</div>' +
+                    '<div style="padding-top: 8px">' +
+                    '<span style="font-size: 14px">Mobility</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.mobility + '</span>' +
+                    '</div>' +
+                    '<div style="padding-top: 8px">' +
+                    '<span style="font-size: 14px">Time</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
+                    '</div>' +
                     '</div>'
                 )
             case "Area":
                 return (
                     '<div style="width: 200px; height: 110px; padding: 10px; margin-top: 10px" >' +
-                        '<div style="margin-bottom: 15px; text-align: center">' +
-                            '<span style="padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
-                        '</div>' +
-                        '<div style="padding-top: 8px">' +
-                            '<span style="font-size: 14px">Area</span>' +
-                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.area + '</span>' +
-                        '</div>' +
-                        '<div style="padding-top: 8px">' +
-                            '<span style="font-size: 14px">Time</span>' +
-                            '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
-                        '</div>' +
+                    '<div style="margin-bottom: 15px; text-align: center">' +
+                    '<span style="padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
+                    '</div>' +
+                    '<div style="padding-top: 8px">' +
+                    '<span style="font-size: 14px">Area</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.area + '</span>' +
+                    '</div>' +
+                    '<div style="padding-top: 8px">' +
+                    '<span style="font-size: 14px">Time</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + date + '</span>' +
+                    '</div>' +
                     '</div>'
                 )
-            default: 
+            default:
                 break
         }
     }
+
+    let dataLength = props.chartData?.series?.length || 0
+    let maxLimit = dataLength > 75 ? Number.parseInt(dataLength / 75) : 1
 
     let config = {
         chart: {
             type: 'area',
             height: 500,
             zoomType: 'xy',
-            scrollablePlotArea: {
-                minWidth: 2500,
-                scrollPositionX: 1,
-                opacity: 0
+            events: {
+                load: function () {
+
+                    if (maxLimit > 1) {
+                        const chart = this
+    
+                        const moveLeft = () => {
+                            let { min, max, dataMin } = chart.xAxis[0].getExtremes()
+                            let move = Number.parseInt(dataLength / maxLimit)
+                            if (min - move >= dataMin) {
+                                min -= move
+                                max -= move
+                            }
+                            chart.xAxis[0].setExtremes(min, max)
+                        }
+                        const moveRight = () => {
+                            let { min, max, dataMax } = chart.xAxis[0].getExtremes()
+                            let move = Number.parseInt(dataLength / maxLimit)
+                            if (max + move - 1 <= dataMax) {
+                                min += move
+                                max += (move - 1)
+                            }
+                            chart.xAxis[0].setExtremes(min, max)
+                        }
+    
+                        const leftArrowUrl = LeftIcon
+                        const rightArrowUrl = rightIcon
+                        const leftArrow = chart.renderer.image(leftArrowUrl, 50, 200, 30, 30).attr({ zIndex: 10 })
+                        const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 200, 30, 30).attr({ zIndex: 10 })
+                        leftArrow.on('click', moveLeft).add()
+                        rightArrow.on('click', moveRight).add()
+                    }
+                }
             }
         },
         exporting: {
@@ -119,7 +157,8 @@ const Chart = (props) => {
             categories: props.chartData?.categories || [],
             gridLineWidth: 1,
             gridLineDashStyle: 'ShortDash',
-            tickInterval: 25
+            tickInterval: Number.parseInt(dataLength / (maxLimit * 10)),
+            max: maxLimit > 1 ? Number.parseInt(dataLength / maxLimit) : (dataLength - 1)
         },
         credits: {
             enabled: false
@@ -130,9 +169,9 @@ const Chart = (props) => {
             },
             gridLineDashStyle: 'ShortDash',
             gridLineWidth: 1,
-            // labels: {
-            //     enabled: false
-            // },
+            labels: {
+                enabled: false
+            },
             plotLines: [
                 {
                     color: riskLevelColor.high,
@@ -158,7 +197,6 @@ const Chart = (props) => {
             formatter: function () {
                 return getHtml(this, props.chartType)
             },
-            outside: true,
             useHTML: true,
             borderColor: '#FFFFFF',
             backgroundColor: '#FFFFFF',
