@@ -141,7 +141,7 @@ function EmployeeList(props) {
                             </Col>
 
                             <Col lg={2} className="b-r">
-                                <div className="priSriMriText">{getTranslatedText('Status ')}</div>
+                                <div className="priSriMriText">{getTranslatedText('Status')}</div>
                                 <div className="emplStatusDiv">{element.status}</div>
                             </Col>
                             <Col lg={1}>

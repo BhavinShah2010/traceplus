@@ -14,8 +14,8 @@ class DashboardChart extends React.Component {
             <div>
                 <Select defaultValue="Day" >
                     <Option value="Day">Day View</Option>
-                    <Option value="Week">Week View</Option>
-                    <Option value="Hour">Hour View</Option>
+                    {/* <Option value="Week">Week View</Option>
+                    <Option value="Hour">Hour View</Option> */}
                 </Select>
                 <Row>
                     <Col lg={12}>

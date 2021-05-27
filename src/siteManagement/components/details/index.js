@@ -275,7 +275,7 @@ function SiteViewDetails(props) {
                                                 <h2 className="areaIndexValue font-bold commonBlackColor">
                                                     {footFallValue}
                                                 </h2>
-                                                <div className="riskLevelText commonBlackColor">No. of Employees</div>
+                                                <div className="riskLevelText commonBlackColor">{getTranslatedText('NO.')}. of {getTranslatedText('Employees')}</div>
                                             </div>
                                         </div>
                                     </Col>
