@@ -31,7 +31,7 @@ const BarChart = (props) => {
             gridLineWidth: 1
         },
         series: [{
-            name: 'Area Index',
+            name: 'Footfall',
             showInLegend: false,
             data: props.chartData.series,
             colorByPoint: true

@@ -9,7 +9,7 @@ import { withRouter } from "react-router-dom";
 import Barchart from './barChart'
 import '../../styles/siteManagement.scss'
 import DashboardLanguage from '../../../components/dashboardLanguage';
-import { getSiteOverview, getSiteFootFall, getSiteAreaIndex, areaIndexChart } from '../../actionMethods/actionMethods';
+import { getSiteOverview, getSiteFootFall, getSiteAreaIndex, footfallChart } from '../../actionMethods/actionMethods';
 
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
@@ -82,16 +82,17 @@ function SiteViewDetails(props) {
         setChartData({ categories: [], series: [] })
 
         let date = getDateFormat(selectedDate)
-        areaIndexChart({ date, locationID: idVal }).then((res) => {
-            let data = res.data
-            let categories = []
+        footfallChart({ date, locationID: idVal }).then((res) => {
+            let data = res.hourly_footfall
+            let categories = [
+                '12 AM', '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM', '11AM',
+                '12 PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM'
+            ]
             let series = []
 
             if (data && Array.isArray(data)) {
                 data.forEach((i) => {
-                    let d = moment(i.location_ai_date).format('LT')
-                    categories.push(d)
-                    series.push(i.location_area_index)
+                    series.push(i[0])
                 })
 
                 setChartData({ categories, series })
