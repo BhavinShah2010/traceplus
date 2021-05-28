@@ -35,9 +35,9 @@ export function getSiteAreaIndex(requestBody) {
         .then(res => res.data).catch(err => err)
 }
 
-export const areaIndexChart = async (requestBody) => {
+export const footfallChart = async (requestBody) => {
     try {
-        const res = await axios.get(`${prefixURL}/get_site_area_index?session=${userSession}&org_id=${org_id}&date=${requestBody.date}&location_id=${requestBody.locationID}`);
+        const res = await axios.get(`${prefixURL}/get_site_footfall?session=${userSession}&org_id=${org_id}&date=${requestBody.date}&location_id=${requestBody.locationID}`);
         return res.data;
     } catch (err) {
         return err;
