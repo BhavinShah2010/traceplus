@@ -30,9 +30,13 @@ function ManPowerMangementList(props) {
     const [selectedLangValue, updateSelectedLangValue] = useState('en')
     const [numAttended, updateNumberAttended] = useState(0)
 
+    const [searchValue, updateSearchValue] = useState('')
     const [teamList, updateTeamList] = useState([])
+    const [preDefinedTeamList, updatedPredefinedTeamList] = useState([])
 
     const [PriData, updatePRIData] = useState('')
+
+    const [selectedTab, updatedSelectedTab] = useState('employees')
 
     function goToEmployeeList() {
         props.history.push('/manpower-management/employee-list')
@@ -96,8 +100,9 @@ function ManPowerMangementList(props) {
         getDepartmentList(requestBody).then(res => {
             if (res && res.status >= 200 && res.status <= 299) {
                 updateTeamList(res.data)
+                updatedPredefinedTeamList(res.data)
             }
-            console.log("Response : ", res)
+
         })
     }
 
@@ -182,11 +187,30 @@ function ManPowerMangementList(props) {
         })
     }
 
-    useEffect (() =>{
-        if(props.language){
+    useEffect(() => {
+        if (props.language) {
             updateSelectedLangValue(props.language)
         }
     }, [props.language])
+
+    function handleTabViewChange(key) {
+        updatedSelectedTab(key)
+    }
+
+    function handleTeamSearch(searchText) {
+
+        let invalid = /[°"§%()[\]{}=\\?´`'#<>|,;.:+_-]+/g;
+        let value = searchText.replace(invalid, "")
+        let teamList = preDefinedTeamList.filter(function (teamList) {
+            return (teamList.dep_name.toLowerCase().search(value.toLowerCase()) !== -1)
+
+        })
+
+        updateTeamList(teamList)
+
+
+        updateSearchValue(searchText)
+    }
 
     return (
         <div className="manpowerManagementMainDiv">
@@ -219,7 +243,7 @@ function ManPowerMangementList(props) {
                 </Row>
 
                 <Row className="m-t-lg">
-                    <Col lg={4}>
+                    <Col lg={5}>
                         <div className="populationRiskMainDiv" style={{ height: '420px' }}>
                             <div className="font-bold text-white titleText">{getTranslatedText('Overall')} <br /> {getTranslatedText('Population risk index')}</div>
 
@@ -255,9 +279,9 @@ function ManPowerMangementList(props) {
                         </div>
                     </Col>
 
-                    <Col lg={8}>
+                    <Col lg={7}>
                         <Row>
-                            <Col lg={6}>
+                            <Col lg={12}>
                                 <div className="attendanceTrendMainDiv" style={{ height: '420px' }}>
                                     <h5 className="font-bold ">{getTranslatedText('Attendance Trends')}</h5>
                                     <div className="dateText">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
@@ -279,10 +303,46 @@ function ManPowerMangementList(props) {
                                 </div>
                             </Col>
 
-                            <Col lg={6}>
+                        </Row>
+
+
+                    </Col>
+                </Row>
+
+                <Row className="m-t-md">
+                    <Col lg={12}>
+                        <div className="empTeamTabMainDiv">
+                            <div className={'eachTab ' + (selectedTab == 'employees' ? 'activeTabBG' : '')} onClick={() => handleTabViewChange('employees')}>{getTranslatedText('Employees')}</div>
+                            <div className={'eachTab ' + (selectedTab == 'teams' ? 'activeTabBG' : '')} onClick={() => handleTabViewChange('teams')}>{getTranslatedText('Teams')}</div>
+                        </div>
+                    </Col>
+                </Row>
+
+
+                <Row className="m-t">
+                    <Col lg={12}>
+                        {
+                            selectedTab == 'employees' ?
+                                <div className="manpowerManagementEmployeeListMainDiv">
+
+                                    <EmployeeList hideHeading={true} />
+                                </div>
+
+                                :
+
                                 <div className="teamsMainDiv" style={{ height: '420px' }}>
-                                    <h4 className="font-bold">{getTranslatedText('Teams')}</h4>
-                                    <div className="allOrPinnedMainDiv">
+
+                                    <Row>
+                                        <Col lg={8} >
+                                            <h3 className="locationsListing">{getTranslatedText('Teams')} ({teamList.length})</h3>
+                                        </Col>
+                                        <Col lg={4}>
+                                            <div className="listingSearchMainDiv">
+                                                <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleTeamSearch(event.target.value)} />
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <div className="allOrPinnedMainDiv m-t">
                                         <div className="eachDiv active"> {getTranslatedText('All')}
                                             <div className="m-l-sm badgeBox activeBadge">
                                                 <span>{teamList.length || 0}</span>
@@ -299,20 +359,7 @@ function ManPowerMangementList(props) {
 
                                     </Row>
                                 </div>
-                            </Col>
-                        </Row>
-
-
-                    </Col>
-                </Row>
-
-
-                <Row className="m-t">
-                    <Col lg={12}>
-                        <div className="manpowerManagementEmployeeListMainDiv">
-                            <h5 className="font-bold">{getTranslatedText('Employees')}</h5>
-                            <EmployeeList hideHeading={true} />
-                        </div>
+                        }
                     </Col>
                 </Row>
 
