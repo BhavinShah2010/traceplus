@@ -22,8 +22,6 @@ export function getSiteOverview(requestBody) {
 }
 
 export function getSiteFootFall(requestBody) {
-    
-
     return axios.get(prefixURL + `/get_site_footfall?session=${userSession}&org_id=${org_id}&date=${requestBody.date}&location_id=${requestBody.locationID}`)
         .then(res => res.data).catch(err => err)
 }
