@@ -210,28 +210,27 @@ function EmployeeList(props) {
 
 
 
-              
+
 
                 <Row className={props.hideHeading ? '' : 'm-t'}>
                     <Col lg={12}>
                         <div className={'siteListMainDiv ' + (props.hideHeading ? 'p-l-0 p-r-0' : '')} style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
 
-                            {
-                                props.hideHeading ? '' :
-
-                                    <Row>
-                                        <Col lg={8} >
-                                            <h3 className="locationsListing">{getTranslatedText('Employees')} ({employeeList.length})</h3>
-                                        </Col>
-                                        <Col lg={4}>
-                                            <div className="listingSearchMainDiv">
-                                                <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
-                                            </div>
-                                        </Col>
-                                    </Row>
 
 
-                            }
+
+                            <Row>
+                                <Col lg={8} className={props.hideHeading ? 'p-l-0' : ''}>
+                                    <h3 className="locationsListing">{getTranslatedText('Employees')} ({employeeList.length})</h3>
+                                </Col>
+                                <Col lg={4} className={props.hideHeading ? 'p-r-0' : ''}>
+                                    <div className="listingSearchMainDiv">
+                                        <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
+                                    </div>
+                                </Col>
+                            </Row>
+
+
 
 
                             < Row >
