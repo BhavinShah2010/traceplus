@@ -46,7 +46,7 @@ function Dashboard(props) {
 
         useState([
             {
-                title: 'Personal risk index',
+                title: 'Population risk index',
                 isSelected: true
             }, {
                 title: 'Spread Index',

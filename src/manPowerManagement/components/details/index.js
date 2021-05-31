@@ -393,7 +393,7 @@ function EmployeeDetails(props) {
                                             <Row>
                                                 <Col lg={4}>
                                                     <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.pri_level))}>
-                                                        <h6 className="font-bold ">{getTranslatedText('Population risk index')}</h6>
+                                                        <h6 className="font-bold ">{getTranslatedText('Personal risk index')}</h6>
                                                         <br />
                                                         <div className="m-t-lg font-normal">Risk Level</div>
 
@@ -484,7 +484,7 @@ function EmployeeDetails(props) {
                                                         </div>
                                                     </Col>
                                                     <Col lg={8}>
-                                                        <AreaChart chartData={chartData} yAxisTitle={'Population Risk Index'} />
+                                                        <AreaChart chartData={chartData} yAxisTitle={'Personal Risk Index'} />
                                                     </Col>
                                                 </Row>
 

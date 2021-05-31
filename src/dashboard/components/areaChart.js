@@ -17,6 +17,7 @@ const riskLevelColor = {
 
 const Chart = (props) => {
 
+
     const getDateFormat = (date) => {
         return moment(date).format('MMM DD HH:MM')
     }
