@@ -106,15 +106,15 @@ function Dashboard(props) {
     }, [indexTitle])
 
 
-    const setChartDetail = () => {
+    const setChartDetail = (startDateValue = null , endDateValue = null) => {
         setChartData({ categories: [], series: [], chartData: [] })
 
-        let date = getDateFormat(selectedDate)
+        console.log("SDF" , startDateValue, endDateValue)
 
         let obj = {
             index: titles[indexTitle].toLowerCase(),
-            start: '2021-04-20',
-            end: date
+            start: startDateValue,
+            end: endDateValue
         }
 
         getChartData(obj).then((res) => {
@@ -262,13 +262,13 @@ function Dashboard(props) {
     function handleSelectStartDate(date) {
         updateStartDateValue(date)
 
-
         let requestBody = {}
-        requestBody.date = getDateFormat(selectedDate)
+        requestBody.date = getDateFormat(date)
         requestBody.contactRank = contactRankValue
 
         setTimeout(() => {
             getThreatWatchDataValues(requestBody)
+            setChartDetail(requestBody.date, getDateFormat(endDateValue))
         }, 100);
 
     }
@@ -282,11 +282,12 @@ function Dashboard(props) {
         let days = startDate.diff(endDate, 'days')
 
         let requestBody = {}
-        requestBody.date = getDateFormat(selectedDate)
+        requestBody.date = getDateFormat(date)
         requestBody.contactRank = contactRankValue
 
         setTimeout(() => {
             getThreatWatchDataValues(requestBody)
+            setChartDetail( getDateFormat(startDateValue), requestBody.date)
         }, 100);
 
     }
@@ -330,7 +331,7 @@ function Dashboard(props) {
                         <div className="dashboardPeopleAndDateMainDiv">
                             <div className="dashboardPeopleAndEmployeeMainDiv">
                                 <Row>
-                                    <Col lg={6}>
+                                    <Col lg={7}>
                                         <div className="peopleOnPremisesInnerDiv">
                                             <img src={peopleOnPremisesIcon} />
                                             <span>{getTranslatedText('People on premises')}</span>

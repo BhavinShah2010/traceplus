@@ -213,7 +213,7 @@ $font-bold: 600;
 
 
 .commonBlackColor{
-    color: #383a4b
+    color: #4d4f5f;
 }
 
 .cursor-pointer{
@@ -232,4 +232,8 @@ $font-bold: 600;
 
 .greenGradientBGColor{
     background: linear-gradient(181deg, #04e06e, #a5e006)
+}
+
+.displayNone{
+    display: none !important;
 }
