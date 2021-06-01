@@ -301,9 +301,18 @@ function SiteViewDetails(props) {
                                     </Col>
                                 </Row>
                             </div>
+                            
 
                             <div className="white-bg m-t wrapper areaIndexChartMainDiv">
-                                <Barchart chartData={chartData} />
+                                <Row>
+                                    <Col lg={3}>
+                                        <h6 className="font-bold">Peak Hours</h6>
+                                    </Col>
+                                    <Col lg={9}>
+                                    <Barchart chartData={chartData} />
+                                    </Col>
+                                </Row>
+                                
                             </div>
                         </Col>
                     </Row>
