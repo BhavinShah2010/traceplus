@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
 import { Container, Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
 
 import { Switch } from 'antd';
 
@@ -19,8 +21,10 @@ import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
 import { getTranslatedText } from '../../../common/utilities';
 import AreaChart from '../areaChart'
+import { getLanguageTranslation, setSelectedLanguage } from '../../../dashboard/actionMethods/actionMethods';
 
 import downArrowFill from '../../../assets/images/down-arrowFill.png'
+import DashboardLanguage from '../../../components/dashboardLanguage';
 
 
 function EmployeeDetails(props) {
@@ -28,7 +32,7 @@ function EmployeeDetails(props) {
     const [employeeDetails, updateEmployeeDetails] = useState('')
     const [employeeID, updateEmployeeID] = useState('')
 
-
+    const [selectedLangValue, updateSelectedLangValue] = useState('en')
     const [infectedFlag, updateInfectedFlag] = useState(false)
 
     const [employeeIndexData, updateEmployeeIndexData] = useState('')
@@ -69,6 +73,24 @@ function EmployeeDetails(props) {
         }
 
     }, []);
+
+    useEffect(() => {
+        if (props.language) {
+            updateSelectedLangValue(props.language)
+        }
+    }, [props.language])
+
+    function changeLanguage(lang) {
+        getLanguageTranslation(lang).then(res => {
+            if (res && res.status >= 200 && res.status <= 200) {
+                localStorage.setItem('languageData', JSON.stringify(res.data))
+                localStorage.setItem('selectedLanguage', lang)
+                props.setSelectedLanguage(lang)
+
+            }
+        })
+    }
+
 
     function handleTestedPositiveDateSelect(date) {
         updateTestedPositiveDate(date)
@@ -270,6 +292,12 @@ function EmployeeDetails(props) {
                             </Col>
 
                             <Col lg={4} className="text-right">
+                            <div className="commonLangaugeStyleDiv m-r">
+                                <DashboardLanguage
+                                    selectedLangValue={selectedLangValue}
+                                    changeLanguage={changeLanguage}
+                                />
+                            </div>
                                 <div className="siteHeadingDatePickerDiv" style={{ width: '30%' }}>
                                     <CommonDatePicker
                                         selectedDate={selectedDate}
@@ -393,9 +421,9 @@ function EmployeeDetails(props) {
                                             <Row>
                                                 <Col lg={4}>
                                                     <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.pri_level))}>
-                                                        <h6 className="font-bold ">{getTranslatedText('Population risk index')}</h6>
+                                                        <h6 className="font-bold ">{getTranslatedText('Personal risk index')}</h6>
                                                         <br />
-                                                        <div className="m-t-lg font-normal">Risk Level</div>
+                                                        <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
                                                             <Col lg={5}>
@@ -414,7 +442,7 @@ function EmployeeDetails(props) {
                                                     <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.sri_level))}>
                                                         <h6 className="font-bold ">Spread  Index</h6>
                                                         <br />
-                                                        <div className="m-t-lg font-normal">Risk Level</div>
+                                                        <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
                                                             <Col lg={5} >
@@ -433,7 +461,7 @@ function EmployeeDetails(props) {
                                                     <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.mri_level))}>
                                                         <h6 className="font-bold ">Mobility Index</h6>
                                                         <br />
-                                                        <div className="m-t-lg font-normal">Risk Level</div>
+                                                        <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
                                                             <Col lg={5}>
@@ -484,7 +512,7 @@ function EmployeeDetails(props) {
                                                         </div>
                                                     </Col>
                                                     <Col lg={8}>
-                                                        <AreaChart chartData={chartData} yAxisTitle={'Population Risk Index'} />
+                                                        <AreaChart chartData={chartData} yAxisTitle={'Personal Risk Index'} />
                                                     </Col>
                                                 </Row>
 
@@ -531,4 +559,11 @@ function EmployeeDetails(props) {
 
 }
 
-export default EmployeeDetails
+
+const mapStateToProps = (state) => ({
+    language: state.dashboard.selectedLangaugeValue
+})
+
+export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(EmployeeDetails))
+
+

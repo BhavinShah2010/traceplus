@@ -85,8 +85,8 @@ function SiteViewDetails(props) {
         footfallChart({ date, locationID: idVal }).then((res) => {
             let data = res.hourly_footfall
             let categories = [
-                '12 AM', '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM', '11AM',
-                '12 PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM'
+                '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM', '11AM',
+                '12 PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM' , '12: AM'
             ]
             let series = []
 
@@ -246,17 +246,17 @@ function SiteViewDetails(props) {
                             <div className="siteViewRightSideDiv">
                                 <Row>
                                     <Col lg={4}>
-                                        <div className="areaIndexMainDiv">
+                                        <div className="areaIndexMainDiv" style={{height:'250px'}}>
                                             <h4 className="font-bold">{getTranslatedText('Area Index')}</h4>
-                                            <div className="m-t-lg">
+                                            <div className="m-t">
                                                 <h4 className="areaIndexValue font-bold">1.9</h4>
                                                 <div className="areaIndexRiskPercentageDiv font-normal">
                                                     10%
                                                     </div>
                                             </div>
 
-                                            <div className="m-t-7rem">
-                                                <h3 className="areaIndexValue font-bold">
+                                            <div className="m-t-lg">
+                                                <h3 className="areaIndexValue font-bold m-t">
                                                     {getTranslatedText('Low')}
                                                 </h3><br />
                                                 <div className="riskLevelText">{getTranslatedText('Risk Level')}</div>
@@ -265,18 +265,18 @@ function SiteViewDetails(props) {
                                         </div>
                                     </Col>
                                     <Col lg={8}>
-                                        <div className="footfallMainDiv">
+                                        <div className="footfallMainDiv" style={{height:'250px'}}>
                                             <h4 className="font-bold">{getTranslatedText('Footfall')}</h4>
                                             <div className="dayWeekButtonMainDiv">
                                                 <button type="button" onClick={() => handleChangeFootFallType('day')} className={'buttonDiv ' + (selectedFootfallType == 'day' ? 'activeFootfall' : '')}
                                                 >Day</button>
                                                 <button type="button" onClick={() => handleChangeFootFallType('week')} className={'buttonDiv ' + (selectedFootfallType == 'week' ? 'activeFootfall' : '')}>Week</button>
                                             </div>
-                                            <div className="m-t-7rem">
-                                                <h2 className="areaIndexValue font-bold commonBlackColor">
+                                            <div style={{marginTop:'3rem'}}>
+                                                <h2 className="areaIndexValue font-bold commonBlackColor" style={{marginBottom:'0.15rem'}}>
                                                     {footFallValue}
                                                 </h2>
-                                                <div className="riskLevelText commonBlackColor">{getTranslatedText('NO.')}. of {getTranslatedText('Employees')}</div>
+                                                <div className="riskLevelText commonBlackColor">{getTranslatedText('NO.')} of {getTranslatedText('Employees')}</div>
                                             </div>
                                         </div>
                                     </Col>

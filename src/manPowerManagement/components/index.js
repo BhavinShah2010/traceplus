@@ -195,6 +195,7 @@ function ManPowerMangementList(props) {
 
     function handleTabViewChange(key) {
         updatedSelectedTab(key)
+        updateSearchValue('')
     }
 
     function handleTeamSearch(searchText) {
@@ -342,7 +343,7 @@ function ManPowerMangementList(props) {
                                             </div>
                                         </Col>
                                     </Row>
-                                    <div className="allOrPinnedMainDiv m-t">
+                                    <div className="allOrPinnedMainDiv m-t displayNone">
                                         <div className="eachDiv active"> {getTranslatedText('All')}
                                             <div className="m-l-sm badgeBox activeBadge">
                                                 <span>{teamList.length || 0}</span>
@@ -355,6 +356,16 @@ function ManPowerMangementList(props) {
                                             teamList && teamList.length > 0 ?
 
                                                 showTeamList(teamList) : ''
+                                        }
+
+                                        {
+                                            searchValue && teamList.length == 0 ?
+
+                                                <Col lg={12}>
+                                                    <h3 className="text-center m-t-lg">No Teams Found !</h3>
+                                                </Col> : ''
+
+
                                         }
 
                                     </Row>
