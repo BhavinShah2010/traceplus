@@ -158,7 +158,7 @@ const Chart = (props) => {
             categories: props.chartData?.categories || [],
             gridLineWidth: 1,
             gridLineDashStyle: 'ShortDash',
-            tickInterval: Number.parseInt(dataLength / (maxLimit * 10)),
+            tickInterval: Number.parseInt(dataLength / (maxLimit * 9)),
             max: maxLimit > 1 ? Number.parseInt(dataLength / maxLimit) : (dataLength - 1)
         },
         credits: {
@@ -173,23 +173,25 @@ const Chart = (props) => {
             labels: {
                 enabled: false
             },
+            min: 0,
+            max: 100,
             plotLines: [
                 {
                     color: riskLevelColor.high,
                     width: 2,
-                    value: 5,
+                    value: 100,
                     dashStyle: 'LongDash'
                 },
                 {
                     color: riskLevelColor.medium,
                     width: 2,
-                    value: 3,
+                    value: 66,
                     dashStyle: 'LongDash'
                 },
                 {
                     color: riskLevelColor.low,
                     width: 2,
-                    value: 1,
+                    value: 33,
                     dashStyle: 'LongDash'
                 }
             ]

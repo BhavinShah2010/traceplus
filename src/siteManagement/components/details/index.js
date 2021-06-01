@@ -16,6 +16,12 @@ import CommonDatePicker from '../../../common/commonDatePicker';
 import { getTranslatedText } from '../../../common/utilities';
 import { getLanguageTranslation, setSelectedLanguage } from '../../../dashboard/actionMethods/actionMethods';
 
+const riskLevelColor = {
+    "low": '#04e06e',
+    "medium": "#ffa500",
+    "high": "#ef5e8c"
+}
+
 function SiteViewDetails(props) {
 
 
@@ -78,6 +84,16 @@ function SiteViewDetails(props) {
         getChartData(idVal)
     }, [selectedDate])
 
+    const getBarColor = (val) => {
+        if (val < 33) {
+            return riskLevelColor.low
+        } else if (val < 66) {
+            return riskLevelColor.medium
+        } else {
+            return riskLevelColor.high
+        }
+    }
+
     const getChartData = (idVal) => {
         setChartData({ categories: [], series: [] })
 
@@ -92,7 +108,10 @@ function SiteViewDetails(props) {
 
             if (data && Array.isArray(data)) {
                 data.forEach((i) => {
-                    series.push(i[0])
+                    series.push({
+                        y: i[0],
+                        color: getBarColor(i[0])
+                    })
                 })
 
                 setChartData({ categories, series })
