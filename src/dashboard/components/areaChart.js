@@ -3,8 +3,8 @@ import moment from 'moment';
 import ReactHighcharts from 'react-highcharts'
 import HighchartsExporting from 'highcharts-exporting'
 
-import rightIcon from '../styles/images/right-arrow.svg'
-import LeftIcon from '../styles/images/left-arrow.svg'
+import rightIcon from '../styles/images/right-arrow.png'
+import LeftIcon from '../styles/images/left-arrow.png'
 
 HighchartsExporting(ReactHighcharts.Highcharts)
 
@@ -16,6 +16,7 @@ const riskLevelColor = {
 }
 
 const Chart = (props) => {
+
 
     const getDateFormat = (date) => {
         return moment(date).format('MMM DD HH:MM')
@@ -137,12 +138,12 @@ const Chart = (props) => {
                             chart.xAxis[0].setExtremes(min, max)
                         }
     
-                        // const leftArrowUrl = LeftIcon
-                        // const rightArrowUrl = rightIcon
-                        // const leftArrow = chart.renderer.image(leftArrowUrl, 50, 200, 30, 30).attr({ zIndex: 10 })
-                        // const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 200, 30, 30).attr({ zIndex: 10 })
-                        // leftArrow.on('click', moveLeft).add()
-                        // rightArrow.on('click', moveRight).add()
+                        const leftArrowUrl = LeftIcon
+                        const rightArrowUrl = rightIcon
+                        const leftArrow = chart.renderer.image(leftArrowUrl, 50, 200, 30, 30).attr({ zIndex: 10 })
+                        const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 200, 30, 30).attr({ zIndex: 10 })
+                        leftArrow.on('click', moveLeft).add()
+                        rightArrow.on('click', moveRight).add()
                     }
                 }
             }

@@ -2,8 +2,8 @@ import React from 'react'
 import ReactHighcharts from 'react-highcharts'
 import HighchartsExporting from 'highcharts-exporting'
 
-import rightIcon from '../../dashboard/styles/images/right-arrow.svg'
-import LeftIcon from '../../dashboard/styles/images/left-arrow.svg'
+import rightIcon from '../../dashboard/styles/images/right-arrow.png'
+import LeftIcon from '../../dashboard/styles/images/left-arrow.png'
 
 HighchartsExporting(ReactHighcharts.Highcharts)
 
