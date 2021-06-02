@@ -118,7 +118,7 @@ const Chart = (props) => {
 
                     if (maxLimit > 1) {
                         const chart = this
-    
+
                         const moveLeft = () => {
                             let { min, max, dataMin } = chart.xAxis[0].getExtremes()
                             let move = Number.parseInt(dataLength / maxLimit)
@@ -137,7 +137,7 @@ const Chart = (props) => {
                             }
                             chart.xAxis[0].setExtremes(min, max)
                         }
-    
+
                         const leftArrowUrl = LeftIcon
                         const rightArrowUrl = rightIcon
                         const leftArrow = chart.renderer.image(leftArrowUrl, 50, 200, 30, 30).attr({ zIndex: 10 })
