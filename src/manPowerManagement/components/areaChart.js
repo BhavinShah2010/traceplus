@@ -44,17 +44,17 @@ const Chart = (props) => {
                             let move = Number.parseInt(dataLength / maxLimit)
                             if (max + move - 1 <= dataMax) {
                                 min += move
-                                max += (move - 1)
+                                max += (move)
                             }
                             chart.xAxis[0].setExtremes(min, max)
                         }
     
-                        // const leftArrowUrl = LeftIcon
-                        // const rightArrowUrl = rightIcon
-                        // const leftArrow = chart.renderer.image(leftArrowUrl, 50, 100, 30, 30).attr({ zIndex: 10 })
-                        // const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 100, 30, 30).attr({ zIndex: 10 })
-                        // leftArrow.on('click', moveLeft).add()
-                        // rightArrow.on('click', moveRight).add()
+                        const leftArrowUrl = LeftIcon
+                        const rightArrowUrl = rightIcon
+                        const leftArrow = chart.renderer.image(leftArrowUrl, 50, 100, 30, 30).attr({ zIndex: 10 })
+                        const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 100, 30, 30).attr({ zIndex: 10 })
+                        leftArrow.on('click', moveLeft).add()
+                        rightArrow.on('click', moveRight).add()
                     }
                 }
             }
@@ -68,7 +68,7 @@ const Chart = (props) => {
         xAxis: {
             categories: props.chartData.categories,
             allowDecimals: false,
-            tickInterval: Number.parseInt(dataLength / (maxLimit * 10)),
+            tickInterval: Number.parseInt(dataLength / (maxLimit * 9)),
             max: maxLimit > 1 ? Number.parseInt(dataLength / maxLimit) : (dataLength - 1)
         },
         credits: {
@@ -80,6 +80,9 @@ const Chart = (props) => {
             },
             gridLineDashStyle: 'ShortDash',
             gridLineWidth: 1,
+            labels: {
+                enabled: false
+            },
             min: 0,
             max: 100,
             plotLines: [
