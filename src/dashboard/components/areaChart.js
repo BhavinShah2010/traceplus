@@ -19,7 +19,6 @@ const Chart = (props) => {
 
 
     const getDateFormat = (date) => {
-        console.log(date, moment(date).format('MMM DD HH:MM'))
         return moment(date).format('MMM DD HH:MM')
     }
 
