@@ -14,6 +14,8 @@ import { getSiteOverview, getSiteFootFall, getSiteAreaIndex, footfallChart } fro
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
 import { getTranslatedText } from '../../../common/utilities';
+import ClockIcon from '../../../dashboard/styles/images/clock.png'
+
 import { getLanguageTranslation, setSelectedLanguage } from '../../../dashboard/actionMethods/actionMethods';
 
 const riskLevelColor = {
@@ -23,8 +25,8 @@ const riskLevelColor = {
 }
 
 let timeArr = [
-    '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', 
-    '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM', '12AM'
+    '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM', '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', 
+    '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM', '12:00 AM'
 ]
 
 function SiteViewDetails(props) {
@@ -315,7 +317,11 @@ function SiteViewDetails(props) {
                                         <div>
                                             {chartData.top4.map((d) => {
                                                 return (
-                                                    <div>{d.name}</div>
+                                                    <div className="eachPeakHoursDiv">
+                                                    <img src={ClockIcon} />
+                                                    <span className="font-bold">{d.name}</span>
+                                                    
+                                                    </div>
                                                 )
                                             })}
                                         </div>
