@@ -7,7 +7,7 @@ NoDataToDisplay(ReactHighcharts.Highcharts);
 const riskLevelColor = {
     "low": '#04e06e',
     "medium": "#ffa500",
-    "high": "#ef5e8c"
+    "high": "#ff0000"
 }
 
 const BarChart = (props) => {

@@ -12,7 +12,7 @@ HighchartsExporting(ReactHighcharts.Highcharts)
 const riskLevelColor = {
     "low": '#04e06e',
     "medium": "#ffa500",
-    "high": "#ef5e8c"
+    "high": "#ff0000"
 }
 
 const Chart = (props) => {
@@ -227,7 +227,20 @@ const Chart = (props) => {
             name: 'Risk',
             showInLegend: false,
             data: props.chartData?.series || [],
-            color: riskLevelColor[props.risk],
+            zones: [
+                {
+                    value: 33,
+                    color: riskLevelColor.low
+                },
+                {
+                    value: 66,
+                    color: riskLevelColor.medium
+                },
+                {
+                    value: 100,
+                    color: riskLevelColor.high
+                }
+            ]
         }]
     }
 

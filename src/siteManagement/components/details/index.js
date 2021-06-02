@@ -19,8 +19,13 @@ import { getLanguageTranslation, setSelectedLanguage } from '../../../dashboard/
 const riskLevelColor = {
     "low": '#04e06e',
     "medium": "#ffa500",
-    "high": "#ef5e8c"
+    "high": "#ff0000"
 }
+
+let timeArr = [
+    '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', 
+    '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM', '12AM'
+]
 
 function SiteViewDetails(props) {
 
@@ -38,7 +43,7 @@ function SiteViewDetails(props) {
     const [locationID, updateLocationID] = useState('')
 
     const [selectedDate, updateSelectedDate] = useState(new Date())
-    const [chartData, setChartData] = useState({ categories: [], series: [] })
+    const [chartData, setChartData] = useState({ categories: [], series: [], top4: [] })
 
     function handleSiteListClick() {
         props.history.push('/site-list')
@@ -95,26 +100,26 @@ function SiteViewDetails(props) {
     }
 
     const getChartData = (idVal) => {
-        setChartData({ categories: [], series: [] })
+        setChartData({ categories: [], series: [], top4: [] })
 
         let date = getDateFormat(selectedDate)
         footfallChart({ date, locationID: idVal }).then((res) => {
             let data = res.hourly_footfall
-            let categories = [
-                '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM', '11AM',
-                '12 PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM' , '12: AM'
-            ]
+            let categories = timeArr
             let series = []
+            let top4 = []
 
             if (data && Array.isArray(data)) {
-                data.forEach((i) => {
+                data.forEach((i, index) => {                    
                     series.push({
                         y: i[0],
-                        color: getBarColor(i[0])
+                        color: getBarColor(i[0]),
+                        name: timeArr[index]
                     })
                 })
 
-                setChartData({ categories, series })
+                top4 = [...series].sort((a, b) => (b.y - a.y)).slice(0, 4)
+                setChartData({ categories, series, top4 })
             }
         }).catch((err) => {
             console.log(err)
@@ -307,9 +312,16 @@ function SiteViewDetails(props) {
                                 <Row>
                                     <Col lg={3}>
                                         <h6 className="font-bold">Peak Hours</h6>
+                                        <div>
+                                            {chartData.top4.map((d) => {
+                                                return (
+                                                    <div>{d.name}</div>
+                                                )
+                                            })}
+                                        </div>
                                     </Col>
                                     <Col lg={9}>
-                                    <Barchart chartData={chartData} />
+                                        <Barchart chartData={chartData} />
                                     </Col>
                                 </Row>
                                 

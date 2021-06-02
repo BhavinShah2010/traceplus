@@ -7,6 +7,13 @@ import LeftIcon from '../../dashboard/styles/images/left-arrow.png'
 
 HighchartsExporting(ReactHighcharts.Highcharts)
 
+const riskLevelColor = {
+    "low": '#04e06e',
+    "medium": "#ffa500",
+    "high": "#ff0000"
+}
+
+
 const Chart = (props) => {
 
     let dataLength = props.chartData?.series?.length || 0
@@ -72,7 +79,29 @@ const Chart = (props) => {
                 text: props.yAxisTitle
             },
             gridLineDashStyle: 'ShortDash',
-            gridLineWidth: 1
+            gridLineWidth: 1,
+            min: 0,
+            max: 100,
+            plotLines: [
+                {
+                    color: riskLevelColor.high,
+                    width: 2,
+                    value: 100,
+                    dashStyle: 'LongDash'
+                },
+                {
+                    color: riskLevelColor.medium,
+                    width: 2,
+                    value: 66,
+                    dashStyle: 'LongDash'
+                },
+                {
+                    color: riskLevelColor.low,
+                    width: 2,
+                    value: 33,
+                    dashStyle: 'LongDash'
+                }
+            ]
         },
         tooltip: {
             formatter: function () {
@@ -107,7 +136,20 @@ const Chart = (props) => {
         series: [{
             showInLegend: false,
             data: props.chartData.series,
-            color: '#ef5e8c',
+            zones: [
+                {
+                    value: 33,
+                    color: riskLevelColor.low
+                },
+                {
+                    value: 66,
+                    color: riskLevelColor.medium
+                },
+                {
+                    value: 100,
+                    color: riskLevelColor.high
+                }
+            ]
         }]
     }
 
