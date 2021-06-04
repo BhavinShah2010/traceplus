@@ -98,7 +98,10 @@ function SiteMangementList(props) {
         let invalid = /[°"§%()[\]{}=\\?´`'#<>|,;.:+_-]+/g;
         let value = searchText.replace(invalid, "")
         let siteLocationsList = preDefinedSiteLocationsList.filter(function (siteList) {
-            return (siteList.name.toLowerCase().search(value.toLowerCase()) !== -1) || (siteList.status.toLowerCase().search(value.toLowerCase()) !== -1) || (siteList.category_name.toLowerCase().search(value.toLowerCase()) !== -1)
+            return (siteList.name.toLowerCase().search(value.toLowerCase()) !== -1 
+            // || (siteList.status.toLowerCase().search(value.toLowerCase()) !== -1) 
+            // || (siteList.category_name.toLowerCase().search(value.toLowerCase()) !== -1
+        )
 
         })
 
@@ -118,7 +121,7 @@ function SiteMangementList(props) {
                     <div className="card-body">
                         <Row>
                             <Col lg={12}>
-                                <span className="eachTag">
+                                <span className="eachTag text-left">
                                     <img src={tagIcon} /> {getTranslatedText(element.category_name)}
                                 </span>
 
