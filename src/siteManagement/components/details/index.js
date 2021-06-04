@@ -20,8 +20,8 @@ import { getLanguageTranslation, setSelectedLanguage } from '../../../dashboard/
 
 const riskLevelColor = {
     "low": '#04e06e',
-    "medium": "#ffa500",
-    "high": "#ff0000"
+    "medium": "#ffd700",
+    "high": "#ffa500"
 }
 
 let timeArr = [

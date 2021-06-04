@@ -9,8 +9,8 @@ NoDataToDisplay(ReactHighcharts.Highcharts);
 
 const riskLevelColor = {
     "low": '#04e06e',
-    "medium": "#ffa500",
-    "high": "#ff0000"
+    "medium": "#ffd700",
+    "high": "#ffa500"
 }
 
 const BarChart = (props) => {
@@ -18,7 +18,7 @@ const BarChart = (props) => {
         chart: {
             type: 'column',
             height: 370,
-            zoomType: 'xy',
+            zoomType: 'x',
             events: {
                 load: function () {
                     const chart = this
@@ -79,21 +79,51 @@ const BarChart = (props) => {
             plotLines: [
                 {
                     color: riskLevelColor.high,
-                    width: 2,
+                    width: 1,
                     value: 100,
-                    dashStyle: 'LongDash'
+                    dashStyle: 'LongDash',
+                    zIndex: 100,
+                    label: {
+                        text: 'High',
+                        style: {
+                            color: riskLevelColor.high,
+                            fontWeight: 'bold',
+                        },
+                        y: 15,
+                        x: -30
+                    }
                 },
                 {
                     color: riskLevelColor.medium,
-                    width: 2,
+                    width: 1,
                     value: 66,
-                    dashStyle: 'LongDash'
+                    dashStyle: 'LongDash',
+                    zIndex: 100,
+                    label: {
+                        text: 'Medium',
+                        style: {
+                            color: riskLevelColor.medium,
+                            fontWeight: 'bold'
+                        },
+                        y: 15,
+                        x: -30
+                    }
                 },
                 {
                     color: riskLevelColor.low,
-                    width: 2,
+                    width: 1,
                     value: 33,
-                    dashStyle: 'LongDash'
+                    dashStyle: 'LongDash',
+                    zIndex: 100,
+                    label: {
+                        text: 'Low',
+                        style: {
+                            color: riskLevelColor.low,
+                            fontWeight: 'bold'
+                        },
+                        y: 15,
+                        x: -30
+                    }
                 }
             ]
         },
