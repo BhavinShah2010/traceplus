@@ -46,7 +46,7 @@ function Dashboard(props) {
 
         useState([
             {
-                title: 'Population risk index',
+                title: 'Population Risk Index',
                 isSelected: true
             }, {
                 title: 'Spread Index',
@@ -59,7 +59,7 @@ function Dashboard(props) {
             },
 
             {
-                title: 'Area Index',
+                title: ' Area    Index ',
                 isSelected: false
             }
 
@@ -204,7 +204,7 @@ function Dashboard(props) {
                     onClick={() => handleIndexTabClick(index)}
                 >
                     <Row>
-                        <Col lg={4}>
+                        <Col lg={4} className="p-r-0">
                             <div className="indexText">
                                 {getTranslatedText(element.title)}
                             </div>
@@ -379,10 +379,10 @@ function Dashboard(props) {
 
                 <div className="dashboardGraphAndIndexMainDiv">
                     <Row>
-                        <Col lg={5}>
+                        <Col lg={4} className="p-r-0">
                             {showIndexTab(indexTitleArray)}
                         </Col>
-                        <Col lg={7}>
+                        <Col lg={8}>
                             <DashboardChart
                                 yAxisTitle={`${titles[indexTitle]} Risk Index`}
                                 risk={'low'}
