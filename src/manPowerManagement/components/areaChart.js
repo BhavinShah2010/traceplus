@@ -99,7 +99,6 @@ const Chart = (props) => {
                             fontWeight: 'bold',
                         },
                         y: 15,
-                        x: -30
                     }
                 },
                 {
@@ -115,7 +114,6 @@ const Chart = (props) => {
                             fontWeight: 'bold'
                         },
                         y: 15,
-                        x: -30
                     }
                 },
                 {
@@ -131,7 +129,6 @@ const Chart = (props) => {
                             fontWeight: 'bold'
                         },
                         y: 15,
-                        x: -30
                     }
                 }
             ]
