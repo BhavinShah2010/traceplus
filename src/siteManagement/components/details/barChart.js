@@ -25,17 +25,17 @@ const BarChart = (props) => {
 
                     const moveLeft = () => {
                         let { min, max, dataMin } = chart.xAxis[0].getExtremes()
-                        let move = 7
+                        let move = 8
                         if (min - move >= dataMin) {
                             min -= move
                             max -= move
                         }
                         chart.xAxis[0].setExtremes(min, max)
                     }
-                    const moveRight = () => {
+                    const moveRight = () => {                        
                         let { min, max, dataMax } = chart.xAxis[0].getExtremes()
                         let move = 8
-                        if (max + move - 1 <= dataMax) {
+                        if (max + move <= dataMax) {
                             min += move
                             max += (move)
                         }
@@ -89,8 +89,7 @@ const BarChart = (props) => {
                             color: riskLevelColor.high,
                             fontWeight: 'bold',
                         },
-                        y: 15,
-                        x: -30
+                        y: 15
                     }
                 },
                 {
@@ -105,8 +104,7 @@ const BarChart = (props) => {
                             color: riskLevelColor.medium,
                             fontWeight: 'bold'
                         },
-                        y: 15,
-                        x: -30
+                        y: 15
                     }
                 },
                 {
@@ -121,8 +119,7 @@ const BarChart = (props) => {
                             color: riskLevelColor.low,
                             fontWeight: 'bold'
                         },
-                        y: 15,
-                        x: -30
+                        y: 15
                     }
                 }
             ]
