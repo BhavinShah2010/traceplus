@@ -12,7 +12,7 @@ export function userLogin(requestBody) {
 
 export function forgotPassword(requestBody) {
     requestBody.token = token
-    return axios.post(prefixURL + `/user/forgot_password` , requestBody).then(res=>res).catch(err=>err)
+    return axios.post(prefixURL + `/user/forgot_password` , requestBody).then(res=>res.data).catch(err=>err)
 }
 
 export function logoutUser() {
