@@ -111,7 +111,7 @@ const Chart = (props) => {
     let config = {
         chart: {
             type: 'area',
-            height: 500,
+            height: 400,
             zoomType: 'x',
             events: {
                 load: function () {
