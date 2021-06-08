@@ -29,3 +29,13 @@ body{
   line-height: 1.5;
   font-weight: 600;
 }
+
+.successToast{
+  background: #00FF00 !important;
+  color: #FFFFFF !important;
+}
+
+.errorToast{
+  background: #ff0000 !important;
+  color: #FFFFFF !important;
+}
