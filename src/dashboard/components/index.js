@@ -76,6 +76,12 @@ function Dashboard(props) {
 
     useEffect(() => {
 
+        console.log("pROPS : " , props.match.path)
+
+        if(props.match.path == '/'){
+            props.history.push('/dashboard')
+        }
+
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
         requestBody.contactRank = contactRankValue
