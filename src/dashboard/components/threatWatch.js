@@ -13,7 +13,7 @@ function ThreatWatch(props) {
     function handleOnChangeContactRankValue(event) {
         props.handleChangeValue(event.target.value)
     }
-
+    
     return (
         <div className={'threatWatchMainDiv ' + (props.threatWatchColor && props.threatWatchColor == 'green' ? ' greenGradienColor' : ' redGradientColor')} >
             <Row>
@@ -92,7 +92,7 @@ function ThreatWatch(props) {
                                             onChange={date => props.handleSelectStartDate(date)}
                                             dateFormat={'MMM dd'}
                                             isClearable={false}
-                                            maxDate={new Date()}
+                                            maxDate={props.selectedDate}
                                             />
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />
@@ -108,7 +108,7 @@ function ThreatWatch(props) {
                                             onChange={date => props.handleSelectEndDate(date)}
                                             dateFormat={'MMM dd'}
                                             isClearable={false}
-                                            maxDate={new Date()}
+                                            maxDate={props.selectedDate}
                                              />
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />

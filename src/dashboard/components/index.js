@@ -4,6 +4,11 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 
+import { ToastContainer, toast } from 'react-toastify';
+
+  import 'react-toastify/dist/ReactToastify.css';
+
+
 import '../../assets/styles/common.scss'
 import '../styles/dashboard.scss'
 import ThreatWatch from './threatWatch';
@@ -31,10 +36,11 @@ function Dashboard(props) {
     const [contaminatedEmployeeCount, updateContaminatedEmployeeCount] = useState(0);
     const [atRiskCount, updateAtRiskCount] = useState(0);
     const [threatWatchColor, updateThreatWatchColor] = useState('')
-    const [startDateValue, updateStartDateValue] = useState(new Date())
-    const [endDateValue, updateEndDateValue] = useState(new Date())
-
     const [selectedDate, updateSelectedDate] = useState(new Date())
+    const [startDateValue, updateStartDateValue] = useState(selectedDate)
+    const [endDateValue, updateEndDateValue] = useState(selectedDate)
+    const [toastClass, updateToastClass] = useState('successToast')
+
 
     const [contactRankValue, updateContactRankValue] = useState(1)
 
@@ -69,6 +75,12 @@ function Dashboard(props) {
 
 
     useEffect(() => {
+
+        console.log("pROPS : " , props.match.path)
+
+        if(props.match.path == '/'){
+            props.history.push('/dashboard')
+        }
 
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
@@ -109,7 +121,7 @@ function Dashboard(props) {
     const setChartDetail = (startDateValue = null , endDateValue = null) => {
         setChartData({ categories: [], series: [], chartData: [] })
 
-        console.log("SDF" , startDateValue, endDateValue)
+        
 
         let obj = {
             index: titles[indexTitle].toLowerCase(),
@@ -277,18 +289,36 @@ function Dashboard(props) {
         updateEndDateValue(date)
 
         let startDate = moment(startDateValue)
-        let endDate = moment(endDateValue)
+        let endDate = moment(date)
 
-        let days = startDate.diff(endDate, 'days')
+        let isBefore = startDate.isBefore(endDate)
 
-        let requestBody = {}
-        requestBody.date = getDateFormat(date)
-        requestBody.contactRank = contactRankValue
 
-        setTimeout(() => {
-            getThreatWatchDataValues(requestBody)
-            setChartDetail( getDateFormat(startDateValue), requestBody.date)
-        }, 100);
+        if(isBefore){
+            let requestBody = {}
+            requestBody.date = getDateFormat(date)
+            requestBody.contactRank = contactRankValue
+    
+            setTimeout(() => {
+                getThreatWatchDataValues(requestBody)
+                setChartDetail( getDateFormat(startDateValue), requestBody.date)
+            }, 100);
+
+        }
+
+        else{
+            updateToastClass('errorToast')
+            toast('End Date Should be Greater Than Start Date.' , {
+                position: "top-right",
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover:false,
+                hideProgressBar:true
+
+
+            })
+        }
+
 
     }
 
@@ -394,6 +424,10 @@ function Dashboard(props) {
 
                 </div>
             </Container >
+
+            <ToastContainer
+            toastClassName={toastClass}
+            />
         </div>
     )
 }

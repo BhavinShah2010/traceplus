@@ -31,7 +31,7 @@ const Chart = (props) => {
                 return (
                     '<div style="width: 200px; height: 175px; padding: 10px;" >' +
                     '<div style="margin-bottom: 10px">' +
-                    '<span style="font-size: 18px; font-weight: bold">' + detail.risk + '</span>' +
+                    '<span style="font-size: 18px; font-weight: bold">' + detail.population.toFixed(2) + '</span>' +
                     '<span style="float: right; padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
                     '</div>' +
                     '<div style="padding-top: 8px">' +
@@ -140,8 +140,8 @@ const Chart = (props) => {
 
                         const leftArrowUrl = LeftIcon
                         const rightArrowUrl = rightIcon
-                        const leftArrow = chart.renderer.image(leftArrowUrl, 50, 200, 30, 30).attr({ zIndex: 10 })
-                        const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 200, 30, 30).attr({ zIndex: 10 })
+                        const leftArrow = chart.renderer.image(leftArrowUrl, 25, 150, 30, 30).attr({ zIndex: 10 })
+                        const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 150, 30, 30).attr({ zIndex: 10 })
                         leftArrow.on('click', moveLeft).add()
                         rightArrow.on('click', moveRight).add()
                     }

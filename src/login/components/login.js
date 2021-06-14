@@ -12,7 +12,7 @@ import { emailPattern } from '../../common/utilities';
 import { userLogin, forgotPassword } from '../actionMethods/actionMethods';
 
 import infiniteLoader from '../../assets/images/infinite_loader.gif'
-import { getLanguageTranslation,setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
+import { getLanguageTranslation, setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
 
 function LoginComponent(props) {
 
@@ -64,12 +64,12 @@ function LoginComponent(props) {
                             localStorage.setItem('isLoggedIn', true)
 
                             getLanguageTranslation('en').then(res => {
-                            //    console.log("Lang data : " , res)
-                                if(res && res.status>=200 && res.status<=200){
-                                    localStorage.setItem('languageData' , JSON.stringify(res.data))
-                                    localStorage.setItem('selectedLanguage' , 'en')
+                                //    console.log("Lang data : " , res)
+                                if (res && res.status >= 200 && res.status <= 200) {
+                                    localStorage.setItem('languageData', JSON.stringify(res.data))
+                                    localStorage.setItem('selectedLanguage', 'en')
                                     props.setSelectedLanguage('en')
-                                    
+
                                 }
                             })
                             props.history.push('/dashboard')
@@ -83,10 +83,13 @@ function LoginComponent(props) {
                             }, 3000);
                         }
                     }
-                }).catch( err => {
+                }).catch(err => {
                     updateSomethingWrongWentFlag(true)
                     updateErrorMessage('Username and password do not match')
                 })
+            }
+            else {
+                updateIsEmailValid(false)
             }
         }
     }
@@ -97,6 +100,8 @@ function LoginComponent(props) {
         updatePassword('')
         updateIsPasswordEmpty(false)
         updateIsEmailValid(true)
+        updateErrorMessage('')
+        updateSucessMessage('')
     }
 
 
@@ -126,11 +131,22 @@ function LoginComponent(props) {
                 forgotPassword(requestBody).then(res => {
                     updateIsLoading(false)
 
-                    if(res && res.status >= 200){
-                        updateSucessMessage(res.data.message)
+                    console.log("Satate : ", res)
+
+                    if (res && res.status == 200) {
+                        updateSucessMessage(res.message)
 
                         setTimeout(() => {
-                            updateSucessMessage('')
+                            //updateSucessMessage('')
+                            updateEmailID('')
+                        }, 3000);
+                    }
+                    else {
+                        
+                        updateErrorMessage(res.message)
+
+                        setTimeout(() => {
+                            //updateErrorMessage('')
                             updateEmailID('')
                         }, 3000);
                     }
@@ -152,133 +168,137 @@ function LoginComponent(props) {
 
     let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
 
-    if(isLoggedIn){
-        return(
+    if (isLoggedIn) {
+        return (
             <div>
-            {props.history.push('/dashboard')}
+                {props.history.push('/dashboard')}
             </div>
         )
     }
 
-    else{
-        
-            return (
-                <div className="loginComponentMainDiv">
-                    <div className="firstRowDiv">
-        
-                    </div>
-        
-                    <div className="secondRowDiv">
-        
-                    </div>
-        
-                    <div className="loginFormWithLogoDiv">
-        
-                        <Row>
-                            <Col lg={3}>
-                            </Col>
-                            <Col lg={6}>
-                                <div className="logoDiv">
-                                    <img src={traceplusLogo} />
-                                </div>
-                                <div className="loginFormMainDiv">
-                                    {
-                                        !isForgotPasswordView ?
-        
-                                            <React.Fragment>
-        
-                                                <div className="loginText">Log In</div>
-                                                <div className="loginForm">
-                                                    <form onSubmit={handleSubmit}>
-                                                        <div className="eachElement">
-                                                            <label>User Name</label>
-                                                            <input type="text" name="email" value={emailID} onChange={(e) => handleEmailID(e.target.value)} placeholder="User Name" />
-        
-                                                            {
-                                                                !isEmailValid ? <div className="dangerColor">Please Enter Valid Email ID !</div> : ''
-                                                            }
-                                                        </div>
-        
-                                                        <div className="eachElement">
-                                                            <label>Password</label>
-                                                            <input id="password" type="password" name="password" value={password}
-                                                                onChange={(e) => handlePassword(e.target.value)} placeholder="Password" />
-                                                            <img src={showPasswordEyeIcon} onClick={togglePasswordTypeChange} />
-        
-                                                            {
-                                                                isPasswordEmpty ? <div className="dangerColor">Please Enter Password !</div> : ''
-                                                            }
-                                                        </div>
-                                                        <div className="">
-                                                            <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(true)}>    Forgot Password ?</span>
-                                                        </div>
-        
-                                                        {
-                                                            isLoading ?
-                                                                <img src={infiniteLoader} /> :
-                                                                <button type="submit" class="loginFormButton">Log In</button>
-        
-                                                        }
-        
-                                                        {
-                                                            somethingWentWrongFlag ?
-        
-                                                                <div className="dangerColor text-center">{errorMessage}</div> : ''
-                                                        }
-        
-                                                    </form>
-        
-                                                </div>
-                                            </React.Fragment> :
-        
-                                            <React.Fragment>
-                                                <div className="loginText">Forgot Password</div>
-                                                <div className="loginForm">
-                                                    <form onSubmit={handleForgotPassword}>
-                                                        <div className="eachElement">
-                                                            <label>User Name</label>
-                                                            <input type="text" name="email" value={emailID} onChange={(e) => handleEmailID(e.target.value)} placeholder="User Name" />
-        
-                                                            {
-                                                                !isEmailValid ? <div className="dangerColor">Please Enter Valid Email ID !</div> : ''
-                                                            }
-                                                        </div>
-        
-        
-                                                        <div className="">
-                                                            <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(false)}>
-                                                                Have an Account ? Go Back To Login
-                                                              </span>
-                                                        </div>
+    else {
 
-                                                        
-                                                        {
-                                                            isLoading ?
-        
-                                                                <img src={infiniteLoader} /> :
-        
-                                                                <button type="submit" class="loginFormButton">Send Email</button>
-                                                        }
+        return (
+            <div className="loginComponentMainDiv">
+                <div className="firstRowDiv">
 
-                                                        {
-                                                            successMessage ? <h6 className="successTextColor text-center m-t">{successMessage}</h6> : ''
-                                                        }
-        
-        
-                                                    </form>
-        
-                                                </div>
-                                            </React.Fragment>
-                                    }
-                                </div>
-                            </Col>
-                            <Col lg={3}>
-                            </Col>
-                        </Row>
-        
-                    </div>
                 </div>
-            )
+
+                <div className="secondRowDiv">
+
+                </div>
+
+                <div className="loginFormWithLogoDiv">
+
+                    <Row>
+                        <Col lg={3}>
+                        </Col>
+                        <Col lg={6}>
+                            <div className="logoDiv">
+                                <img src={traceplusLogo} />
+                            </div>
+                            <div className="loginFormMainDiv">
+                                {
+                                    !isForgotPasswordView ?
+
+                                        <React.Fragment>
+
+                                            <div className="loginText">Log In</div>
+                                            <div className="loginForm">
+                                                <form onSubmit={handleSubmit}>
+                                                    <div className="eachElement">
+                                                        <label>User Name</label>
+                                                        <input maxLength="150" type="text" name="email" value={emailID} onChange={(e) => handleEmailID(e.target.value)} placeholder="User Name" />
+
+                                                        {
+                                                            !isEmailValid ? <div className="dangerColor">Please Enter Valid Email ID !</div> : ''
+                                                        }
+                                                    </div>
+
+                                                    <div className="eachElement">
+                                                        <label>Password</label>
+                                                        <input maxLength="150" id="password" type="password" name="password" value={password}
+                                                            onChange={(e) => handlePassword(e.target.value)} placeholder="Password" />
+                                                        <img src={showPasswordEyeIcon} onClick={togglePasswordTypeChange} />
+
+                                                        {
+                                                            isPasswordEmpty ? <div className="dangerColor">Please Enter Password !</div> : ''
+                                                        }
+                                                    </div>
+                                                    <div className="">
+                                                        <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(true)}>    Forgot Password ?</span>
+                                                    </div>
+
+                                                    {
+                                                        isLoading ?
+                                                            <img src={infiniteLoader} /> :
+                                                            <button type="submit" class="loginFormButton">Log In</button>
+
+                                                    }
+
+                                                    {
+                                                        somethingWentWrongFlag ?
+
+                                                            <div className="dangerColor text-center">{errorMessage}</div> : ''
+                                                    }
+
+                                                </form>
+
+                                            </div>
+                                        </React.Fragment> :
+
+                                        <React.Fragment>
+                                            <div className="loginText">Forgot Password</div>
+                                            <div className="loginForm">
+                                                <form onSubmit={handleForgotPassword}>
+                                                    <div className="eachElement">
+                                                        <label>User Name</label>
+                                                        <input maxLength="150" type="text" name="email" value={emailID} onChange={(e) => handleEmailID(e.target.value)} placeholder="User Name" />
+
+                                                        {
+                                                            !isEmailValid ? <div className="dangerColor">Please Enter Valid Email ID !</div> : ''
+                                                        }
+                                                    </div>
+
+
+                                                    <div className="">
+                                                        <span className="forgetPasswordText" onClick={() => toggleForgotPasswordView(false)}>
+                                                            Have an Account ? Go Back To Login
+                                                              </span>
+                                                    </div>
+
+
+                                                    {
+                                                        isLoading ?
+
+                                                            <img src={infiniteLoader} /> :
+
+                                                            <button type="submit" class="loginFormButton">Send Email</button>
+                                                    }
+
+                                                    {
+                                                        successMessage ? <h6 className="successTextColor text-center m-t">{successMessage}</h6> : ''
+                                                    }
+
+                                                    {
+                                                        errorMessage ? <h6 className="dangerColor text-center m-t">{errorMessage}</h6> : ''
+                                                    }
+
+
+                                                </form>
+
+                                            </div>
+                                        </React.Fragment>
+                                }
+                            </div>
+                        </Col>
+                        <Col lg={3}>
+                        </Col>
+                    </Row>
+
+                </div>
+            </div>
+        )
 
     }
 }
