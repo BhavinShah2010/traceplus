@@ -426,10 +426,10 @@ function EmployeeDetails(props) {
                                                         <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
-                                                            <Col lg={5}>
+                                                            <Col lg={4}>
                                                                 <h5 className="font-bold">{employeeIndexData.pri_level}</h5>
                                                             </Col>
-                                                            <Col lg={7}>
+                                                            <Col lg={8}>
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.population_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">10%</div>
@@ -445,10 +445,10 @@ function EmployeeDetails(props) {
                                                         <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
-                                                            <Col lg={5} >
+                                                            <Col lg={4} >
                                                                 <h5 className="font-bold">{employeeIndexData.sri_level}</h5>
                                                             </Col>
-                                                            <Col lg={7} className="p-l-0">
+                                                            <Col lg={8} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.spread_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">10%</div>
@@ -464,10 +464,10 @@ function EmployeeDetails(props) {
                                                         <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
-                                                            <Col lg={5}>
+                                                            <Col lg={4}>
                                                                 <h5 className="font-bold">{employeeIndexData.mri_level}</h5>
                                                             </Col>
-                                                            <Col lg={7} className="p-l-0">
+                                                            <Col lg={8} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.mobility_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">10%</div>
