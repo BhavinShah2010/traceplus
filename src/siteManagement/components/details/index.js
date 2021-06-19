@@ -111,16 +111,22 @@ function SiteViewDetails(props) {
             let series = []
             let top4 = []
 
+            
+
             if (data && Array.isArray(data)) {
                 data.forEach((i, index) => {                    
-                    series.push({
-                        y: i[0],
-                        color: getBarColor(i[0]),
-                        name: timeArr[index]
-                    })
+                    if(i[0] > 0){
+                        series.push({
+                            y: i[0],
+                            color: getBarColor(i[0]),
+                            name: timeArr[index]
+                        })
+                    }
                 })
 
-                top4 = [...series].sort((a, b) => (b.y - a.y)).slice(0, 4)
+               // top4 = [...series].sort((a, b) => (b.y - a.y)).slice(0, 4)
+
+                top4 = [...series].slice(0, 4)
                 setChartData({ categories, series, top4 })
             }
         }).catch((err) => {
