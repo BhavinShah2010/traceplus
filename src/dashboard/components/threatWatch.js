@@ -72,7 +72,7 @@ function ThreatWatch(props) {
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />
                                         </div>
-                                        <select onChange={handleOnChangeContactRankValue}>
+                                        <select disabled onChange={handleOnChangeContactRankValue}>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -93,6 +93,7 @@ function ThreatWatch(props) {
                                             dateFormat={'MMM dd'}
                                             isClearable={false}
                                             maxDate={props.selectedDate}
+                                            disabled={true}
                                             />
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />
@@ -109,6 +110,7 @@ function ThreatWatch(props) {
                                             dateFormat={'MMM dd'}
                                             isClearable={false}
                                             maxDate={props.selectedDate}
+                                            disabled={true}
                                              />
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />

@@ -196,6 +196,11 @@ $font-bold: 600;
             cursor: pointer;
             caret-color: transparent;
         }
+
+        input[type="text"]:disabled {
+            background: #dddddd !important;
+          }
+          
     }
 
     .dropdownIconDiv{
