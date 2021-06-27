@@ -464,10 +464,10 @@ function Dashboard(props) {
             <ReactModal
                 isOpen={employeePopupFlag}
                 style={customStyles}
-                shouldCloseOnEsc={true}
+                onRequestClose={handleCloseModal}
                 shouldCloseOnOverlayClick={true}
             >
-            <div className="closeModalIconDiv">X</div>
+            
               <Scrollbars style={{ width: '100%', height: '100%' }} autoHide>
 
                 <EmployeeList
