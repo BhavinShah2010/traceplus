@@ -360,3 +360,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(SiteViewDetails))
+
+

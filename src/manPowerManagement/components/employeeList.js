@@ -221,13 +221,20 @@ function EmployeeList(props) {
 
                             <Row>
                                 <Col lg={8} className={props.hideHeading ? 'p-l-0' : ''}>
-                                    <h3 className="locationsListing">{getTranslatedText('Employees')} ({employeeList.length})</h3>
+                                    <h3 className="locationsListing">
+                                    {props.atRiskEmp ? 'At Risk Employees' : getTranslatedText('Employees')}
+                                    
+                                    
+                                     ({employeeList.length})</h3>
                                 </Col>
+                                {
+                                    props.hideSearch ? '' : 
                                 <Col lg={4} className={props.hideHeading ? 'p-r-0' : ''}>
                                     <div className="listingSearchMainDiv">
                                         <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
                                     </div>
                                 </Col>
+                                }
                             </Row>
 
 

@@ -242,3 +242,15 @@ $font-bold: 600;
 .displayNone{
     display: none !important;
 }
+
+
+.closeModalIconDiv{
+    position: absolute;
+    top: 0px;
+    right: -1rem;
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    background: #FFFFFF;
+
+}

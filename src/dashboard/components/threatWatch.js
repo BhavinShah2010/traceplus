@@ -54,12 +54,12 @@ function ThreatWatch(props) {
                                 <div className="titleText font-bold">{getTranslatedText('At Risk')}</div>
                                 <div className="eachRecordDiv m-t">
                                     <span className="font-bold countDiv">{props.atRiskCount}&nbsp;</span>
-                                    <span className="labelDiv">{getTranslatedText('Employees')}</span>
+                                    <span className="labelDiv cursor-pointer" onClick={props.openEmployeePopup}>{getTranslatedText('Employees')}</span>
                                 </div>
 
                                 <div className="eachRecordDiv">
                                     <span className="font-bold countDiv">{props.orgCount}&nbsp;</span>
-                                    <span className="labelDiv">{getTranslatedText('Locations')}</span>
+                                    <span className="labelDiv cursor-pointer" onClick={props.openLocationPopup}>{getTranslatedText('Locations')}</span>
                                 </div>
 
                             </div>

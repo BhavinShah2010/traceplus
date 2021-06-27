@@ -98,10 +98,10 @@ function SiteMangementList(props) {
         let invalid = /[°"§%()[\]{}=\\?´`'#<>|,;.:+_-]+/g;
         let value = searchText.replace(invalid, "")
         let siteLocationsList = preDefinedSiteLocationsList.filter(function (siteList) {
-            return (siteList.name.toLowerCase().search(value.toLowerCase()) !== -1 
-            // || (siteList.status.toLowerCase().search(value.toLowerCase()) !== -1) 
-            // || (siteList.category_name.toLowerCase().search(value.toLowerCase()) !== -1
-        )
+            return (siteList.name.toLowerCase().search(value.toLowerCase()) !== -1
+                // || (siteList.status.toLowerCase().search(value.toLowerCase()) !== -1) 
+                // || (siteList.category_name.toLowerCase().search(value.toLowerCase()) !== -1
+            )
 
         })
 
@@ -174,8 +174,8 @@ function SiteMangementList(props) {
         })
     }
 
-    useEffect (() =>{
-        if(props.language){
+    useEffect(() => {
+        if (props.language) {
             updateSelectedLangValue(props.language)
         }
     }, [props.language])
@@ -185,45 +185,56 @@ function SiteMangementList(props) {
     return (
         <div className="dashboardComponentMainDiv siteManagementMainDiv">
             <Container >
-                <Row>
-                    <Col lg={6} >
-                        <div className="siteViewHeaderDiv">
-                            <span className="smallHeader">{getTranslatedText('Site Management')}</span>
-                            <span className="breadCrumbArrow"> > </span>
-                            <span className="mediumHeader">{getTranslatedText('Site Listing')}</span>
-                        </div>
-                    </Col>
-                    <Col lg={6} className="text-right">
-                        <div className="commonLangaugeStyleDiv">
-                            <DashboardLanguage
-                                selectedLangValue={selectedLangValue}
-                                changeLanguage={changeLanguage}
-                            />
-                        </div>
-                        <div className="siteHeadingDatePickerDiv">
-                            <CommonDatePicker
-                                selectedDate={selectedDate}
-                                handleSelectDate={handleDateSelect}
 
-                            />
-                        </div>
-                    </Col>
-                </Row>
+                {
+                    props.hideHeading ? '' :
+
+                        <Row>
+                            <Col lg={6} >
+                                <div className="siteViewHeaderDiv">
+                                    <span className="smallHeader">{getTranslatedText('Site Management')}</span>
+                                    <span className="breadCrumbArrow"> > </span>
+                                    <span className="mediumHeader">{getTranslatedText('Site Listing')}</span>
+                                </div>
+                            </Col>
+                            <Col lg={6} className="text-right">
+                                <div className="commonLangaugeStyleDiv">
+                                    <DashboardLanguage
+                                        selectedLangValue={selectedLangValue}
+                                        changeLanguage={changeLanguage}
+                                    />
+                                </div>
+                                <div className="siteHeadingDatePickerDiv">
+                                    <CommonDatePicker
+                                        selectedDate={selectedDate}
+                                        handleSelectDate={handleDateSelect}
+
+                                    />
+                                </div>
+                            </Col>
+                        </Row>
+                }
+
 
                 {
 
                     <Row className="m-t">
                         <Col lg={12}>
-                            <div className="siteListMainDiv">
+                        <div className={'siteListMainDiv ' + (props.hideHeading ? 'p-l-0 p-r-0' : '')} style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
                                 <Row>
                                     <Col lg={8} >
-                                        <h3 className="locationsListing">{getTranslatedText('Locations')} ({siteLocationsList.length})</h3>
+                                        <h3 className="locationsListing">
+                                        {props.atRiskEmp ? 'At Risk Locations ' : getTranslatedText('Locations')}
+                                         ({siteLocationsList.length})</h3>
                                     </Col>
-                                    <Col lg={4}>
-                                        <div className="listingSearchMainDiv">
-                                            <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
-                                        </div>
-                                    </Col>
+                                    {
+                                        props.hideHeading ? '' :
+                                            <Col lg={4}>
+                                                <div className="listingSearchMainDiv">
+                                                    <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
+                                                </div>
+                                            </Col>
+                                    }
                                 </Row>
 
                                 {

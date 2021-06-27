@@ -8,10 +8,14 @@ import './assets/styles/common.scss'
 import LeftSideBar from './components/leftsidebar';
 import RightSideComponents from './components/rightsideComponents';
 
+import ReactModal from 'react-modal';
+
+
 
 function App() {
 
   let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+  ReactModal.setAppElement('*'); 
 
   return (
     
