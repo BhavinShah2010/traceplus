@@ -294,6 +294,12 @@ function Dashboard(props) {
         requestBody.contactRank = contactRankValue
         //getDashboardDataValues(requestBody)
         getThreatWatchDataValues(requestBody)
+
+        
+
+        let startDate = (new Date().setDate(date.getDate() - 30))
+
+        setChartDetail(getDateFormat(startDate), getDateFormat(date))
     }
 
     function handleSelectStartDate(date) {

@@ -370,3 +370,18 @@
     }
 
 }
+
+.locationsOverviewMainDiv{
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: #202236;
+
+    .randomBubbleMainDiv{
+        position: relative;
+
+        .eachBubbleMainDiv{
+            width: 33%;
+            height: 100px;
+        }
+    }
+}
