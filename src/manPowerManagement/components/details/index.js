@@ -15,7 +15,6 @@ import '../../../siteManagement/styles/siteManagement.scss'
 import '../../style/manpowerManagement.scss'
 
 import { employeeChart, getEmployeeDetails, getEmployeeIndex } from '../../actionMethods/actionMethods';
-import { emailIcon, empIDIcon, batteryIcon, selectedPinkArrowIcon } from '../../../common/images';
 
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
@@ -25,6 +24,12 @@ import { getLanguageTranslation, setSelectedLanguage } from '../../../dashboard/
 
 import downArrowFill from '../../../assets/images/down-arrowFill.png'
 import DashboardLanguage from '../../../components/dashboardLanguage';
+
+
+import batteryIcon from '../../../assets/traceplusImages/battery.svg'
+import emailIcon from '../../../assets/traceplusImages/employee_email_icon.svg'
+import selectedPinkArrowIcon from '../../../assets/traceplusImages/pink_right_arrow_icon.svg'
+import empIDIcon from '../../../assets/traceplusImages/employee_id_icon.svg'
 
 
 function EmployeeDetails(props) {

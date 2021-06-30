@@ -7,7 +7,10 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { CommonHeading } from '../../common/commonHeading';
 import '../styles/siteManagement.scss'
 import DashboardLanguage from '../../components/dashboardLanguage';
-import { selectedPinkArrowIcon, tagIcon } from '../../common/images';
+
+
+import selectedPinkArrowIcon from '../../assets/traceplusImages/pink_right_arrow_icon.svg'
+import tagIcon from '../../assets/traceplusImages/tag_icon.svg'
 import { getSiteLocations } from '../actionMethods/actionMethods';
 
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'

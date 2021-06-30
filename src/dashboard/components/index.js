@@ -14,7 +14,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/styles/common.scss'
 import '../styles/dashboard.scss'
 import ThreatWatch from './threatWatch';
-import { peopleOnPremisesIcon, pinkArrowIcon, selectedPinkArrowIcon } from '../../common/images';
+
+
+import peopleOnPremisesIcon from '../../assets/traceplusImages/people_on_premises_icon.svg'
+import pinkArrowIcon from '../../assets/traceplusImages/pink_outline_right_arrow_icon.svg'
+import selectedPinkArrowIcon from '../../assets/traceplusImages/pink_right_arrow_icon.svg'
+
 import { getDashboardData, getThreatWatchData, getLanguageTranslation, setSelectedLanguage, getChartData } from '../actionMethods/actionMethods';
 
 import EmployeeList from '../../manPowerManagement/components/employeeList'
@@ -43,7 +48,7 @@ function Dashboard(props) {
     const [atRiskCount, updateAtRiskCount] = useState(0);
     const [threatWatchColor, updateThreatWatchColor] = useState('')
     const [selectedDate, updateSelectedDate] = useState(new Date())
-    const [startDateValue, updateStartDateValue] = useState(selectedDate)
+    const [startDateValue, updateStartDateValue] = useState(new Date().setDate(selectedDate.getDate() - 30))
     const [endDateValue, updateEndDateValue] = useState(selectedDate)
     const [toastClass, updateToastClass] = useState('successToast')
     const [employeePopupFlag, updateEmployeePopupFlag] = useState(false)
@@ -114,7 +119,7 @@ function Dashboard(props) {
             // console.log("Res : ", res)
         })
 
-        setChartDetail()
+        setChartDetail(getDateFormat(startDateValue), getDateFormat(endDateValue))
     }, []);
 
     useEffect(() => {

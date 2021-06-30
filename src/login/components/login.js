@@ -7,9 +7,13 @@ import { Form, Input, Button, Checkbox } from 'antd';
 //import 'antd/dist/antd.css'; 
 
 import '../styles/login.scss'
-import { traceplusLogo, showPasswordEyeIcon } from '../../common/images';
+
 import { emailPattern } from '../../common/utilities';
 import { userLogin, forgotPassword } from '../actionMethods/actionMethods';
+
+import traceplusLogo from '../../assets/traceplusImages/trace_logo.png'
+import showPasswordEyeIcon from '../../assets/traceplusImages/show_password.png'
+
 
 import infiniteLoader from '../../assets/images/infinite_loader.gif'
 import { getLanguageTranslation, setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';

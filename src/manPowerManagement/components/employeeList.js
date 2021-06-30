@@ -10,8 +10,12 @@ import moment from 'moment'
 import DashboardLanguage from '../../components/dashboardLanguage';
 
 import '../../siteManagement/styles/siteManagement.scss'
-import { selectedPinkArrowIcon, dayShiftImage } from '../../common/images';
+
 import { getEmployeeList } from '../actionMethods/actionMethods';
+
+import selectedPinkArrowIcon from '../../assets/traceplusImages/pink_right_arrow_icon.svg'
+import dayShiftImage from '../../assets/traceplusImages/sun.svg'
+
 
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../common/commonDatePicker';

@@ -1,7 +1,11 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap';
 import moment from 'moment';
-import { downThumbIcon, dashboardPeopleImage, green, greenThumbIcon } from '../../common/images';
+
+
+import downThumbIcon from '../../assets/traceplusImages/orange_thumb.svg.svg'
+import dashboardPeopleImage from '../../assets/traceplusImages/threat_watch_orange_img.svg'
+import greenThumbIcon from '../../assets/traceplusImages/green_thumb.svg'
 
 import dropdownIcon from '../../assets/images/down-arrow.png'
 import DatePicker from "react-datepicker";
