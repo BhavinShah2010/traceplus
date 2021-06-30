@@ -23,8 +23,6 @@
 
         .locationsListing {}
 
-        
-
         .listingRecordMainDiv {
             margin-top: 1rem;
 
@@ -129,7 +127,6 @@
                     border-radius: 0.45rem;
                     background-image: linear-gradient(279deg, #404255, #5c5e74);
                     font-size: 1rem;
-                    
                 }
             }
         }
@@ -250,7 +247,6 @@
     box-shadow: 0 5px 15px 0 rgba(85, 89, 124, 0.2);
 }
 
-
 .siteHeadingDatePickerDiv {
     width: 20%;
     display: inline-block;
@@ -258,11 +254,11 @@
     padding: 0 1rem;
     padding-left: 0;
 
-    .react-datepicker-popper{
+    .react-datepicker-popper {
         left: -200px !important;
     }
 
-    .react-datepicker__triangle{
+    .react-datepicker__triangle {
         left: 13rem !important;
     }
 
@@ -283,15 +279,16 @@
     }
 }
 
-.mostInteractedListMainDiv{
+.mostInteractedListMainDiv {
     background: #f5f7fa;
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
 
-    .dateInnerMainDiv{
+    .dateInnerMainDiv {
         padding: 0.35rem 0;
         border-bottom: thin #e3e5eb solid;
-        img{
+
+        img {
             width: 18px;
             transform: rotate(90deg);
             display: inline-block;
@@ -299,20 +296,18 @@
         }
     }
 
-    .mostInereractedEmpDiv{
+    .mostInereractedEmpDiv {
         padding: 0.5rem 0;
         border-bottom: thin #e3e5eb solid;
 
-        &:last-child{
+        &:last-child {
             border-bottom: none;
         }
     }
-
 }
 
-
-.empTeamTabMainDiv{
-    .eachTab{
+.empTeamTabMainDiv {
+    .eachTab {
         display: inline-block;
         vertical-align: middle;
         width: 110px;
@@ -321,19 +316,19 @@
         border: thin #ea5d8b solid;
         cursor: pointer;
 
-        &:first-child{
+        &:first-child {
             border-top-left-radius: 0.25rem;
             border-bottom-left-radius: 0.25rem;
             border-right: none;
         }
 
-        &:nth-child(2){
+        &:nth-child(2) {
             border-top-right-radius: 0.25rem;
             border-bottom-right-radius: 0.25rem;
         }
     }
 
-    .activeTabBG{
+    .activeTabBG {
         background: #ea5d8b;
         color: #FFFFFF !important;
     }
@@ -356,32 +351,51 @@
     }
 }
 
-.eachPeakHoursDiv{
+.eachPeakHoursDiv {
     padding: 0.5rem 0;
 
-    img{
+    img {
         width: 18px;
         margin-right: 0.5rem;
         vertical-align: middle;
     }
 
-    span{
+    span {
         vertical-align: middle;
     }
-
 }
 
-.locationsOverviewMainDiv{
+.locationsOverviewMainDiv {
     padding: 1rem;
     border-radius: 0.5rem;
     background: #202236;
 
-    .randomBubbleMainDiv{
+    .randomBubbleMainDiv {
         position: relative;
+        height: 400px;
 
-        .eachBubbleMainDiv{
-            width: 33%;
-            height: 100px;
+        .eachBubbleMainDiv {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .greenBubbleSize {
+            width: 80px;
+            height: 80px;
+        }
+
+        .orangeBubbleSize {
+            width: 160px;
+            height: 160px;
+        }
+
+        .yellowBubbleSize {
+            width: 120px;
+            height: 120px;
         }
     }
 }

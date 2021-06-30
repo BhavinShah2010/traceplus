@@ -22,7 +22,7 @@ export const sidebarMenuItems = [
         "title": "Site Management",
         "defaultIcon": SiteManagementDefaultIcon,
         "activeIcon":SiteManagementActiveIcon,
-        "paths":"/site-list",
+        "paths":"/site-management",
         "tooltip":"Site Management"
     },
 
