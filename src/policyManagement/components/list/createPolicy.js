@@ -20,6 +20,8 @@ function CreatePolicy(params) {
     const [value, setValue] = useState('');
     const [selectedPolicy, updateSelectedPolicy] = useState('')
 
+    const [policyName, updatePolicyName] = useState('Eating Area Policy')
+
     const mockVal = (str, repeat = 1) => ({
         value: str.repeat(repeat),
     });
@@ -61,7 +63,7 @@ function CreatePolicy(params) {
                                     <Row className="m-t">
                                         <Col lg={6}>
                                             <label>Name your policy</label>
-                                            <input type="text" />
+                                            <input type="text" value={policyName} />
                                         </Col>
 
                                         <Col lg={6}>
