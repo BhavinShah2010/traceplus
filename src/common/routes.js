@@ -13,6 +13,7 @@ import ManPowerMangementList from '../manPowerManagement/components';
 import PrivateRoute from './privateRoute'
 import EmployeeList from '../manPowerManagement/components/employeeList';
 import EmployeeDetails from '../manPowerManagement/components/details';
+import CreatePolicy from '../policyManagement/components/list/createPolicy';
 
 const Routes = () => (
     <Switch>
@@ -24,6 +25,7 @@ const Routes = () => (
         <PrivateRoute exact path='/manpower-management' component={ManPowerMangementList} />
         <PrivateRoute exact path='/manpower-management/employee-list' component={EmployeeList} />
         <PrivateRoute exact path='/manpower-management/employee-list/view/:id' component={EmployeeDetails} />
+        <PrivateRoute exact path='/policy-management/create-policy' component={CreatePolicy} />
         <PrivateRoute exact path='/' component={Dashboard} />
         
     </Switch>

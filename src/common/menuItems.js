@@ -35,4 +35,12 @@ export const sidebarMenuItems = [
         "tooltip":"Manpower Management"
     },
 
+    {
+        "title": "Policy Management",
+        "defaultIcon": ManPowerManagementDefaultIcon,
+        "activeIcon":ManPowerManagementActiveIcon,
+        "paths":"/policy-management",
+        "tooltip":"Policy Management"
+    },
+
 ]
