@@ -296,8 +296,11 @@ function Dashboard(props) {
         getThreatWatchDataValues(requestBody)
 
         
+        
 
-        let startDate = (new Date().setDate(date.getDate() - 30))
+        let startDate = new Date(date).setDate(date.getDate() - 30)
+
+        console.log("GGG : " , startDate, date)
 
         setChartDetail(getDateFormat(startDate), getDateFormat(date))
     }
