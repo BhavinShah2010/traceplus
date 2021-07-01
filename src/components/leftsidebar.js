@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 
 import Aside from './aside';
-import { traceplusLogo } from '../common/images';
+
+
+import traceplusLogo from '../assets/traceplusImages/trace_logo.png'
 import { logoutUser } from '../login/actionMethods/actionMethods';
 
 import SpinnerLoader from '../assets/images/Spinner Loader.gif'

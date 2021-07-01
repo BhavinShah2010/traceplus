@@ -10,8 +10,12 @@ import moment from 'moment'
 import DashboardLanguage from '../../components/dashboardLanguage';
 
 import '../../siteManagement/styles/siteManagement.scss'
-import { selectedPinkArrowIcon, dayShiftImage } from '../../common/images';
+
 import { getEmployeeList } from '../actionMethods/actionMethods';
+
+import selectedPinkArrowIcon from '../../assets/traceplusImages/pink_right_arrow_icon.svg'
+import dayShiftImage from '../../assets/traceplusImages/sun.svg'
+
 
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../common/commonDatePicker';
@@ -221,13 +225,20 @@ function EmployeeList(props) {
 
                             <Row>
                                 <Col lg={8} className={props.hideHeading ? 'p-l-0' : ''}>
-                                    <h3 className="locationsListing">{getTranslatedText('Employees')} ({employeeList.length})</h3>
+                                    <h3 className="locationsListing">
+                                    {props.atRiskEmp ? 'At Risk Employees' : getTranslatedText('Employees')}
+                                    
+                                    
+                                     ({employeeList.length})</h3>
                                 </Col>
+                                {
+                                    props.hideSearch ? '' : 
                                 <Col lg={4} className={props.hideHeading ? 'p-r-0' : ''}>
                                     <div className="listingSearchMainDiv">
                                         <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
                                     </div>
                                 </Col>
+                                }
                             </Row>
 
 

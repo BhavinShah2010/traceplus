@@ -3,18 +3,28 @@ import { CommonHeading } from '../../common/commonHeading';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
+import ReactModal from 'react-modal';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { ToastContainer, toast } from 'react-toastify';
 
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 import '../../assets/styles/common.scss'
 import '../styles/dashboard.scss'
 import ThreatWatch from './threatWatch';
-import { peopleOnPremisesIcon, pinkArrowIcon, selectedPinkArrowIcon } from '../../common/images';
+
+
+import peopleOnPremisesIcon from '../../assets/traceplusImages/people_on_premises_icon.svg'
+import pinkArrowIcon from '../../assets/traceplusImages/pink_outline_right_arrow_icon.svg'
+import selectedPinkArrowIcon from '../../assets/traceplusImages/pink_right_arrow_icon.svg'
+
 import { getDashboardData, getThreatWatchData, getLanguageTranslation, setSelectedLanguage, getChartData } from '../actionMethods/actionMethods';
 
+import EmployeeList from '../../manPowerManagement/components/employeeList'
+
+import SiteMangementList from '../../siteManagement/components/index'
 
 import DashboardChart from './dashboardChart';
 import moment from 'moment'
@@ -27,6 +37,7 @@ import ContentLoader from 'react-content-loader'
 import CommonDatePicker from '../../common/commonDatePicker';
 import { titles } from './constant'
 import { getTranslatedText } from '../../common/utilities';
+import { getEmployeeList } from '../../manPowerManagement/actionMethods/actionMethods';
 
 function Dashboard(props) {
 
@@ -37,15 +48,31 @@ function Dashboard(props) {
     const [atRiskCount, updateAtRiskCount] = useState(0);
     const [threatWatchColor, updateThreatWatchColor] = useState('')
     const [selectedDate, updateSelectedDate] = useState(new Date())
-    const [startDateValue, updateStartDateValue] = useState(selectedDate)
+    const [startDateValue, updateStartDateValue] = useState(new Date().setDate(selectedDate.getDate() - 30))
     const [endDateValue, updateEndDateValue] = useState(selectedDate)
     const [toastClass, updateToastClass] = useState('successToast')
+    const [employeePopupFlag, updateEmployeePopupFlag] = useState(false)
+    const [locationPopupFlag, updateLocationPopupFlag] = useState(false)
 
 
     const [contactRankValue, updateContactRankValue] = useState(1)
 
     const [selectedLangValue, updateSelectedLangValue] = useState('en')
     const [chartData, setChartData] = useState({ categories: [], series: [], chartData: [] })
+
+    const customStyles = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            width:'80%',
+            height:'90%'
+        },
+    };
+
 
 
     const [indexTitleArray, updateIndexTitleArray] =
@@ -76,9 +103,7 @@ function Dashboard(props) {
 
     useEffect(() => {
 
-        console.log("pROPS : " , props.match.path)
-
-        if(props.match.path == '/'){
+        if (props.match.path == '/') {
             props.history.push('/dashboard')
         }
 
@@ -91,14 +116,14 @@ function Dashboard(props) {
 
 
         getLanguageTranslation(selectedLangValue).then(res => {
-           // console.log("Res : ", res)
+            // console.log("Res : ", res)
         })
 
-        setChartDetail()
+        setChartDetail(getDateFormat(startDateValue), getDateFormat(endDateValue))
     }, []);
 
-    useEffect (() =>{
-        if(props.language){
+    useEffect(() => {
+        if (props.language) {
             updateSelectedLangValue(props.language)
         }
     }, [props.language])
@@ -118,10 +143,10 @@ function Dashboard(props) {
     }, [indexTitle])
 
 
-    const setChartDetail = (startDateValue = null , endDateValue = null) => {
+    const setChartDetail = (startDateValue = null, endDateValue = null) => {
         setChartData({ categories: [], series: [], chartData: [] })
 
-        
+
 
         let obj = {
             index: titles[indexTitle].toLowerCase(),
@@ -134,7 +159,7 @@ function Dashboard(props) {
             let categories = []
             let series = []
             let chartData = []
-            
+
             if (data && Array.isArray(data)) {
                 chartData = data
 
@@ -143,10 +168,10 @@ function Dashboard(props) {
                     categories.push(d)
                     series.push(i[obj.index])
                 })
-            
+
                 setChartData({ series, categories, chartData })
             }
-            
+
         }).catch((err) => {
             console.log(err)
         })
@@ -205,7 +230,7 @@ function Dashboard(props) {
         for (let index = 0; index < titleArray.length; index++) {
             const element = titleArray[index];
 
-            
+
 
             arr.push(
                 <div className={'populationRiskMainDiv ' +
@@ -269,6 +294,15 @@ function Dashboard(props) {
         requestBody.contactRank = contactRankValue
         //getDashboardDataValues(requestBody)
         getThreatWatchDataValues(requestBody)
+
+        
+        
+
+        let startDate = new Date(date).setDate(date.getDate() - 30)
+
+        console.log("GGG : " , startDate, date)
+
+        setChartDetail(getDateFormat(startDate), getDateFormat(date))
     }
 
     function handleSelectStartDate(date) {
@@ -294,26 +328,26 @@ function Dashboard(props) {
         let isBefore = startDate.isBefore(endDate)
 
 
-        if(isBefore){
+        if (isBefore) {
             let requestBody = {}
             requestBody.date = getDateFormat(date)
             requestBody.contactRank = contactRankValue
-    
+
             setTimeout(() => {
                 getThreatWatchDataValues(requestBody)
-                setChartDetail( getDateFormat(startDateValue), requestBody.date)
+                setChartDetail(getDateFormat(startDateValue), requestBody.date)
             }, 100);
 
         }
 
-        else{
+        else {
             updateToastClass('errorToast')
-            toast('End Date Should be Greater Than Start Date.' , {
+            toast('End Date Should be Greater Than Start Date.', {
                 position: "top-right",
                 hideProgressBar: false,
                 closeOnClick: true,
-                pauseOnHover:false,
-                hideProgressBar:true
+                pauseOnHover: false,
+                hideProgressBar: true
 
 
             })
@@ -336,6 +370,20 @@ function Dashboard(props) {
 
             }
         })
+    }
+
+    function handleUpdateEmployeePopup() {
+        updateEmployeePopupFlag(true)
+    }
+
+    function handleUpdateLocationPopup() {
+        updateLocationPopupFlag(true)
+    }
+
+    function handleCloseModal() {
+        console.log("fgdfgdfg")
+        updateEmployeePopupFlag(false)
+        updateLocationPopupFlag(false)   
     }
 
     return (
@@ -398,6 +446,8 @@ function Dashboard(props) {
                                     contaminatedEmployeeCount={contaminatedEmployeeCount}
                                     atRiskCount={atRiskCount}
                                     threatWatchColor={threatWatchColor}
+                                    openEmployeePopup={handleUpdateEmployeePopup}
+                                    openLocationPopup={handleUpdateLocationPopup}
                                 />
                             </Col>
                         </Row> : <Row className="text-center">
@@ -425,8 +475,43 @@ function Dashboard(props) {
                 </div>
             </Container >
 
+            <ReactModal
+                isOpen={employeePopupFlag}
+                style={customStyles}
+                onRequestClose={handleCloseModal}
+                shouldCloseOnOverlayClick={true}
+            >
+            
+              <Scrollbars style={{ width: '100%', height: '100%' }} autoHide>
+
+                <EmployeeList
+                hideHeading={true}
+                hideSearch={true}
+                atRiskEmp={true}
+                />
+                </Scrollbars>
+            </ReactModal>
+
+
+            <ReactModal
+                isOpen={locationPopupFlag}
+                style={customStyles}
+                onRequestClose={handleCloseModal}
+                shouldCloseOnOverlayClick={true}
+            >
+              <Scrollbars style={{ width: '100%', height: '100%' }} autoHide>
+
+                <SiteMangementList
+                hideHeading={true}
+                hideSearch={true}
+                atRiskEmp={true}
+                />
+                </Scrollbars>
+            </ReactModal>
+
+
             <ToastContainer
-            toastClassName={toastClass}
+                toastClassName={toastClass}
             />
         </div>
     )

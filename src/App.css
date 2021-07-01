@@ -39,3 +39,9 @@ body{
   background: #ff0000 !important;
   color: #FFFFFF !important;
 }
+
+.ReactModal__Overlay{
+  background: rgba(0,0,0,0.5) !important;
+  box-shadow: none !important;
+}
+

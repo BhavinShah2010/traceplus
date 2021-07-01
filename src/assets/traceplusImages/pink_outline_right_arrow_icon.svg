@@ -1,0 +1,10 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="37" height="36" viewBox="0 0 37 36">
+    <g>
+        <g>
+            <g transform="rotate(-90 18.275 17.503)">
+                <ellipse cx="17.5" cy="18" fill="none" stroke="#ef5e8c" rx="17.5" ry="18" transform="translate(.277 -.272)"/>
+            </g>
+        </g>
+        <path fill="none" stroke="#ef5e8c" stroke-linecap="round" stroke-miterlimit="10" d="M0 0l5.911 5.55L11.822 0" transform="rotate(-90 18.275 17.503) translate(12.35 15.148)"/>
+    </g>
+</svg>

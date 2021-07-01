@@ -3,7 +3,8 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { moment } from 'moment';
-import { calenderIcon } from './images';
+
+import calenderIcon from '../assets/traceplusImages/calendar_icon.svg'
 
 
 function CommonDatePicker(props) {

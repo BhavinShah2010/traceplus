@@ -1,7 +1,11 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap';
 import moment from 'moment';
-import { downThumbIcon, dashboardPeopleImage, green, greenThumbIcon } from '../../common/images';
+
+
+import downThumbIcon from '../../assets/traceplusImages/orange_thumb.svg.svg'
+import dashboardPeopleImage from '../../assets/traceplusImages/threat_watch_orange_img.svg'
+import greenThumbIcon from '../../assets/traceplusImages/green_thumb.svg'
 
 import dropdownIcon from '../../assets/images/down-arrow.png'
 import DatePicker from "react-datepicker";
@@ -54,12 +58,12 @@ function ThreatWatch(props) {
                                 <div className="titleText font-bold">{getTranslatedText('At Risk')}</div>
                                 <div className="eachRecordDiv m-t">
                                     <span className="font-bold countDiv">{props.atRiskCount}&nbsp;</span>
-                                    <span className="labelDiv">{getTranslatedText('Employees')}</span>
+                                    <span className="labelDiv cursor-pointer" onClick={props.openEmployeePopup}>{getTranslatedText('Employees')}</span>
                                 </div>
 
                                 <div className="eachRecordDiv">
                                     <span className="font-bold countDiv">{props.orgCount}&nbsp;</span>
-                                    <span className="labelDiv">{getTranslatedText('Locations')}</span>
+                                    <span className="labelDiv cursor-pointer" onClick={props.openLocationPopup}>{getTranslatedText('Locations')}</span>
                                 </div>
 
                             </div>
@@ -72,7 +76,7 @@ function ThreatWatch(props) {
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />
                                         </div>
-                                        <select onChange={handleOnChangeContactRankValue}>
+                                        <select disabled onChange={handleOnChangeContactRankValue}>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -93,6 +97,7 @@ function ThreatWatch(props) {
                                             dateFormat={'MMM dd'}
                                             isClearable={false}
                                             maxDate={props.selectedDate}
+                                            disabled={true}
                                             />
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />
@@ -109,6 +114,7 @@ function ThreatWatch(props) {
                                             dateFormat={'MMM dd'}
                                             isClearable={false}
                                             maxDate={props.selectedDate}
+                                            disabled={true}
                                              />
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />

@@ -1,0 +1,245 @@
+.createPolicyMainDiv {
+    background: #FFFFFF;
+    padding: 2rem;
+    border-radius: 0.5rem;
+
+    .activeSelect {
+        &::before {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            bottom: 0;
+            margin-top: auto;
+            margin-bottom: auto;
+            margin-left: auto;
+            content: "";
+            z-index: 5;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #ef5e8c;
+            pointer-events: none;
+        }
+
+        select {
+            color: #434343;
+            border-bottom: thin #e4e4e4 solid;
+            width: 100%;
+            font-weight: 600;
+            font-size: 0.875rem;
+            position: relative;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-indent: 1px;
+            text-overflow: '';
+        }
+    }
+
+    label {
+        font-size: 0.85rem;
+        color: #a4a4a4;
+        margin: 0;
+        padding: 0;
+    }
+
+    input {
+        padding: 0.5rem 0rem;
+        border-bottom: thin #e4e4e4 solid;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        outline: none;
+        width: 100%;
+        color: #434343;
+    }
+
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        outline: none;
+        border-bottom: thin #e4e4e4 solid;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .ant-select-focused {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        outline: none;
+        box-shadow: none;
+        border-bottom: thin #e4e4e4 solid;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        outline: none;
+        border-color: none !important;
+        box-shadow: none;
+        border-bottom: thin transparent solid;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .policySpecificationsMainDiv {
+        margin: 1rem 0;
+
+        .eachPolicySpecificationMainDiv {
+            background: #f6f7fb;
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+
+            ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: #FFFFFF;
+            }
+
+            :-ms-input-placeholder { /* Internet Explorer 10-11 */
+                color: #FFFFFF;
+            }
+
+            ::-ms-input-placeholder { /* Microsoft Edge */
+                color: #FFFFFF;
+            }
+
+            input {
+                padding: 0.5rem 0;
+                border-bottom: thin #FFFFFF solid;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                outline: none;
+                width: 100%;
+                color: #FFFFFF;
+                background: transparent;
+            }
+
+            .labelDiv {
+                display: inline-block;
+                vertical-align: middle;
+                width: 60%;
+                text-align: left;
+                font-weight: 600;
+            }
+
+            .roundDiv {
+                display: inline-block;
+                vertical-align: middle;
+                width: 15px;
+                height: 15px;
+                border-radius: 8px;
+                margin-top: 0.25rem;
+                float: right;
+                border: thin #ef5e8c solid;
+            }
+        }
+
+        .activePolicy {
+            background: #ef5e8c;
+
+            .labelDiv {
+                color: #FFFFFF;
+            }
+
+            .roundDiv {
+                background: #FFFFFF;
+            }
+        }
+    }
+
+    .addAreaPolicyMainDiv {
+        width: 65%;
+        float: right;
+        background: #434343;
+        padding: 0.85rem;
+        border-radius: 0.5rem;
+
+        h6 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .eachPolicyAreaMainDiv {
+            background: linear-gradient(90deg, #5c5e73, #44475a);
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: #FFFFFF;
+            position: relative;
+            border-radius: 0.35rem;
+
+            .addIconDiv {
+                position: absolute;
+                width: 18px;
+                height: 18px;
+                background: #FFFFFF;
+                border-radius: 10px;
+                right: 0.5rem;
+                top: 0.5rem;
+                color: #ef5e8c;
+                cursor: pointer;
+
+                span {
+                    position: absolute;
+                    top: -0.2rem;
+                    left: 0.25rem;
+                    font-size: 1rem;
+                }
+            }
+
+            .propsMainDiv {
+                .eachPropDiv {
+                    background: transparent;
+                    border-radius: 20px;
+                    border: thin #FFFFFF solid;
+                    color: #FFFFFF;
+                    text-align: center;
+                    padding: 0.25rem 0.5rem;
+                    display: inline-block;
+                    vertical-align: top;
+                    margin-bottom: 0.5rem;
+                    margin-right: 0.5rem;
+                }
+            }
+        }
+    }
+
+    select {
+        background: transparent;
+        padding: 0 0.15rem;
+        padding-bottom: 0.5rem;
+        color: #FFFFFF;
+        border: none;
+        outline: none;
+        border-bottom: thin #FFFFFF solid;
+
+        option{
+            color: #434343;
+        }
+    }
+}
+
+.selectedPersonDiv {
+    .eachSelectedDiv {
+        background: #303249;
+        padding: 0.15rem 0.35rem;
+        border-radius: 0.15rem;
+        color: #FFFFFF;
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.75rem;
+
+        .closeDiv {
+            margin-left: 0.25rem;
+            cursor: pointer;
+        }
+    }
+}

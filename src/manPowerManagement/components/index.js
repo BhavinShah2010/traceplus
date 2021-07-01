@@ -10,9 +10,11 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { CommonHeading } from '../../common/commonHeading';
 import DashboardLanguage from '../../components/dashboardLanguage';
 import '../style/manpowerManagement.scss'
-import { mediumRiskIcon } from '../../common/images';
+
 import CommonDatePicker from '../../common/commonDatePicker';
 import { attendanceChart, getOrgPri, getDepartmentList } from '../actionMethods/actionMethods'
+
+import mediumRiskIcon from '../../assets/traceplusImages/medium_risk_icon.svg'
 
 import moment from 'moment'
 import Chart from './areaChart'

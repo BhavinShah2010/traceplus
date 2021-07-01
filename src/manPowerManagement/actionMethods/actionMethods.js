@@ -47,7 +47,7 @@ export const attendanceChart = async (date) => {
 
 export const employeeChart = async (requestBody) => {
     try {
-        const res = await axios.get(`${prefixURL}/get_employee_period_pri?session=${userSession}&start_date=${requestBody.start}&emp_id=7&index_name=population&org_id=6&end_date=${requestBody.end}`)
+        const res = await axios.get(`${prefixURL}/get_employee_period_pri?session=${userSession}&start_date=${requestBody.start}&emp_id=${requestBody.emp_id}&index_name=population&org_id=${org_id}&end_date=${requestBody.end}`)
         return res.data
     } catch (err) {
         return err;

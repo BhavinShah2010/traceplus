@@ -15,7 +15,6 @@ import '../../../siteManagement/styles/siteManagement.scss'
 import '../../style/manpowerManagement.scss'
 
 import { employeeChart, getEmployeeDetails, getEmployeeIndex } from '../../actionMethods/actionMethods';
-import { emailIcon, empIDIcon, batteryIcon, selectedPinkArrowIcon } from '../../../common/images';
 
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
@@ -25,6 +24,12 @@ import { getLanguageTranslation, setSelectedLanguage } from '../../../dashboard/
 
 import downArrowFill from '../../../assets/images/down-arrowFill.png'
 import DashboardLanguage from '../../../components/dashboardLanguage';
+
+
+import batteryIcon from '../../../assets/traceplusImages/battery.svg'
+import emailIcon from '../../../assets/traceplusImages/employee_email_icon.svg'
+import selectedPinkArrowIcon from '../../../assets/traceplusImages/pink_right_arrow_icon.svg'
+import empIDIcon from '../../../assets/traceplusImages/employee_id_icon.svg'
 
 
 function EmployeeDetails(props) {
@@ -426,10 +431,10 @@ function EmployeeDetails(props) {
                                                         <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
-                                                            <Col lg={5}>
+                                                            <Col lg={4}>
                                                                 <h5 className="font-bold">{employeeIndexData.pri_level}</h5>
                                                             </Col>
-                                                            <Col lg={7}>
+                                                            <Col lg={8}>
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.population_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">10%</div>
@@ -445,10 +450,10 @@ function EmployeeDetails(props) {
                                                         <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
-                                                            <Col lg={5} >
+                                                            <Col lg={4} >
                                                                 <h5 className="font-bold">{employeeIndexData.sri_level}</h5>
                                                             </Col>
-                                                            <Col lg={7} className="p-l-0">
+                                                            <Col lg={8} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.spread_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">10%</div>
@@ -464,10 +469,10 @@ function EmployeeDetails(props) {
                                                         <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
-                                                            <Col lg={5}>
+                                                            <Col lg={4}>
                                                                 <h5 className="font-bold">{employeeIndexData.mri_level}</h5>
                                                             </Col>
-                                                            <Col lg={7} className="p-l-0">
+                                                            <Col lg={8} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.mobility_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">10%</div>

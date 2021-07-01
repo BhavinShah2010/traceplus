@@ -1,27 +1,46 @@
+
+import dashboardDefaultIcon from '../assets/traceplusImages/dashboardDefault.svg'
+import dashboardActiveIcon from '../assets/traceplusImages/dashboardActive.svg'
+
+import SiteManagementDefaultIcon from '../assets/traceplusImages/siteManagementDefault.svg'
+import SiteManagementActiveIcon from '../assets/traceplusImages/siteManagementActive.svg'
+
+import ManPowerManagementDefaultIcon from '../assets/traceplusImages/manpowerManagementDefault.svg'
+import ManPowerManagementActiveIcon from '../assets/traceplusImages/manpowerManagementActive.svg'
+
+
 export const sidebarMenuItems = [
     {
         "title": "Dashboard",
-        "defaultIcon": "http://iot.orvito.com:6220/assets/img/icons/sidebar/site_management_icon.svg",
-        "activeIcon":"http://iot.orvito.com:6220/assets/img/icons/sidebar/site_management_active_icon.svg",
+        "defaultIcon": dashboardDefaultIcon,
+        "activeIcon":dashboardActiveIcon,
         "paths":"/dashboard",
         "tooltip":"Dashboard"
     },
 
     {
         "title": "Site Management",
-        "defaultIcon": "http://iot.orvito.com:6220/assets/img/icons/sidebar/manpower_management_icon.svg",
-        "activeIcon":"http://iot.orvito.com:6220/assets/img/icons/sidebar/manpower_management_active_icon.svg",
-        "paths":"/site-list",
+        "defaultIcon": SiteManagementDefaultIcon,
+        "activeIcon":SiteManagementActiveIcon,
+        "paths":"/site-management",
         "tooltip":"Site Management"
     },
 
 
     {
         "title": "Manpower Management",
-        "defaultIcon": "http://iot.orvito.com:6220/assets/img/icons/sidebar/policy_management_icon.svg",
-        "activeIcon":"http://iot.orvito.com:6220/assets/img/icons/sidebar/policy_management_active_icon.svg",
+        "defaultIcon": ManPowerManagementDefaultIcon,
+        "activeIcon":ManPowerManagementActiveIcon,
         "paths":"/manpower-management",
         "tooltip":"Manpower Management"
+    },
+
+    {
+        "title": "Policy Management",
+        "defaultIcon": ManPowerManagementDefaultIcon,
+        "activeIcon":ManPowerManagementActiveIcon,
+        "paths":"/policy-management",
+        "tooltip":"Policy Management"
     },
 
 ]
