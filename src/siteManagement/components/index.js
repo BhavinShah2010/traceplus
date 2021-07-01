@@ -248,34 +248,38 @@ function SiteMangementList(props) {
                                     }
                                 </Row>
 
-                                <Row>
-                                    <Col lg={12}>
-                                        <div className="bubbleViewLocationsMainDiv">
-                                            <Row>
-                                                <Col lg={4}>
-                                                    <h5 className="font-bold m-b-xs">Locations</h5>
-                                                    <div className="dateText ">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
-                                                </Col>
-                                                <Col lg={8}>
-                                                    <div className="pinnedHighRiskMainDiv">
-                                                        <div className="eachTabDiv activeTab">
-                                                           <span> Pinned</span>
-                                                           <div className="numberDiv">12</div>
+                                {
+                                    props.isBubbleView ? 
+                                    <Row>
+                                        <Col lg={12}>
+                                            <div className="bubbleViewLocationsMainDiv">
+                                                <Row>
+                                                    <Col lg={4}>
+                                                        <h5 className="font-bold m-b-xs">Locations</h5>
+                                                        <div className="dateText ">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
+                                                    </Col>
+                                                    <Col lg={8}>
+                                                        <div className="pinnedHighRiskMainDiv">
+                                                            <div className="eachTabDiv activeTab">
+                                                            <span> Pinned</span>
+                                                            <div className="numberDiv">12</div>
+                                                            </div>
+                                                            <div className="eachTabDiv">
+                                                                <span>High Risk</span>
+                                                                <div className="numberDiv">9</div>
+                                                            </div>
+                                                            <div className="filterDiv">
+                                                                Filter 
+                                                                <img src={filterIcon} />
+                                                            </div>
                                                         </div>
-                                                        <div className="eachTabDiv">
-                                                            <span>High Risk</span>
-                                                            <div className="numberDiv">9</div>
-                                                        </div>
-                                                        <div className="filterDiv">
-                                                            Filter 
-                                                            <img src={filterIcon} />
-                                                        </div>
-                                                    </div>
-                                                </Col>
-                                            </Row>
-                                        </div>
-                                    </Col>
-                                </Row>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                        </Col>
+                                    </Row> : ''
+                                }
+
 
                                 {
                                     isLoading ? <div className="text-center m-t-lg">
