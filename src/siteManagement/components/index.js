@@ -10,6 +10,7 @@ import DashboardLanguage from '../../components/dashboardLanguage';
 
 
 import selectedPinkArrowIcon from '../../assets/traceplusImages/pink_right_arrow_icon.svg'
+import filterIcon from '../../assets/traceplusImages/filter.png'
 import tagIcon from '../../assets/traceplusImages/tag_icon.svg'
 import { getSiteLocations } from '../actionMethods/actionMethods';
 
@@ -183,10 +184,14 @@ function SiteMangementList(props) {
         }
     }, [props.language])
 
+    function handleSiteManagement() {
+        props.history.push('/site-management')
+    }
+
 
 
     return (
-        <div className="dashboardComponentMainDiv siteManagementMainDiv">
+        <div className="dashboardComponentMainDiv siteManagementMainDiv" style={props.hideHeading ? { padding: '0' } : {}}>
             <Container >
 
                 {
@@ -195,7 +200,7 @@ function SiteMangementList(props) {
                         <Row>
                             <Col lg={6} >
                                 <div className="siteViewHeaderDiv">
-                                    <span className="smallHeader">{getTranslatedText('Site Management')}</span>
+                                    <span className="smallHeader" onClick={handleSiteManagement}>{getTranslatedText('Site Management')}</span>
                                     <span className="breadCrumbArrow"> > </span>
                                     <span className="mediumHeader">{getTranslatedText('Site Listing')}</span>
                                 </div>
@@ -221,15 +226,18 @@ function SiteMangementList(props) {
 
                 {
 
-                    <Row className="m-t">
+                    <Row className={props.hideHeading ? '' : 'm-t'}>
                         <Col lg={12}>
-                        <div className={'siteListMainDiv ' + (props.hideHeading ? 'p-l-0 p-r-0' : '')} style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
+                            <div className={'siteListMainDiv ' + (props.hideHeading ? 'p-l-0 p-r-0' : '')} style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
                                 <Row>
-                                    <Col lg={8} >
-                                        <h3 className="locationsListing">
-                                        {props.atRiskEmp ? 'At Risk Locations ' : getTranslatedText('Locations')}
-                                         ({siteLocationsList.length})</h3>
-                                    </Col>
+                                    {
+                                        props.isBubbleView ? '' :
+                                            <Col lg={8} >
+                                                <h3 className="locationsListing">
+                                                    {props.atRiskEmp ? 'At Risk Locations ' : getTranslatedText('Locations')}
+                                                    ({siteLocationsList.length})</h3>
+                                            </Col>
+                                    }
                                     {
                                         props.hideHeading ? '' :
                                             <Col lg={4}>
@@ -240,13 +248,42 @@ function SiteMangementList(props) {
                                     }
                                 </Row>
 
+                                <Row>
+                                    <Col lg={12}>
+                                        <div className="bubbleViewLocationsMainDiv">
+                                            <Row>
+                                                <Col lg={4}>
+                                                    <h5 className="font-bold m-b-xs">Locations</h5>
+                                                    <div className="dateText ">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
+                                                </Col>
+                                                <Col lg={8}>
+                                                    <div className="pinnedHighRiskMainDiv">
+                                                        <div className="eachTabDiv activeTab">
+                                                           <span> Pinned</span>
+                                                           <div className="numberDiv">12</div>
+                                                        </div>
+                                                        <div className="eachTabDiv">
+                                                            <span>High Risk</span>
+                                                            <div className="numberDiv">9</div>
+                                                        </div>
+                                                        <div className="filterDiv">
+                                                            Filter 
+                                                            <img src={filterIcon} />
+                                                        </div>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    </Col>
+                                </Row>
+
                                 {
                                     isLoading ? <div className="text-center m-t-lg">
                                         <img src={spinnerLoader} className="m-t-lg" />
                                     </div> :
                                         <Row>
                                             <Col lg={12}>
-                                                <div className="listingRecordMainDiv">
+                                                <div className="listingRecordMainDiv" style={props.isBubbleView ? { padding: '0rem 1rem' } : {}}>
 
                                                     {
                                                         siteLocationsList && siteLocationsList.length > 0 ?

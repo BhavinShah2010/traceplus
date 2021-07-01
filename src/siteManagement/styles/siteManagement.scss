@@ -399,3 +399,70 @@
         }
     }
 }
+
+
+.bubbleViewLocationsMainDiv{
+    padding: 1rem 1rem 0 1rem;
+
+    .pinnedHighRiskMainDiv{
+        .eachTabDiv{
+            width: 100px;
+            padding: 0.15rem 0.25rem;
+            display: inline-block;
+            vertical-align: middle;
+            border-radius: 0.25rem;
+            border: thin #eeedf0 solid;
+            color: #7f7f89;
+            border-left: none;
+            text-align: center;
+            cursor: pointer;
+
+            span{
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+
+            .numberDiv{
+                background: transparent;
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 0.25rem;
+                width: 18px;
+                height: 18px;
+                text-align: center;
+                font-size: 0.7rem;
+                border-radius: 9px;
+                border:thin #eeedf0 solid;
+            }
+
+        }
+
+        .activeTab{
+            border: thin #ea618f solid;
+            
+            color: #ea5d8b;
+            background: #fdeff5;
+            .numberDiv{
+                background: #ea5d8b;
+                color: #FFFFFF;
+                border: thin #ea618f solid;
+            }
+
+        }
+
+        .filterDiv{
+            float: right;
+            display: inline-block;
+            vertical-align: middle;
+            border: thin #eeedf0 solid;
+            padding: 0.15rem 0.75rem;
+            cursor: pointer;
+            border-radius: 0.15rem;
+            img{
+                margin-left: 0.5rem;
+                width: 15px;
+            }
+        }
+    }
+}
