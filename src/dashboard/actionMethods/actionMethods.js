@@ -36,6 +36,16 @@ export function setSelectedLanguage(langauge) {
     }
 }
 
+export function setSelectedDate(date) {
+    console.log("date", date)
+    return dispatch => {
+        dispatch({
+            type: 'selectedDate',
+            data: date
+        })
+    }
+}
+
 export const getChartData = async (obj) => {
     try {
         let res = await axios.get(`${prefixURL}/get_index_data?session=${userSession}&org_id=${org_id}&index_name=${obj.index}&start_date=${obj.start}&end_date=${obj.end}`)

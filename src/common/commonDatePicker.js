@@ -3,13 +3,15 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { moment } from 'moment';
-
+import { connect } from 'react-redux'
+import { setSelectedDate } from '../dashboard/actionMethods/actionMethods'
 import calenderIcon from '../assets/traceplusImages/calendar_icon.svg'
 
 
 function CommonDatePicker(props) {
 
     function handleDateSelect(date) {
+        props.setSelectedDate(date)
         props.handleSelectDate(date)
     }
 
@@ -20,7 +22,7 @@ function CommonDatePicker(props) {
             }
             
             <DatePicker
-                selected={props.selectedDate}
+                selected={props.date}
                 onChange={date => handleDateSelect(date)}
                 dateFormat={'MMM dd'}
                 isClearable={false}
@@ -33,4 +35,8 @@ function CommonDatePicker(props) {
     )
 }
 
-export default CommonDatePicker
+const mapStateToProps = (state) => ({
+    date: state.dashboard.selectedDate
+})
+
+export default connect(mapStateToProps, { setSelectedDate })(CommonDatePicker)
