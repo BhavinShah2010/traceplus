@@ -37,7 +37,6 @@ export function setSelectedLanguage(langauge) {
 }
 
 export function setSelectedDate(date) {
-    console.log("date", date)
     return dispatch => {
         dispatch({
             type: 'selectedDate',
