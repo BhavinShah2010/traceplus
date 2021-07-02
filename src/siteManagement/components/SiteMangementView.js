@@ -20,7 +20,7 @@ const chartData = {
 
 function SiteMangementView(props) {
 
-    const [selectedDate, updateSelectedDate] = useState(new Date())
+    const [selectedDate, updateSelectedDate] = useState(props.date)
 
 
     function handleViewLocations() {
@@ -106,4 +106,8 @@ function SiteMangementView(props) {
     )
 }
 
-export default SiteMangementView
+const mapStateToProps = (state) => ({
+    date: state.dashboard.selectedDate
+})
+
+export default connect(mapStateToProps, null)(SiteMangementView)

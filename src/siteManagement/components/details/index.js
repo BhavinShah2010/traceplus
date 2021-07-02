@@ -44,7 +44,7 @@ function SiteViewDetails(props) {
 
     const [locationID, updateLocationID] = useState('')
 
-    const [selectedDate, updateSelectedDate] = useState(new Date())
+    const [selectedDate, updateSelectedDate] = useState(props.date)
     const [chartData, setChartData] = useState({ categories: [], series: [], top4: [] })
 
     function handleSiteListClick() {
@@ -356,7 +356,8 @@ function SiteViewDetails(props) {
 }
 
 const mapStateToProps = (state) => ({
-    language: state.dashboard.selectedLangaugeValue
+    language: state.dashboard.selectedLangaugeValue,
+    date: state.dashboard.selectedDate
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(SiteViewDetails))

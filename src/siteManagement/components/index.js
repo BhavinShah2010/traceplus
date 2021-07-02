@@ -30,7 +30,7 @@ function SiteMangementList(props) {
     const [selectedLangValue, updateSelectedLangValue] = useState('en')
 
     const [searchValue, updateSearchValue] = useState('')
-    const [selectedDate, updateSelectedDate] = useState(new Date())
+    const [selectedDate, updateSelectedDate] = useState(props.date)
     const [isLoading, updateIsLoading] = useState(true)
 
 
@@ -319,7 +319,8 @@ function SiteMangementList(props) {
 }
 
 const mapStateToProps = (state) => ({
-    language: state.dashboard.selectedLangaugeValue
+    language: state.dashboard.selectedLangaugeValue,
+    date: state.dashboard.selectedDate
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(SiteMangementList))

@@ -47,9 +47,9 @@ function Dashboard(props) {
     const [contaminatedEmployeeCount, updateContaminatedEmployeeCount] = useState(0);
     const [atRiskCount, updateAtRiskCount] = useState(0);
     const [threatWatchColor, updateThreatWatchColor] = useState('')
-    const [selectedDate, updateSelectedDate] = useState(new Date())
-    const [startDateValue, updateStartDateValue] = useState(new Date().setDate(selectedDate.getDate() - 30))
-    const [endDateValue, updateEndDateValue] = useState(selectedDate)
+    const [selectedDate, updateSelectedDate] = useState(props.date)
+    const [startDateValue, updateStartDateValue] = useState(moment(props.date).subtract(30, 'days').toDate())
+    const [endDateValue, updateEndDateValue] = useState(props.date)
     const [toastClass, updateToastClass] = useState('successToast')
     const [employeePopupFlag, updateEmployeePopupFlag] = useState(false)
     const [locationPopupFlag, updateLocationPopupFlag] = useState(false)
@@ -72,8 +72,6 @@ function Dashboard(props) {
             height:'90%'
         },
     };
-
-
 
     const [indexTitleArray, updateIndexTitleArray] =
 
@@ -518,7 +516,8 @@ function Dashboard(props) {
 }
 
 const mapStateToProps = (state) => ({
-    language: state.dashboard.selectedLangaugeValue
+    language: state.dashboard.selectedLangaugeValue,
+    date: state.dashboard.selectedDate
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(Dashboard))

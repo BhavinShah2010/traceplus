@@ -31,7 +31,7 @@ function EmployeeList(props) {
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [isLoading, updateIsLoading] = useState(true)
 
-    const [selectedDate, updateSelectedDate] = useState(new Date())
+    const [selectedDate, updateSelectedDate] = useState(props.date)
 
     let history = useHistory();
 
@@ -279,7 +279,8 @@ function EmployeeList(props) {
 }
 
 const mapStateToProps = (state) => ({
-    language: state.dashboard.selectedLangaugeValue
+    language: state.dashboard.selectedLangaugeValue,
+    date: state.dashboard.selectedDate
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(EmployeeList))

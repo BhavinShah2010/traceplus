@@ -44,7 +44,7 @@ function EmployeeDetails(props) {
 
     const [isLoading, updateIsLoading] = useState(true)
 
-    const [selectedDate, updateSelectedDate] = useState(new Date())
+    const [selectedDate, updateSelectedDate] = useState(props.date)
     const [chartData, setChartData] = useState({ series: [], categories: [] })
     const [testedPositiveDate, updateTestedPositiveDate] = useState(null)
 
@@ -566,7 +566,8 @@ function EmployeeDetails(props) {
 
 
 const mapStateToProps = (state) => ({
-    language: state.dashboard.selectedLangaugeValue
+    language: state.dashboard.selectedLangaugeValue,
+    date: state.dashboard.selectedDate
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(EmployeeDetails))
