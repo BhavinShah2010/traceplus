@@ -54,7 +54,7 @@ function EmployeeList(props) {
     }
 
     useEffect(() => {
-
+        
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
         getEmployeeList(requestBody).then(res => {
@@ -68,6 +68,32 @@ function EmployeeList(props) {
         })
 
     }, []);
+
+
+
+    useEffect(() => {
+
+        
+        if(props.date){
+
+            let requestBody = {}
+            requestBody.date = getDateFormat(props.date)
+            getEmployeeList(requestBody).then(res => {
+                updateIsLoading(false)
+    
+                if (res) {
+                    updateEmployeeCount(res.count)
+                    updateEmployeeList(res.data)
+                    updatePredefinedEmployeeList(res.data)
+                }
+            })
+        }
+
+    }, [props.date]);
+
+    
+
+
 
     function getDateFormat(date) {
         return moment(date).format('YYYY-MM-DD')

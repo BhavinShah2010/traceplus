@@ -496,7 +496,7 @@ function EmployeeDetails(props) {
                                                     <Col lg={4} className="p-r-0">
                                                         <div className="mostInteractedListMainDiv">
                                                             <div className="dateInnerMainDiv">
-                                                                <span className="font-bold">As of {moment(new Date()).format('Do MMM YYYY')}</span>
+                                                                <span className="font-bold">As of {moment(props.date).format('Do MMM YYYY')}</span>
                                                                 <span className="float-right">
                                                                     <img src={selectedPinkArrowIcon} />
                                                                 </span>

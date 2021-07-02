@@ -195,6 +195,10 @@ function ManPowerMangementList(props) {
         }
     }, [props.language])
 
+    
+
+
+
     function handleTabViewChange(key) {
         updatedSelectedTab(key)
         updateSearchValue('')
@@ -328,7 +332,10 @@ function ManPowerMangementList(props) {
                             selectedTab == 'employees' ?
                                 <div className="manpowerManagementEmployeeListMainDiv">
 
-                                    <EmployeeList hideHeading={true} />
+                                    <EmployeeList
+                                    hideHeading={true}
+                                    
+                                    />
                                 </div>
 
                                 :
