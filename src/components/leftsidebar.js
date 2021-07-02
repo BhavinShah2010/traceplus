@@ -15,6 +15,8 @@ function LeftSideBar(props) {
 
     const [showLoader, updateShowLoader] = useState(false)
 
+    let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
+
 
     function handleLogout() {
 
@@ -40,8 +42,8 @@ function LeftSideBar(props) {
                     <img src={traceplusLogo} className="logo" alt="TracePlus Logo" />
                 </div>
                 <h3 className="adminName">
-                    Jean
-            </h3>
+                    {userDetails && userDetails.name || 'Jean'}
+                </h3>
 
                 <h4 className="designation">Admin</h4>
 
