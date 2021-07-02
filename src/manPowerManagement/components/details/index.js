@@ -379,7 +379,7 @@ function EmployeeDetails(props) {
                                                     <h6 className=" text-white"> Employee Attendance </h6>
 
 
-                                                    <div className="text-white">As of {moment(new Date()).format('Do MMM YYYY')}</div>
+                                                    <div className="text-white">As of {moment(props.date).format('Do MMM YYYY')}</div>
 
                                                     <div className="attendanceDaysMainDiv">
                                                         <span className="noOfDays font-bold">{employeeDetails.emp_attendance.days_present}</span> &nbsp;
