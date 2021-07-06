@@ -380,7 +380,7 @@ function EmployeeDetails(props) {
                                                     <h6 className=" text-white"> Employee Attendance </h6>
 
 
-                                                    <div className="text-white">As of {moment(new Date()).format('Do MMM YYYY')}</div>
+                                                    <div className="text-white">As of {moment(props.date).format('Do MMM YYYY')}</div>
 
                                                     <div className="attendanceDaysMainDiv">
                                                         <span className="noOfDays font-bold">{employeeDetails.emp_attendance.days_present}</span> &nbsp;
@@ -497,7 +497,7 @@ function EmployeeDetails(props) {
                                                     <Col lg={4} className="p-r-0">
                                                         <div className="mostInteractedListMainDiv">
                                                             <div className="dateInnerMainDiv">
-                                                                <span className="font-bold">As of {moment(new Date()).format('Do MMM YYYY')}</span>
+                                                                <span className="font-bold">As of {moment(props.date).format('Do MMM YYYY')}</span>
                                                                 <span className="float-right">
                                                                     <img src={selectedPinkArrowIcon} />
                                                                 </span>
