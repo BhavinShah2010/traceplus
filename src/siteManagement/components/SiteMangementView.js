@@ -57,7 +57,7 @@ function SiteMangementView(props) {
                     </Col>
                 </Row>
                 <Row className="m-t">
-                    <Col lg={6}>
+                    <Col lg={6} className="p-r-0">
                         <div className="locationsOverviewMainDiv">
                             <h6 className="text-white">Locations Overview</h6>
                             <div className="randomBubbleMainDiv">
@@ -84,7 +84,7 @@ function SiteMangementView(props) {
                             </div>
                         </div>
                     </Col>
-                    <Col lg={6}>
+                    <Col lg={6} className="p-l-0">
                         <Scrollbars style={{ width: '100%', height: '470px' }} autoHide>
                             <SiteMangementList
                                 hideHeading={true}
@@ -98,10 +98,12 @@ function SiteMangementView(props) {
                 <Row className="m-t">
 
                     <Col lg={12}>
-                        <LocationChart
-                            yAxisTitle={`Footfall`}
-                            chartData={chartData}
-                        />
+                        <div>
+                            <LocationChart
+                                yAxisTitle={`Footfall`}
+                                chartData={chartData}
+                            />
+                        </div>
                     </Col>
                 </Row>
             </Container>

@@ -75,7 +75,7 @@ function CreatePolicy(params) {
                                                     <option value="20min">Option 2</option>
 
                                                 </select>
-                                            
+
                                             </div>
                                         </Col>
                                     </Row>
@@ -154,6 +154,22 @@ function CreatePolicy(params) {
                                                             <div className="roundDiv"></div>
                                                         </Col>
                                                     </Row>
+
+                                                    {
+                                                        selectedPolicy === 'Capacity' ?
+                                                            <Row>
+                                                                <Col lg={7}>
+                                                                    <div className="capacityViewDiv">
+                                                                        <input type="text" placeholder="Enter Capacity" />
+                                                                        <div className="plusMinusDiv">
+                                                                            <div>+</div>
+                                                                            <div>-</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </Col>
+
+                                                            </Row> : ''
+                                                    }
                                                 </div>
 
                                                 <div onClick={() => handleSelectedPolicy('Accessibility')} className={'eachPolicySpecificationMainDiv ' + (selectedPolicy === 'Accessibility' ? 'activePolicy' : '')}>
