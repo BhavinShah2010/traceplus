@@ -23,6 +23,7 @@ import { getTranslatedText } from '../../common/utilities';
 import { getLanguageTranslation, setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
 
 function EmployeeList(props) {
+    let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
 
     const [searchValue, updateSearchValue] = useState('')
     const [selectedLangValue, updateSelectedLangValue] = useState('en')
@@ -31,7 +32,7 @@ function EmployeeList(props) {
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [isLoading, updateIsLoading] = useState(true)
 
-    const [selectedDate, updateSelectedDate] = useState(props.date)
+    const [selectedDate, updateSelectedDate] = useState(date)
 
     let history = useHistory();
 
@@ -279,8 +280,7 @@ function EmployeeList(props) {
 }
 
 const mapStateToProps = (state) => ({
-    language: state.dashboard.selectedLangaugeValue,
-    date: state.dashboard.selectedDate
+    language: state.dashboard.selectedLangaugeValue
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(EmployeeList))

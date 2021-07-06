@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
-import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -19,8 +18,8 @@ const chartData = {
 }
 
 function SiteMangementView(props) {
-
-    const [selectedDate, updateSelectedDate] = useState(props.date)
+    let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
+    const [selectedDate, updateSelectedDate] = useState(date)
 
 
     function handleViewLocations() {
@@ -106,8 +105,5 @@ function SiteMangementView(props) {
     )
 }
 
-const mapStateToProps = (state) => ({
-    date: state.dashboard.selectedDate
-})
 
-export default connect(mapStateToProps, null)(SiteMangementView)
+export default (SiteMangementView)

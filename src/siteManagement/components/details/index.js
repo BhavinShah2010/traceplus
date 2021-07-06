@@ -30,7 +30,7 @@ let timeArr = [
 ]
 
 function SiteViewDetails(props) {
-
+    let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
 
     const [siteViewData, updateSiteViewData] = useState('')
 
@@ -44,7 +44,7 @@ function SiteViewDetails(props) {
 
     const [locationID, updateLocationID] = useState('')
 
-    const [selectedDate, updateSelectedDate] = useState(props.date)
+    const [selectedDate, updateSelectedDate] = useState(date)
     const [chartData, setChartData] = useState({ categories: [], series: [], top4: [] })
 
     function handleSiteListClick() {
@@ -356,8 +356,7 @@ function SiteViewDetails(props) {
 }
 
 const mapStateToProps = (state) => ({
-    language: state.dashboard.selectedLangaugeValue,
-    date: state.dashboard.selectedDate
+    language: state.dashboard.selectedLangaugeValue
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(SiteViewDetails))

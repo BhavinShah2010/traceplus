@@ -22,7 +22,7 @@ import { getTranslatedText } from '../../common/utilities';
 import { getLanguageTranslation, setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
 
 function SiteMangementList(props) {
-
+    let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
 
     const [siteLocationsList, updateSiteLocationsList] = useState([])
 
@@ -30,7 +30,7 @@ function SiteMangementList(props) {
     const [selectedLangValue, updateSelectedLangValue] = useState('en')
 
     const [searchValue, updateSearchValue] = useState('')
-    const [selectedDate, updateSelectedDate] = useState(props.date)
+    const [selectedDate, updateSelectedDate] = useState(date)
     const [isLoading, updateIsLoading] = useState(true)
 
 
@@ -319,8 +319,7 @@ function SiteMangementList(props) {
 }
 
 const mapStateToProps = (state) => ({
-    language: state.dashboard.selectedLangaugeValue,
-    date: state.dashboard.selectedDate
+    language: state.dashboard.selectedLangaugeValue
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(SiteMangementList))

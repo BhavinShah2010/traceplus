@@ -26,8 +26,9 @@ const { Option } = Select;
 
 
 function ManPowerMangementList(props) {
+    let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
 
-    const [selectedDate, updateSelectedDate] = useState(props.date)
+    const [selectedDate, updateSelectedDate] = useState(date)
     const [chartData, setChartData] = useState({ categories: [], series: [] })
     const [selectedLangValue, updateSelectedLangValue] = useState('en')
     const [numAttended, updateNumberAttended] = useState(0)
@@ -383,8 +384,7 @@ function ManPowerMangementList(props) {
 }
 
 const mapStateToProps = (state) => ({
-    language: state.dashboard.selectedLangaugeValue,
-    date: state.dashboard.selectedDate
+    language: state.dashboard.selectedLangaugeValue
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(ManPowerMangementList))

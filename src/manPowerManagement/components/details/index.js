@@ -33,6 +33,7 @@ import empIDIcon from '../../../assets/traceplusImages/employee_id_icon.svg'
 
 
 function EmployeeDetails(props) {
+    let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
 
     const [employeeDetails, updateEmployeeDetails] = useState('')
     const [employeeID, updateEmployeeID] = useState('')
@@ -44,7 +45,7 @@ function EmployeeDetails(props) {
 
     const [isLoading, updateIsLoading] = useState(true)
 
-    const [selectedDate, updateSelectedDate] = useState(props.date)
+    const [selectedDate, updateSelectedDate] = useState(date)
     const [chartData, setChartData] = useState({ series: [], categories: [] })
     const [testedPositiveDate, updateTestedPositiveDate] = useState(null)
 
@@ -566,8 +567,7 @@ function EmployeeDetails(props) {
 
 
 const mapStateToProps = (state) => ({
-    language: state.dashboard.selectedLangaugeValue,
-    date: state.dashboard.selectedDate
+    language: state.dashboard.selectedLangaugeValue
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(EmployeeDetails))

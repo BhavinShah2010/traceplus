@@ -27,6 +27,7 @@ function LeftSideBar(props) {
                     updateShowLoader(true)
                     localStorage.removeItem('isLoggedIn')
                     localStorage.removeItem('userLoginDetails')
+                    localStorage.removeItem('selectedDate')
                     props.history.push(`/login`)
                 }
             }

@@ -40,16 +40,16 @@ import { getTranslatedText } from '../../common/utilities';
 import { getEmployeeList } from '../../manPowerManagement/actionMethods/actionMethods';
 
 function Dashboard(props) {
-
+    let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [orgId, updateOrgId] = useState(1)
     const [orgCount, updateOrgCount] = useState(0)
     const [contaminatedEmployeeCount, updateContaminatedEmployeeCount] = useState(0);
     const [atRiskCount, updateAtRiskCount] = useState(0);
     const [threatWatchColor, updateThreatWatchColor] = useState('')
-    const [selectedDate, updateSelectedDate] = useState(props.date)
-    const [startDateValue, updateStartDateValue] = useState(moment(props.date).subtract(30, 'days').toDate())
-    const [endDateValue, updateEndDateValue] = useState(props.date)
+    const [selectedDate, updateSelectedDate] = useState(date)
+    const [startDateValue, updateStartDateValue] = useState(moment(date).subtract(30, 'days').toDate())
+    const [endDateValue, updateEndDateValue] = useState(date)
     const [toastClass, updateToastClass] = useState('successToast')
     const [employeePopupFlag, updateEmployeePopupFlag] = useState(false)
     const [locationPopupFlag, updateLocationPopupFlag] = useState(false)
@@ -162,9 +162,9 @@ function Dashboard(props) {
                 chartData = data
 
                 data.forEach((i) => {
-                    let d = moment(i.timestamp).format('MMM DD')
+                    let d = moment(i.timestamp).valueOf()
                     categories.push(d)
-                    series.push(i[obj.index])
+                    series.push([d, i[obj.index]])
                 })
 
                 setChartData({ series, categories, chartData })
@@ -516,8 +516,7 @@ function Dashboard(props) {
 }
 
 const mapStateToProps = (state) => ({
-    language: state.dashboard.selectedLangaugeValue,
-    date: state.dashboard.selectedDate
+    language: state.dashboard.selectedLangaugeValue
 })
 
 export default connect(mapStateToProps, { setSelectedLanguage })(withRouter(Dashboard))

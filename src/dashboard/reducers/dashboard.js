@@ -1,7 +1,6 @@
 
 export default (state = {
-    selectedLangauge:'en',
-    selectedDate: new Date()
+    selectedLangauge:'en'
 }, action) => {
 
     switch (action.type) {
@@ -9,11 +8,6 @@ export default (state = {
             return {
                 ...state,
                 selectedLangaugeValue: action.data
-            }
-        case 'selectedDate':
-            return {
-                ...state,
-                selectedDate: action.data
             }
         default:
             return state

@@ -66,6 +66,7 @@ function LoginComponent(props) {
                         if (res.data && res.data.status == 200) {
                             localStorage.setItem('userLoginDetails', JSON.stringify(res.data))
                             localStorage.setItem('isLoggedIn', true)
+                            localStorage.setItem('selectedDate', new Date())
 
                             getLanguageTranslation('en').then(res => {
                                 //    console.log("Lang data : " , res)
@@ -73,7 +74,7 @@ function LoginComponent(props) {
                                     localStorage.setItem('languageData', JSON.stringify(res.data))
                                     localStorage.setItem('selectedLanguage', 'en')
                                     props.setSelectedLanguage('en')
-
+                                    
                                 }
                             })
                             props.history.push('/dashboard')
