@@ -41,6 +41,12 @@ function ManPowerMangementList(props) {
 
     const [selectedTab, updatedSelectedTab] = useState('employees')
 
+    let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
+
+let userSession = userDetails ? userDetails.session : '123456789'
+
+let org_id = userDetails ? userDetails.org_id : 6
+
     function goToEmployeeList() {
         props.history.push('/manpower-management/employee-list')
     }
@@ -57,7 +63,7 @@ function ManPowerMangementList(props) {
         setChartData({ categories: [], series: [] })
 
         let date = getDateFormat(selectedDate)
-        attendanceChart(date).then((res) => {
+        attendanceChart(date, userSession, org_id).then((res) => {
 
 
             let data = res ?.attendance
@@ -92,7 +98,7 @@ function ManPowerMangementList(props) {
     }, [selectedDate])
 
     function getOrgPriData(requestBody) {
-        getOrgPri(requestBody).then(res => {
+        getOrgPri(requestBody , userSession, org_id).then(res => {
             updatePRIData(res)
         })
     }
@@ -100,7 +106,7 @@ function ManPowerMangementList(props) {
     function getDepartmentListData(requestBody) {
 
 
-        getDepartmentList(requestBody).then(res => {
+        getDepartmentList(requestBody, userSession, org_id).then(res => {
             if (res && res.status >= 200 && res.status <= 299) {
                 updateTeamList(res.data)
                 updatedPredefinedTeamList(res.data)

@@ -49,6 +49,11 @@ function EmployeeDetails(props) {
     const [chartData, setChartData] = useState({ series: [], categories: [] })
     const [testedPositiveDate, updateTestedPositiveDate] = useState(null)
 
+    let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
+
+let userSession = userDetails ? userDetails.session : '123456789'
+
+let org_id = userDetails ? userDetails.org_id : 6
 
     useEffect(() => {
 
@@ -63,14 +68,14 @@ function EmployeeDetails(props) {
             requestBody.date = getDateFormat(selectedDate)
             requestBody.emp_id = idVal
 
-            getEmployeeDetails(requestBody).then(res => {
+            getEmployeeDetails(requestBody,userSession, org_id).then(res => {
 
                 if (res && res.data) {
                     updateEmployeeDetails(res.data)
                 }
             })
 
-            getEmployeeIndex(requestBody).then(res => {
+            getEmployeeIndex(requestBody, userSession, org_id).then(res => {
                 if (res && res.data) {
                     updateEmployeeIndexData(res.data)
                 }
@@ -117,7 +122,7 @@ function EmployeeDetails(props) {
             emp_id: idVal
         }
 
-        employeeChart(obj).then((res) => {
+        employeeChart(obj, userSession, org_id).then((res) => {
             let data = res ?.emp_pri
             let categories = []
             let series = []
@@ -185,14 +190,14 @@ function EmployeeDetails(props) {
         requestBody.date = getDateFormat(date)
         requestBody.emp_id = employeeID
 
-        getEmployeeDetails(requestBody).then(res => {
+        getEmployeeDetails(requestBody, userSession, org_id).then(res => {
 
             if (res && res.data) {
                 updateEmployeeDetails(res.data)
             }
         })
 
-        getEmployeeIndex(requestBody).then(res => {
+        getEmployeeIndex(requestBody, userSession, org_id).then(res => {
             if (res && res.data) {
                 updateEmployeeIndexData(res.data)
             }

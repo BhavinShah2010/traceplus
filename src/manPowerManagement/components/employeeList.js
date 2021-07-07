@@ -34,6 +34,12 @@ function EmployeeList(props) {
 
     const [selectedDate, updateSelectedDate] = useState(date)
 
+    let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
+
+let userSession = userDetails ? userDetails.session : '123456789'
+
+let org_id = userDetails ? userDetails.org_id : 6
+
     let history = useHistory();
 
     function handleDateSelect(date) {
@@ -42,7 +48,7 @@ function EmployeeList(props) {
         let requestBody = {}
         requestBody.date = getDateFormat(date)
         updateIsLoading(true)
-        getEmployeeList(requestBody).then(res => {
+        getEmployeeList(requestBody, userSession, org_id).then(res => {
             updateIsLoading(false)
 
             if (res) {
@@ -58,7 +64,7 @@ function EmployeeList(props) {
         
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
-        getEmployeeList(requestBody).then(res => {
+        getEmployeeList(requestBody, userSession, org_id).then(res => {
             updateIsLoading(false)
 
             if (res) {
@@ -79,7 +85,7 @@ function EmployeeList(props) {
 
             let requestBody = {}
             requestBody.date = getDateFormat(props.date)
-            getEmployeeList(requestBody).then(res => {
+            getEmployeeList(requestBody, userSession, org_id).then(res => {
                 updateIsLoading(false)
     
                 if (res) {

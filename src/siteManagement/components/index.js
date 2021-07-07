@@ -33,6 +33,13 @@ function SiteMangementList(props) {
     const [selectedDate, updateSelectedDate] = useState(date)
     const [isLoading, updateIsLoading] = useState(true)
 
+    let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
+
+    let userSession = userDetails ? userDetails.session : '123456789'
+
+    let org_id = userDetails ? userDetails.org_id : 6
+
+
 
     useEffect(() => {
 
@@ -44,7 +51,7 @@ function SiteMangementList(props) {
 
     function getSiteLocationsValues(requestBody) {
         updateIsLoading(true)
-        getSiteLocations(requestBody).then(res => {
+        getSiteLocations(requestBody, userSession, org_id).then(res => {
             if (res && res.data) {
 
                 updatePreDefinedSiteLocationList(res.data)

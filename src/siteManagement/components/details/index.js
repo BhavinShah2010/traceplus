@@ -47,6 +47,13 @@ function SiteViewDetails(props) {
     const [selectedDate, updateSelectedDate] = useState(date)
     const [chartData, setChartData] = useState({ categories: [], series: [], top4: [] })
 
+    let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
+
+    let userSession = userDetails ? userDetails.session : '123456789'
+
+    let org_id = userDetails ? userDetails.org_id : 6
+
+
     function handleSiteListClick() {
         props.history.push('/site-list')
     }
@@ -65,13 +72,15 @@ function SiteViewDetails(props) {
             requestBody.date = date
             requestBody.locationID = idVal
 
-            getSiteOverview(requestBody).then(res => {
+            getSiteOverview(requestBody, userSession, org_id).then(res => {
 
                 if (res && res.data && res.data.length > 0) {
                     updateSiteViewData(res.data[0])
                 }
 
-                getSiteFootFall(requestBody).then(res => {
+                
+
+                getSiteFootFall(requestBody, userSession, org_id).then(res => {
                     if (res) {
                         updateFootFallData(res)
                         updateFootFallValue(res.day_footfall)
@@ -105,7 +114,7 @@ function SiteViewDetails(props) {
         setChartData({ categories: [], series: [], top4: [] })
 
         let date = getDateFormat(selectedDate)
-        footfallChart({ date, locationID: idVal }).then((res) => {
+        footfallChart({ date, locationID: idVal }, userSession, org_id).then((res) => {
             let data = res.hourly_footfall
             let categories = timeArr
             let series = []
@@ -148,13 +157,13 @@ function SiteViewDetails(props) {
 
 
 
-        getSiteOverview(requestBody).then(res => {
+        getSiteOverview(requestBody,userSession, org_id).then(res => {
 
             if (res && res.data && res.data.length > 0) {
                 updateSiteViewData(res.data[0])
             }
 
-            getSiteFootFall(requestBody).then(res => {
+            getSiteFootFall(requestBody, userSession, org_id).then(res => {
                 if (res) {
                     updateFootFallData(res)
                     updateFootFallValue(res.day_footfall)
@@ -162,7 +171,7 @@ function SiteViewDetails(props) {
             })
         })
 
-        getSiteAreaIndex(requestBody).then(res => {
+        getSiteAreaIndex(requestBody, userSession, org_id).then(res => {
 
         })
     }
@@ -174,7 +183,7 @@ function SiteViewDetails(props) {
         requestBody.date = moment(selectedDate).format('YYYY-MM-DD')
         requestBody.locationID = locationID
 
-        getSiteFootFall(requestBody).then(res => {
+        getSiteFootFall(requestBody, userSession, org_id).then(res => {
             if (res) {
                 type == 'week' ? updateFootFallValue(res.week_footfall) : updateFootFallValue(res.day_footfall)
             }
