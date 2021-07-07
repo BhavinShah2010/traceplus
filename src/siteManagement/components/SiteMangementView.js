@@ -29,6 +29,7 @@ function SiteMangementView(props) {
 
     function handleDateSelect(date) {
         updateSelectedDate(date)
+        
     }
 
     return (
@@ -84,11 +85,12 @@ function SiteMangementView(props) {
                             </div>
                         </div>
                     </Col>
-                    <Col lg={6} className="p-l-0">
+                    <Col lg={6} className="p-l-0 p-r-0">
                         <Scrollbars style={{ width: '100%', height: '470px' }} autoHide>
                             <SiteMangementList
                                 hideHeading={true}
                                 isBubbleView={true}
+                                selectedDate={selectedDate}
                             />
                         </Scrollbars>
                     </Col>

@@ -117,7 +117,7 @@ let org_id = userDetails ? userDetails.org_id : 6
         let idVal = props.match.params.id.replace(":", "")
         let date = getDateFormat(selectedDate)
         let obj = {
-            start: '2021-03-05',
+            start: getDateFormat(new Date(selectedDate).setDate(selectedDate.getDate() - 30)),
             end: date,
             emp_id: idVal
         }
@@ -385,7 +385,7 @@ let org_id = userDetails ? userDetails.org_id : 6
                                                     <h6 className=" text-white"> Employee Attendance </h6>
 
 
-                                                    <div className="text-white">As of {moment(props.date).format('Do MMM YYYY')}</div>
+                                                    <div className="text-white">As of {moment(localStorage.getItem('selectedDate')).format('Do MMM YYYY')}</div>
 
                                                     <div className="attendanceDaysMainDiv">
                                                         <span className="noOfDays font-bold">{employeeDetails.emp_attendance.days_present}</span> &nbsp;
@@ -502,7 +502,7 @@ let org_id = userDetails ? userDetails.org_id : 6
                                                     <Col lg={4} className="p-r-0">
                                                         <div className="mostInteractedListMainDiv">
                                                             <div className="dateInnerMainDiv">
-                                                                <span className="font-bold">As of {moment(props.date).format('Do MMM YYYY')}</span>
+                                                                <span className="font-bold">As of {moment(localStorage.getItem('selectedDate')).format('Do MMM YYYY')}</span>
                                                                 <span className="float-right">
                                                                     <img src={selectedPinkArrowIcon} />
                                                                 </span>

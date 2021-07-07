@@ -263,7 +263,7 @@ function SiteMangementList(props) {
                                                 <Row>
                                                     <Col lg={4}>
                                                         <h5 className="font-bold m-b-xs">Locations</h5>
-                                                        <div className="dateText ">As of {moment(selectedDate).format('Do MMM YYYY')}</div>
+                                                        <div className="dateText ">As of {moment(props.selectedDate).format('Do MMM YYYY')}</div>
                                                     </Col>
                                                     <Col lg={8}>
                                                         <div className="pinnedHighRiskMainDiv">
