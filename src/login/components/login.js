@@ -68,7 +68,7 @@ function LoginComponent(props) {
                             localStorage.setItem('isLoggedIn', true)
                             localStorage.setItem('selectedDate', new Date())
 
-                            getLanguageTranslation('en').then(res => {
+                            getLanguageTranslation('en' , res.data.session).then(res => {
                                 //    console.log("Lang data : " , res)
                                 if (res && res.status >= 200 && res.status <= 200) {
                                     localStorage.setItem('languageData', JSON.stringify(res.data))
@@ -135,9 +135,6 @@ function LoginComponent(props) {
 
                 forgotPassword(requestBody).then(res => {
                     updateIsLoading(false)
-
-                    console.log("Satate : ", res)
-
                     if (res && res.status == 200) {
                         updateSucessMessage(res.message)
 

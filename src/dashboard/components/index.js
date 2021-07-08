@@ -37,7 +37,7 @@ import ContentLoader from 'react-content-loader'
 import CommonDatePicker from '../../common/commonDatePicker';
 import { titles } from './constant'
 import { getTranslatedText } from '../../common/utilities';
-import { getEmployeeList } from '../../manPowerManagement/actionMethods/actionMethods';
+
 
 function Dashboard(props) {
     let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
@@ -54,6 +54,12 @@ function Dashboard(props) {
     const [employeePopupFlag, updateEmployeePopupFlag] = useState(false)
     const [locationPopupFlag, updateLocationPopupFlag] = useState(false)
 
+    let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
+
+    let userSession = userDetails ? userDetails.session : '123456789'
+
+    let org_id = userDetails ? userDetails.org_id : 6
+
 
     const [contactRankValue, updateContactRankValue] = useState(1)
 
@@ -68,8 +74,8 @@ function Dashboard(props) {
             bottom: 'auto',
             marginRight: '-50%',
             transform: 'translate(-50%, -50%)',
-            width:'80%',
-            height:'90%'
+            width: '80%',
+            height: '90%'
         },
     };
 
@@ -113,9 +119,10 @@ function Dashboard(props) {
 
 
 
-        getLanguageTranslation(selectedLangValue).then(res => {
-            // console.log("Res : ", res)
-        })
+            getLanguageTranslation(selectedLangValue, userSession).then(res => {
+                // console.log("Res : ", res)
+            })
+
 
         setChartDetail(getDateFormat(startDateValue), getDateFormat(endDateValue))
     }, []);
@@ -152,7 +159,7 @@ function Dashboard(props) {
             end: endDateValue
         }
 
-        getChartData(obj).then((res) => {
+        getChartData(obj, userSession, org_id).then((res) => {
             let data = res.index_data
             let categories = []
             let series = []
@@ -180,7 +187,7 @@ function Dashboard(props) {
         requestBody.startDate = getDateFormat(startDateValue)
         requestBody.endDate = getDateFormat(endDateValue)
 
-        getThreatWatchData(requestBody).then(res => {
+        getThreatWatchData(requestBody, userSession, org_id).then(res => {
             if (res && res.status >= 200 && res.status <= 299) {
                 updateThreatWatchColor(res.color)
                 updateContaminatedEmployeeCount(res.contaminated.num_employees)
@@ -193,7 +200,7 @@ function Dashboard(props) {
     function getDashboardDataValues(requestBody) {
 
 
-        getDashboardData(requestBody).then(res => {
+        getDashboardData(requestBody, userSession, org_id).then(res => {
 
             if (res && res.status >= 200 && res.status <= 299) {
                 if (res.data) {
@@ -292,13 +299,8 @@ function Dashboard(props) {
         requestBody.contactRank = contactRankValue
         //getDashboardDataValues(requestBody)
         getThreatWatchDataValues(requestBody)
-
         
-        
-
         let startDate = new Date(date).setDate(date.getDate() - 30)
-
-        console.log("GGG : " , startDate, date)
 
         setChartDetail(getDateFormat(startDate), getDateFormat(date))
     }
@@ -360,7 +362,7 @@ function Dashboard(props) {
     }
 
     function changeLanguage(lang) {
-        getLanguageTranslation(lang).then(res => {
+        getLanguageTranslation(lang, userSession).then(res => {
             if (res && res.status >= 200 && res.status <= 200) {
                 localStorage.setItem('languageData', JSON.stringify(res.data))
                 localStorage.setItem('selectedLanguage', lang)
@@ -379,9 +381,9 @@ function Dashboard(props) {
     }
 
     function handleCloseModal() {
-        console.log("fgdfgdfg")
+        
         updateEmployeePopupFlag(false)
-        updateLocationPopupFlag(false)   
+        updateLocationPopupFlag(false)
     }
 
     return (
@@ -479,14 +481,14 @@ function Dashboard(props) {
                 onRequestClose={handleCloseModal}
                 shouldCloseOnOverlayClick={true}
             >
-            
-              <Scrollbars style={{ width: '100%', height: '100%' }} autoHide>
 
-                <EmployeeList
-                hideHeading={true}
-                hideSearch={true}
-                atRiskEmp={true}
-                />
+                <Scrollbars style={{ width: '100%', height: '100%' }} autoHide>
+
+                    <EmployeeList
+                        hideHeading={true}
+                        hideSearch={true}
+                        atRiskEmp={true}
+                    />
                 </Scrollbars>
             </ReactModal>
 
@@ -497,13 +499,13 @@ function Dashboard(props) {
                 onRequestClose={handleCloseModal}
                 shouldCloseOnOverlayClick={true}
             >
-              <Scrollbars style={{ width: '100%', height: '100%' }} autoHide>
+                <Scrollbars style={{ width: '100%', height: '100%' }} autoHide>
 
-                <SiteMangementList
-                hideHeading={true}
-                hideSearch={true}
-                atRiskEmp={true}
-                />
+                    <SiteMangementList
+                        hideHeading={true}
+                        hideSearch={true}
+                        atRiskEmp={true}
+                    />
                 </Scrollbars>
             </ReactModal>
 

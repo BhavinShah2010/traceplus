@@ -243,3 +243,34 @@
         }
     }
 }
+
+
+.capacityViewDiv{
+    input{
+        display: inline-block;
+        width: 70% !important;
+        vertical-align: bottom;
+    }
+
+    .plusMinusDiv{
+        display: inline-block;
+        vertical-align: bottom;
+        position: relative;
+        right: 2.5rem;
+        bottom: 0.5rem;
+        
+        div{
+            width: 20px;
+            height: 20px;
+            border:thin white solid;
+            text-align: center;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFFFFF;
+            cursor: pointer;
+            font-size: 1rem;
+
+        }
+    }
+}
