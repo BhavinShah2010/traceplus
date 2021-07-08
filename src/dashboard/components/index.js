@@ -169,9 +169,9 @@ function Dashboard(props) {
                 chartData = data
 
                 data.forEach((i) => {
-                    let d = moment(i.timestamp).valueOf()
+                    let d = moment(i.timestamp).format('MMM DD')
                     categories.push(d)
-                    series.push([d, i[obj.index]])
+                    series.push(i[obj.index])
                 })
 
                 setChartData({ series, categories, chartData })
