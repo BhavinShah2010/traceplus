@@ -36,9 +36,9 @@ function EmployeeList(props) {
 
     let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
 
-let userSession = userDetails ? userDetails.session : '123456789'
+    let userSession = userDetails ? userDetails.session : '123456789'
 
-let org_id = userDetails ? userDetails.org_id : 6
+    let org_id = userDetails ? userDetails.org_id : 6
 
     let history = useHistory();
 
@@ -61,7 +61,6 @@ let org_id = userDetails ? userDetails.org_id : 6
     }
 
     useEffect(() => {
-        
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
         getEmployeeList(requestBody, userSession, org_id).then(res => {
@@ -79,15 +78,13 @@ let org_id = userDetails ? userDetails.org_id : 6
 
 
     useEffect(() => {
-
-        
-        if(props.date){
-
+        if (props.date) {
             let requestBody = {}
             requestBody.date = getDateFormat(props.date)
+            updateIsLoading(true)
             getEmployeeList(requestBody, userSession, org_id).then(res => {
                 updateIsLoading(false)
-    
+
                 if (res) {
                     updateEmployeeCount(res.count)
                     updateEmployeeList(res.data)
@@ -95,17 +92,12 @@ let org_id = userDetails ? userDetails.org_id : 6
                 }
             })
         }
-
     }, [props.date]);
-
-    
-
 
 
     function getDateFormat(date) {
         return moment(date).format('YYYY-MM-DD')
     }
-
 
     function handleManpowerManagementList() {
         history.push('/manpower-management')
@@ -121,8 +113,6 @@ let org_id = userDetails ? userDetails.org_id : 6
         })
 
         updateEmployeeList(employeeList)
-
-
         updateSearchValue(searchText)
     }
 
@@ -243,60 +233,44 @@ let org_id = userDetails ? userDetails.org_id : 6
                             </div>
                         </Col>
 
-                    </Row>}
-
-
-
-
+                    </Row>
+                }
 
                 <Row className={props.hideHeading ? '' : 'm-t'}>
                     <Col lg={12}>
                         <div className={'siteListMainDiv ' + (props.hideHeading ? 'p-l-0 p-r-0' : '')} style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
-
-
-
-
                             <Row>
                                 <Col lg={8} className={props.hideHeading ? 'p-l-0' : ''}>
                                     <h3 className="locationsListing">
-                                    {props.atRiskEmp ? 'At Risk Employees' : getTranslatedText('Employees')}
-                                    
-                                    
+                                        {props.atRiskEmp ? 'At Risk Employees' : getTranslatedText('Employees')}
+
+
                                      ({employeeList.length})</h3>
                                 </Col>
                                 {
-                                    props.hideSearch ? '' : 
-                                <Col lg={4} className={props.hideHeading ? 'p-r-0' : ''}>
-                                    <div className="listingSearchMainDiv">
-                                        <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
-                                    </div>
-                                </Col>
+                                    props.hideSearch ? '' :
+                                        <Col lg={4} className={props.hideHeading ? 'p-r-0' : ''}>
+                                            <div className="listingSearchMainDiv">
+                                                <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
+                                            </div>
+                                        </Col>
                                 }
                             </Row>
-
-
-
 
                             < Row >
                                 <Col lg={12} className={props.hideHeading ? 'p-l-0 p-r-0' : ''}>
                                     <div className="listingRecordMainDiv">
-
                                         {
                                             isLoading ?
-
                                                 <div className="text-center m-t-lg">
                                                     <img src={spinnerLoader} className="m-t-lg" />
                                                 </div> :
                                                 employeeList && employeeList.length > 0 ?
-
                                                     showCardList(employeeList) : ''
                                         }
 
-
-
                                         {
                                             searchValue && employeeList.length == 0 ?
-
                                                 <h3 className="text-center m-t-lg">No Records Found !</h3> : ''
                                         }
                                     </div>

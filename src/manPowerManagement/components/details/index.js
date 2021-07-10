@@ -48,12 +48,13 @@ function EmployeeDetails(props) {
     const [selectedDate, updateSelectedDate] = useState(date)
     const [chartData, setChartData] = useState({ series: [], categories: [] })
     const [testedPositiveDate, updateTestedPositiveDate] = useState(null)
+    const [chartLoader, setChartLoader] = useState(true)
 
     let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
 
-let userSession = userDetails ? userDetails.session : '123456789'
+    let userSession = userDetails ? userDetails.session : '123456789'
 
-let org_id = userDetails ? userDetails.org_id : 6
+    let org_id = userDetails ? userDetails.org_id : 6
 
     useEffect(() => {
 
@@ -68,7 +69,7 @@ let org_id = userDetails ? userDetails.org_id : 6
             requestBody.date = getDateFormat(selectedDate)
             requestBody.emp_id = idVal
 
-            getEmployeeDetails(requestBody,userSession, org_id).then(res => {
+            getEmployeeDetails(requestBody, userSession, org_id).then(res => {
 
                 if (res && res.data) {
                     updateEmployeeDetails(res.data)
@@ -112,6 +113,7 @@ let org_id = userDetails ? userDetails.org_id : 6
     }, [selectedDate])
 
     const getChartData = () => {
+        setChartLoader(true)
         setChartData({ categories: [], series: [] })
 
         let idVal = props.match.params.id.replace(":", "")
@@ -123,7 +125,7 @@ let org_id = userDetails ? userDetails.org_id : 6
         }
 
         employeeChart(obj, userSession, org_id).then((res) => {
-            let data = res ?.emp_pri
+            let data = res?.emp_pri
             let categories = []
             let series = []
 
@@ -136,8 +138,10 @@ let org_id = userDetails ? userDetails.org_id : 6
 
                 setChartData({ categories, series })
             }
+            setChartLoader(false)
         }).catch((err) => {
             console.log(err)
+            setChartLoader(false)
         })
     }
 
@@ -303,12 +307,12 @@ let org_id = userDetails ? userDetails.org_id : 6
                             </Col>
 
                             <Col lg={4} className="text-right">
-                            <div className="commonLangaugeStyleDiv m-r">
-                                <DashboardLanguage
-                                    selectedLangValue={selectedLangValue}
-                                    changeLanguage={changeLanguage}
-                                />
-                            </div>
+                                <div className="commonLangaugeStyleDiv m-r">
+                                    <DashboardLanguage
+                                        selectedLangValue={selectedLangValue}
+                                        changeLanguage={changeLanguage}
+                                    />
+                                </div>
                                 <div className="siteHeadingDatePickerDiv" style={{ width: '30%' }}>
                                     <CommonDatePicker
                                         selectedDate={selectedDate}
@@ -523,7 +527,16 @@ let org_id = userDetails ? userDetails.org_id : 6
                                                         </div>
                                                     </Col>
                                                     <Col lg={8}>
-                                                        <AreaChart chartData={chartData} yAxisTitle={'Personal Risk Index'} />
+                                                        {chartLoader ?
+                                                            <div className="text-center">
+                                                                <img src={spinnerLoader} />
+                                                            </div>
+                                                            :
+                                                            <AreaChart
+                                                                chartData={chartData}
+                                                                yAxisTitle={'Personal Risk Index'}
+                                                            />
+                                                        }
                                                     </Col>
                                                 </Row>
 

@@ -15,6 +15,7 @@ import CommonDatePicker from '../../common/commonDatePicker';
 import { attendanceChart, getOrgPri, getDepartmentList } from '../actionMethods/actionMethods'
 
 import mediumRiskIcon from '../../assets/traceplusImages/medium_risk_icon.svg'
+import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 
 import moment from 'moment'
 import Chart from './areaChart'
@@ -32,6 +33,7 @@ function ManPowerMangementList(props) {
     const [chartData, setChartData] = useState({ categories: [], series: [] })
     const [selectedLangValue, updateSelectedLangValue] = useState('en')
     const [numAttended, updateNumberAttended] = useState(0)
+    const [chartLoader, setChartLoader] = useState(true)
 
     const [searchValue, updateSearchValue] = useState('')
     const [teamList, updateTeamList] = useState([])
@@ -43,9 +45,9 @@ function ManPowerMangementList(props) {
 
     let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
 
-let userSession = userDetails ? userDetails.session : '123456789'
+    let userSession = userDetails ? userDetails.session : '123456789'
 
-let org_id = userDetails ? userDetails.org_id : 6
+    let org_id = userDetails ? userDetails.org_id : 6
 
     function goToEmployeeList() {
         props.history.push('/manpower-management/employee-list')
@@ -60,13 +62,12 @@ let org_id = userDetails ? userDetails.org_id : 6
     }
 
     const getChartData = () => {
+        setChartLoader(true)
         setChartData({ categories: [], series: [] })
 
         let date = getDateFormat(selectedDate)
         attendanceChart(date, userSession, org_id).then((res) => {
-
-
-            let data = res ?.attendance
+            let data = res?.attendance
 
             let categories = []
             let series = []
@@ -82,8 +83,10 @@ let org_id = userDetails ? userDetails.org_id : 6
             }
 
             setChartData({ categories, series })
+            setChartLoader(false)
         }).catch((err) => {
             console.log(err)
+            setChartLoader(false)
         })
     }
 
@@ -98,7 +101,7 @@ let org_id = userDetails ? userDetails.org_id : 6
     }, [selectedDate])
 
     function getOrgPriData(requestBody) {
-        getOrgPri(requestBody , userSession, org_id).then(res => {
+        getOrgPri(requestBody, userSession, org_id).then(res => {
             updatePRIData(res)
         })
     }
@@ -202,7 +205,7 @@ let org_id = userDetails ? userDetails.org_id : 6
         }
     }, [props.language])
 
-    
+
 
 
 
@@ -312,7 +315,13 @@ let org_id = userDetails ? userDetails.org_id : 6
                                     </div>
 
                                     <div className="m-t-lg m-b-lg">
-                                        <Chart chartData={chartData} yAxisTitle={'Attendance'} />
+                                        {chartLoader ?
+                                            <div className="text-center">
+                                                <img src={spinnerLoader} />
+                                            </div>
+                                            :
+                                            <Chart chartData={chartData} yAxisTitle={'Attendance'} />
+                                        }
                                     </div>
                                 </div>
                             </Col>
@@ -338,10 +347,9 @@ let org_id = userDetails ? userDetails.org_id : 6
                         {
                             selectedTab == 'employees' ?
                                 <div className="manpowerManagementEmployeeListMainDiv">
-
                                     <EmployeeList
-                                    hideHeading={true}
-                                    
+                                        hideHeading={true}
+                                        date={selectedDate}
                                     />
                                 </div>
 

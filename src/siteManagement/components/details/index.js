@@ -46,6 +46,7 @@ function SiteViewDetails(props) {
 
     const [selectedDate, updateSelectedDate] = useState(date)
     const [chartData, setChartData] = useState({ categories: [], series: [], top4: [] })
+    const [chartLoader, setChartLoader] = useState(true)
 
     let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
 
@@ -62,7 +63,6 @@ function SiteViewDetails(props) {
 
         let idVal = props.match.params.id.replace(":", "")
 
-
         if (idVal) {
             let date = getDateFormat(selectedDate)
 
@@ -73,24 +73,10 @@ function SiteViewDetails(props) {
             requestBody.locationID = idVal
 
             getSiteOverview(requestBody, userSession, org_id).then(res => {
-
                 if (res && res.data && res.data.length > 0) {
                     updateSiteViewData(res.data[0])
                 }
-
-                
-
-                getSiteFootFall(requestBody, userSession, org_id).then(res => {
-                    if (res) {
-                        updateFootFallData(res)
-                        updateFootFallValue(res.day_footfall)
-                    }
-                })
             })
-
-            // getSiteAreaIndex(requestBody).then(res => {
-            //     console.log("Response : ", res)
-            // })
         }
 
     }, []);
@@ -111,35 +97,38 @@ function SiteViewDetails(props) {
     }
 
     const getChartData = (idVal) => {
+        setChartLoader(true)
         setChartData({ categories: [], series: [], top4: [] })
 
         let date = getDateFormat(selectedDate)
         footfallChart({ date, locationID: idVal }, userSession, org_id).then((res) => {
+
+            updateFootFallData(res)
+            updateFootFallValue(res.day_footfall)
+
             let data = res.hourly_footfall
             let categories = timeArr
             let series = []
-            let top4 = []
-
-            
+            let top4 = []           
 
             if (data && Array.isArray(data)) {
-                data.forEach((i, index) => {                    
-                    if(i[0] > 0){
-                        series.push({
-                            y: i[0],
-                            color: getBarColor(i[0]),
-                            name: timeArr[index]
-                        })
-                    }
+                data.forEach((i, index) => {
+                    series.push({
+                        y: i[0],
+                        color: getBarColor(i[0]),
+                        name: timeArr[index]
+                    })
                 })
 
-               // top4 = [...series].sort((a, b) => (b.y - a.y)).slice(0, 4)
+                // top4 = [...series].sort((a, b) => (b.y - a.y)).slice(0, 4)
 
                 top4 = [...series].slice(0, 4)
                 setChartData({ categories, series, top4 })
+                setChartLoader(false)
             }
         }).catch((err) => {
             console.log(err)
+            setChartLoader(false)
         })
     }
 
@@ -155,20 +144,10 @@ function SiteViewDetails(props) {
         requestBody.date = getDateFormat(date)
         requestBody.locationID = locationID
 
-
-
         getSiteOverview(requestBody,userSession, org_id).then(res => {
-
             if (res && res.data && res.data.length > 0) {
                 updateSiteViewData(res.data[0])
             }
-
-            getSiteFootFall(requestBody, userSession, org_id).then(res => {
-                if (res) {
-                    updateFootFallData(res)
-                    updateFootFallValue(res.day_footfall)
-                }
-            })
         })
 
         getSiteAreaIndex(requestBody, userSession, org_id).then(res => {
@@ -290,15 +269,15 @@ function SiteViewDetails(props) {
                                         <div className="areaIndexMainDiv" style={{height:'250px'}}>
                                             <h4 className="font-bold">{getTranslatedText('Area Index')}</h4>
                                             <div className="m-t">
-                                                <h4 className="areaIndexValue font-bold">1.9</h4>
+                                                <h4 className="areaIndexValue font-bold">{siteViewData.area_index}</h4>
                                                 <div className="areaIndexRiskPercentageDiv font-normal">
                                                     10%
-                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div className="m-t-lg">
                                                 <h3 className="areaIndexValue font-bold m-t">
-                                                    {getTranslatedText('Low')}
+                                                    {getTranslatedText(siteViewData.area_index_status || '')}
                                                 </h3><br />
                                                 <div className="riskLevelText">{getTranslatedText('Risk Level')}</div>
                                             </div>
@@ -342,7 +321,13 @@ function SiteViewDetails(props) {
                                         </div>
                                     </Col>
                                     <Col lg={9}>
-                                        <Barchart chartData={chartData} />
+                                        {chartLoader ?
+                                            <div className="text-center">
+                                                <img src={spinnerLoader} />
+                                            </div>
+                                            :
+                                            <Barchart chartData={chartData} />
+                                        }
                                     </Col>
                                 </Row>
                                 

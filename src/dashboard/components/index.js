@@ -35,12 +35,14 @@ import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 
 import ContentLoader from 'react-content-loader'
 import CommonDatePicker from '../../common/commonDatePicker';
+import { prepareDateObj } from './helper'
 import { titles } from './constant'
 import { getTranslatedText } from '../../common/utilities';
 
 
 function Dashboard(props) {
     let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
+    let interval = 5
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [orgId, updateOrgId] = useState(1)
     const [orgCount, updateOrgCount] = useState(0)
@@ -48,11 +50,12 @@ function Dashboard(props) {
     const [atRiskCount, updateAtRiskCount] = useState(0);
     const [threatWatchColor, updateThreatWatchColor] = useState('')
     const [selectedDate, updateSelectedDate] = useState(date)
-    const [startDateValue, updateStartDateValue] = useState(moment(date).subtract(30, 'days').toDate())
+    const [startDateValue, updateStartDateValue] = useState(moment(date).subtract(29, 'days').toDate())
     const [endDateValue, updateEndDateValue] = useState(date)
     const [toastClass, updateToastClass] = useState('successToast')
     const [employeePopupFlag, updateEmployeePopupFlag] = useState(false)
     const [locationPopupFlag, updateLocationPopupFlag] = useState(false)
+    const [chartLoader, setChartLoader] = useState(true)
 
     let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
 
@@ -119,9 +122,9 @@ function Dashboard(props) {
 
 
 
-            getLanguageTranslation(selectedLangValue, userSession).then(res => {
-                // console.log("Res : ", res)
-            })
+        getLanguageTranslation(selectedLangValue, userSession).then(res => {
+            // console.log("Res : ", res)
+        })
 
 
         setChartDetail(getDateFormat(startDateValue), getDateFormat(endDateValue))
@@ -134,24 +137,13 @@ function Dashboard(props) {
     }, [props.language])
 
     useEffect(() => {
-        if (chartData.chartData && chartData.chartData.length) {
-            let data = chartData.chartData
-            let series = []
-            let type = titles[indexTitle].toLowerCase()
-
-            data.forEach((i) => {
-                series.push(i[type])
-            })
-
-            setChartData(prevState => ({ ...prevState, series }))
-        }
+        setChartDetail(getDateFormat(startDateValue), getDateFormat(endDateValue))
     }, [indexTitle])
 
 
     const setChartDetail = (startDateValue = null, endDateValue = null) => {
+        setChartLoader(true)
         setChartData({ categories: [], series: [], chartData: [] })
-
-
 
         let obj = {
             index: titles[indexTitle].toLowerCase(),
@@ -161,24 +153,34 @@ function Dashboard(props) {
 
         getChartData(obj, userSession, org_id).then((res) => {
             let data = res.index_data
-            let categories = []
-            let series = []
-            let chartData = []
+            // let categories = []
+            // let series = []
+            let chartData = {}
+
 
             if (data && Array.isArray(data)) {
-                chartData = data
 
-                data.forEach((i) => {
-                    let d = moment(i.timestamp).format('MMM DD')
-                    categories.push(d)
-                    series.push(i[obj.index])
+                let params = {
+                    startDate: startDateValue,
+                    endDate: endDateValue,
+                    type: obj.index,
+                    interval,
+                    data
+                }
+                let series = prepareDateObj(params)
+
+                data.forEach((d) => {
+                    let time = moment(d.timestamp).valueOf()
+                    chartData[time] = d
                 })
 
-                setChartData({ series, categories, chartData })
+                setChartLoader(false)
+                setChartData({ series, chartData })
             }
 
         }).catch((err) => {
             console.log(err)
+            setChartLoader(false)
         })
     }
 
@@ -299,9 +301,11 @@ function Dashboard(props) {
         requestBody.contactRank = contactRankValue
         //getDashboardDataValues(requestBody)
         getThreatWatchDataValues(requestBody)
-        
-        let startDate = new Date(date).setDate(date.getDate() - 30)
 
+        let startDate = new Date(date).setDate(date.getDate() - 29)
+
+        updateStartDateValue(startDate)
+        updateEndDateValue(date)
         setChartDetail(getDateFormat(startDate), getDateFormat(date))
     }
 
@@ -381,7 +385,7 @@ function Dashboard(props) {
     }
 
     function handleCloseModal() {
-        
+
         updateEmployeePopupFlag(false)
         updateLocationPopupFlag(false)
     }
@@ -462,16 +466,24 @@ function Dashboard(props) {
                         <Col lg={4} className="p-r-0">
                             {showIndexTab(indexTitleArray)}
                         </Col>
-                        <Col lg={8}>
-                            <DashboardChart
-                                yAxisTitle={`${titles[indexTitle]} Risk Index`}
-                                risk={'low'}
-                                chartData={chartData}
-                                chartType={titles[indexTitle]}
-                            />
-                        </Col>
+                        {chartLoader ?
+                            <Col className="text-center" lg={8}>
+                                <img src={spinnerLoader} />
+                            </Col>
+                            :
+                            <Col lg={8}>
+                                <DashboardChart
+                                    yAxisTitle={`${titles[indexTitle]} Risk Index`}
+                                    risk={'low'}
+                                    chartData={chartData}
+                                    chartType={titles[indexTitle]}
+                                    startDate={moment(startDateValue).format('YYYY-MM-DD')}
+                                    endDate={moment(endDateValue).format('YYYY-MM-DD')}
+                                    interval={interval}
+                                />
+                            </Col>
+                        }
                     </Row>
-
                 </div>
             </Container >
 

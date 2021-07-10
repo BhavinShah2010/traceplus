@@ -17,34 +17,37 @@ const riskLevelColor = {
 
 const Chart = (props) => {
 
-
+    let start = moment(props.startDate).valueOf()
+    let end = moment(props.endDate).valueOf()
+    let move = (end - start) / 3
+    
     const getDateFormat = (date) => {
-        return moment(date).format('MMM DD HH:MM')
+        return moment.utc(date).format('MMM DD HH:mm')
     }
 
     const getHtml = (data, title) => {
-        let detail = props.chartData?.chartData[data.point.index]
-        let date = getDateFormat(detail.timestamp)
+        let detail = props.chartData?.chartData[data.x]
+        let date = detail ? getDateFormat(detail.timestamp) : '-'
 
         switch (title) {
             case 'Population':
                 return (
                     '<div style="width: 200px; height: 175px; padding: 10px;" >' +
                     '<div style="margin-bottom: 10px">' +
-                    '<span style="font-size: 18px; font-weight: bold">' + detail.population.toFixed(2) + '</span>' +
+                    '<span style="font-size: 18px; font-weight: bold">' + `${detail ? detail.population.toFixed(2) : 0}` + '</span>' +
                     '<span style="float: right; padding: 4px 16px; border-radius: 16px; font-size: 12px; background-color: #04e06e"> Low Risk </span> ' +
                     '</div>' +
                     '<div style="padding-top: 8px">' +
                     '<span style="font-size: 14px">Spread</span>' +
-                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.spread + '</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + `${detail ? detail.spread : 0}` + '</span>' +
                     '</div>' +
                     '<div style="padding-top: 8px">' +
                     '<span style="font-size: 14px">Mobility</span>' +
-                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.mobility + '</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + `${detail ? detail.mobility : 0}` + '</span>' +
                     '</div>' +
                     '<div style="padding-top: 8px">' +
                     '<span style="font-size: 14px">Area</span>' +
-                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.area + '</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + `${detail ? detail.area : 0}` + '</span>' +
                     '</div>' +
                     '<div style="padding-top: 8px">' +
                     '<span style="font-size: 14px">Time</span>' +
@@ -60,7 +63,7 @@ const Chart = (props) => {
                     '</div>' +
                     '<div style="padding-top: 8px">' +
                     '<span style="font-size: 14px">Spread</span>' +
-                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.spread + '</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + `${detail ? detail.spread : 0}` + '</span>' +
                     '</div>' +
                     '<div style="padding-top: 8px">' +
                     '<span style="font-size: 14px">Time</span>' +
@@ -76,7 +79,7 @@ const Chart = (props) => {
                     '</div>' +
                     '<div style="padding-top: 8px">' +
                     '<span style="font-size: 14px">Mobility</span>' +
-                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.mobility + '</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + `${detail ? detail.mobility : 0}` + '</span>' +
                     '</div>' +
                     '<div style="padding-top: 8px">' +
                     '<span style="font-size: 14px">Time</span>' +
@@ -92,7 +95,7 @@ const Chart = (props) => {
                     '</div>' +
                     '<div style="padding-top: 8px">' +
                     '<span style="font-size: 14px">Area</span>' +
-                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + detail.area + '</span>' +
+                    '<span style="float: right; font-size: 14px;  font-weight: bold">' + `${detail ? detail.area : 0}` + '</span>' +
                     '</div>' +
                     '<div style="padding-top: 8px">' +
                     '<span style="font-size: 14px">Time</span>' +
@@ -105,9 +108,8 @@ const Chart = (props) => {
         }
     }
 
-    let dataLength = props.chartData?.series?.length || 0
-    let maxLimit = dataLength > 75 ? Number.parseInt(dataLength / 75) : 1
-
+    // let dataLength = props.chartData?.series?.length || 0
+    // let maxLimit = dataLength > 75 ? Number.parseInt(dataLength / 75) : 1
     let config = {
         chart: {
             type: 'area',
@@ -115,36 +117,31 @@ const Chart = (props) => {
             zoomType: 'x',
             events: {
                 load: function () {
+                    const chart = this
 
-                    if (maxLimit > 1) {
-                        const chart = this
-
-                        const moveLeft = () => {
-                            let { min, max, dataMin } = chart.xAxis[0].getExtremes()
-                            let move = Number.parseInt(dataLength / maxLimit)
-                            if (min - move >= dataMin) {
-                                min -= move
-                                max -= move
-                            }
-                            chart.xAxis[0].setExtremes(min, max)
+                    const moveLeft = () => {
+                        let { min, max } = chart.xAxis[0].getExtremes()
+                        if (min - move >= start) {
+                            min -= move
+                            max -= move
                         }
-                        const moveRight = () => {
-                            let { min, max, dataMax } = chart.xAxis[0].getExtremes()
-                            let move = Number.parseInt(dataLength / maxLimit)
-                            if (max + move - 1 <= dataMax) {
-                                min += move
-                                max += (move - 1)
-                            }
-                            chart.xAxis[0].setExtremes(min, max)
-                        }
-
-                        const leftArrowUrl = LeftIcon
-                        const rightArrowUrl = rightIcon
-                        const leftArrow = chart.renderer.image(leftArrowUrl, 25, 150, 30, 30).attr({ zIndex: 10 })
-                        const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 150, 30, 30).attr({ zIndex: 10 })
-                        leftArrow.on('click', moveLeft).add()
-                        rightArrow.on('click', moveRight).add()
+                        chart.xAxis[0].setExtremes(min, max)
                     }
+                    const moveRight = () => {
+                        let { min, max } = chart.xAxis[0].getExtremes()
+                        if (max + move <= end) {
+                            min += move + (props.interval * 60 * 1000)
+                            max += move
+                        }
+                        chart.xAxis[0].setExtremes(min, max)
+                    }
+
+                    const leftArrowUrl = LeftIcon
+                    const rightArrowUrl = rightIcon
+                    const leftArrow = chart.renderer.image(leftArrowUrl, 25, 150, 30, 30).attr({ zIndex: 10 })
+                    const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 150, 30, 30).attr({ zIndex: 10 })
+                    leftArrow.on('click', moveLeft).add()
+                    rightArrow.on('click', moveRight).add()
                 }
             }
         },
@@ -155,11 +152,17 @@ const Chart = (props) => {
             text: null
         },
         xAxis: {
-            categories: props.chartData?.categories || [],
+            // categories: props.chartData?.categories || [],
+            type: 'datetime',
+            dateTimeLabelFormats: {
+                day: '%e %b',
+                hour: '%H:%M',
+            },
             gridLineWidth: 1,
             gridLineDashStyle: 'ShortDash',
-            tickInterval: Number.parseInt(dataLength / (maxLimit * 9)),
-            max: maxLimit > 1 ? Number.parseInt(dataLength / maxLimit) : (dataLength - 1)
+            // tickInterval: Number.parseInt(dataLength / (maxLimit * 9)),
+            max: (start + move),
+            min: start
         },
         credits: {
             enabled: false
