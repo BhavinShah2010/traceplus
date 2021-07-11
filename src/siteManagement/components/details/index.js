@@ -25,7 +25,7 @@ const riskLevelColor = {
 }
 
 let timeArr = [
-    '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM', '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', 
+    '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM', '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
     '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM', '12:00 AM'
 ]
 
@@ -33,6 +33,7 @@ function SiteViewDetails(props) {
     let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
 
     const [siteViewData, updateSiteViewData] = useState('')
+    const [prevSiteData, updatePrevSiteData] = useState('')
 
     const [footFallValue, updateFootFallValue] = useState(0)
 
@@ -59,6 +60,19 @@ function SiteViewDetails(props) {
         props.history.push('/site-list')
     }
 
+    const setPrevSiteData = (date) => {
+        let idVal = props.match.params.id.replace(":", "")
+        let prevReqBody = {}
+        prevReqBody.date = moment(date).subtract(1, 'days').format('YYYY-MM-DD')
+        prevReqBody.locationID = idVal
+
+        getSiteOverview(prevReqBody, userSession, org_id).then((res) => {
+            if (res && res.data && res.data.length > 0) {
+                updatePrevSiteData(res.data[0])
+            }
+        })
+    }
+
     useEffect(() => {
 
         let idVal = props.match.params.id.replace(":", "")
@@ -67,6 +81,8 @@ function SiteViewDetails(props) {
             let date = getDateFormat(selectedDate)
 
             updateLocationID(idVal)
+
+            setPrevSiteData(selectedDate)
 
             let requestBody = {}
             requestBody.date = date
@@ -109,7 +125,7 @@ function SiteViewDetails(props) {
             let data = res.hourly_footfall
             let categories = timeArr
             let series = []
-            let top4 = []           
+            let top4 = []
 
             if (data && Array.isArray(data)) {
                 data.forEach((i, index) => {
@@ -144,11 +160,13 @@ function SiteViewDetails(props) {
         requestBody.date = getDateFormat(date)
         requestBody.locationID = locationID
 
-        getSiteOverview(requestBody,userSession, org_id).then(res => {
+        getSiteOverview(requestBody, userSession, org_id).then(res => {
             if (res && res.data && res.data.length > 0) {
                 updateSiteViewData(res.data[0])
             }
         })
+
+        setPrevSiteData(date)
 
         getSiteAreaIndex(requestBody, userSession, org_id).then(res => {
 
@@ -180,8 +198,20 @@ function SiteViewDetails(props) {
         })
     }
 
-    useEffect (() =>{
-        if(props.language){
+    const getChangePer = () => {
+        let returnData = 0
+        let x = prevSiteData.area_index || 0
+        let y = siteViewData.area_index || 0
+
+        if (x) {
+            returnData = ((y - x) / x) * 100 + '%'
+        }
+
+        return returnData
+    }
+
+    useEffect(() => {
+        if (props.language) {
             updateSelectedLangValue(props.language)
         }
     }, [props.language])
@@ -218,7 +248,7 @@ function SiteViewDetails(props) {
                     </Row>
                     <Row className="m-t-lg">
                         <Col lg={4}>
-                            <div className="siteViewDetailsLeftSideDiv" style={{height:'750px'}}>
+                            <div className="siteViewDetailsLeftSideDiv" style={{ height: '750px' }}>
                                 <div className="headerNameDiv">{getTranslatedText(siteViewData.location_name)}</div>
                                 <div className="subHeaderDiv">{getTranslatedText(siteViewData.description)}</div>
                                 <div className="subHeaderDiv">9am - 6pm | 11pm - 6am</div>
@@ -266,12 +296,12 @@ function SiteViewDetails(props) {
                             <div className="siteViewRightSideDiv">
                                 <Row>
                                     <Col lg={4}>
-                                        <div className="areaIndexMainDiv" style={{height:'250px'}}>
+                                        <div className="areaIndexMainDiv" style={{ height: '250px' }}>
                                             <h4 className="font-bold">{getTranslatedText('Area Index')}</h4>
                                             <div className="m-t">
                                                 <h4 className="areaIndexValue font-bold">{siteViewData.area_index}</h4>
                                                 <div className="areaIndexRiskPercentageDiv font-normal">
-                                                    10%
+                                                    {getChangePer()}
                                                 </div>
                                             </div>
 
@@ -285,15 +315,15 @@ function SiteViewDetails(props) {
                                         </div>
                                     </Col>
                                     <Col lg={8}>
-                                        <div className="footfallMainDiv" style={{height:'250px'}}>
+                                        <div className="footfallMainDiv" style={{ height: '250px' }}>
                                             <h4 className="font-bold">{getTranslatedText('Footfall')}</h4>
                                             <div className="dayWeekButtonMainDiv">
                                                 <button type="button" onClick={() => handleChangeFootFallType('day')} className={'buttonDiv ' + (selectedFootfallType == 'day' ? 'activeFootfall' : '')}
                                                 >Day</button>
                                                 <button type="button" onClick={() => handleChangeFootFallType('week')} className={'buttonDiv ' + (selectedFootfallType == 'week' ? 'activeFootfall' : '')}>Week</button>
                                             </div>
-                                            <div style={{marginTop:'3rem'}}>
-                                                <h2 className="areaIndexValue font-bold commonBlackColor" style={{marginBottom:'0.15rem'}}>
+                                            <div style={{ marginTop: '3rem' }}>
+                                                <h2 className="areaIndexValue font-bold commonBlackColor" style={{ marginBottom: '0.15rem' }}>
                                                     {footFallValue}
                                                 </h2>
                                                 <div className="riskLevelText commonBlackColor">{getTranslatedText('NO.')} of {getTranslatedText('Employees')}</div>
@@ -302,7 +332,7 @@ function SiteViewDetails(props) {
                                     </Col>
                                 </Row>
                             </div>
-                            
+
 
                             <div className="white-bg m-t wrapper areaIndexChartMainDiv">
                                 <Row>
@@ -312,9 +342,9 @@ function SiteViewDetails(props) {
                                             {chartData.top4.map((d) => {
                                                 return (
                                                     <div className="eachPeakHoursDiv">
-                                                    <img src={ClockIcon} />
-                                                    <span className="font-bold">{d.name}</span>
-                                                    
+                                                        <img src={ClockIcon} />
+                                                        <span className="font-bold">{d.name}</span>
+
                                                     </div>
                                                 )
                                             })}
@@ -330,7 +360,7 @@ function SiteViewDetails(props) {
                                         }
                                     </Col>
                                 </Row>
-                                
+
                             </div>
                         </Col>
                     </Row>
