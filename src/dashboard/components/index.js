@@ -175,7 +175,7 @@ function Dashboard(props) {
                 })
 
                 setChartLoader(false)
-                setChartData({ series, chartData })
+                setChartData({ series: series.sort((a,b) => a[0] - b[0]), chartData })
             }
 
         }).catch((err) => {
