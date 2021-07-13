@@ -116,7 +116,8 @@ function SiteViewDetails(props) {
         setChartLoader(true)
         setChartData({ categories: [], series: [], top4: [] })
 
-        let date = getDateFormat(selectedDate)
+        let d = moment(selectedDate).add(1, 'day')
+        let date = getDateFormat(d)
         footfallChart({ date, locationID: idVal }, userSession, org_id).then((res) => {
 
             updateFootFallData(res)

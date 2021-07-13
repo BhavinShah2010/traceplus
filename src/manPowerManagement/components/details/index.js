@@ -117,7 +117,8 @@ function EmployeeDetails(props) {
         setChartData({ categories: [], series: [] })
 
         let idVal = props.match.params.id.replace(":", "")
-        let date = getDateFormat(selectedDate)
+        let d = moment(selectedDate).add(1, 'day').toDate()
+        let date = getDateFormat(d)
         let obj = {
             start: getDateFormat(new Date(selectedDate).setDate(selectedDate.getDate() - 30)),
             end: date,

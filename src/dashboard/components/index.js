@@ -51,7 +51,7 @@ function Dashboard(props) {
     const [threatWatchColor, updateThreatWatchColor] = useState('')
     const [selectedDate, updateSelectedDate] = useState(date)
     const [startDateValue, updateStartDateValue] = useState(moment(date).subtract(29, 'days').toDate())
-    const [endDateValue, updateEndDateValue] = useState(date)
+    const [endDateValue, updateEndDateValue] = useState(moment(date).add(1, 'days').toDate())
     const [toastClass, updateToastClass] = useState('successToast')
     const [employeePopupFlag, updateEmployeePopupFlag] = useState(false)
     const [locationPopupFlag, updateLocationPopupFlag] = useState(false)
@@ -303,10 +303,11 @@ function Dashboard(props) {
         getThreatWatchDataValues(requestBody)
 
         let startDate = new Date(date).setDate(date.getDate() - 29)
+        let endDate = new Date(date).setDate(date.getDate() + 1)
 
         updateStartDateValue(startDate)
-        updateEndDateValue(date)
-        setChartDetail(getDateFormat(startDate), getDateFormat(date))
+        updateEndDateValue(endDate)
+        setChartDetail(getDateFormat(startDate), getDateFormat(endDate))
     }
 
     function handleSelectStartDate(date) {

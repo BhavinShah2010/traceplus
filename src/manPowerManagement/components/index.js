@@ -65,7 +65,8 @@ function ManPowerMangementList(props) {
         setChartLoader(true)
         setChartData({ categories: [], series: [] })
 
-        let date = getDateFormat(selectedDate)
+        let d = moment(selectedDate).add(1, 'day')
+        let date = getDateFormat(d)
         attendanceChart(date, userSession, org_id).then((res) => {
             let data = res?.attendance
 
