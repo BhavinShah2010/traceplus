@@ -31,8 +31,9 @@ export const prepareDateObj = (params) => {
     }
 
     params.data.forEach((i) => {
-        let day = moment(i.timestamp).format('YYYY-MM-DD')
-        let time = moment(i.timestamp).format('HHmm')
+        let date = i.timestamp || i.date
+        let day = moment(date).format('YYYY-MM-DD')
+        let time = moment(date).format('HHmm')
         let val = i[params.type]
 
         let dateObj = dates[day]

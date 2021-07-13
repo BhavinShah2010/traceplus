@@ -19,8 +19,9 @@ import { employeeChart, getEmployeeDetails, getEmployeeIndex } from '../../actio
 import spinnerLoader from '../../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../../common/commonDatePicker';
 import { getTranslatedText } from '../../../common/utilities';
-import AreaChart from '../areaChart'
+import AreaChart from './areaChart'
 import { getLanguageTranslation, setSelectedLanguage } from '../../../dashboard/actionMethods/actionMethods';
+import { prepareDateObj } from '../../../dashboard/components/helper'
 
 import downArrowFill from '../../../assets/images/down-arrowFill.png'
 import DashboardLanguage from '../../../components/dashboardLanguage';
@@ -34,6 +35,7 @@ import empIDIcon from '../../../assets/traceplusImages/employee_id_icon.svg'
 
 function EmployeeDetails(props) {
     let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
+    let interval = 5
 
     const [employeeDetails, updateEmployeeDetails] = useState('')
     const [employeeID, updateEmployeeID] = useState('')
@@ -119,25 +121,31 @@ function EmployeeDetails(props) {
         let idVal = props.match.params.id.replace(":", "")
         let d = moment(selectedDate).add(1, 'day').toDate()
         let date = getDateFormat(d)
+        let startDate = getDateFormat(new Date(selectedDate).setDate(selectedDate.getDate() - 30))
         let obj = {
-            start: getDateFormat(new Date(selectedDate).setDate(selectedDate.getDate() - 30)),
+            start: startDate,
             end: date,
             emp_id: idVal
         }
 
+
+
         employeeChart(obj, userSession, org_id).then((res) => {
             let data = res?.emp_pri
-            let categories = []
-            let series = []
 
             if (data && Array.isArray(data)) {
-                data.forEach((i) => {
-                    let d = moment(i.date).format('DD MMM')
-                    categories.push(d)
-                    series.push(i.pri)
-                })
 
-                setChartData({ categories, series })
+                let params = {
+                    startDate: startDate,
+                    endDate: date,
+                    type: 'pri',
+                    interval,
+                    data
+                }
+
+                let series = prepareDateObj(params)
+
+                setChartData({ series: series.sort((a,b) => a[0] - b[0]) })
             }
             setChartLoader(false)
         }).catch((err) => {
@@ -536,6 +544,9 @@ function EmployeeDetails(props) {
                                                             <AreaChart
                                                                 chartData={chartData}
                                                                 yAxisTitle={'Personal Risk Index'}
+                                                                startDate={moment(selectedDate).subtract(30, 'days').format('YYYY-MM-DD')}
+                                                                endDate={moment(selectedDate).add(1, 'day').format('YYYY-MM-DD')}
+                                                                interval={interval}
                                                             />
                                                         }
                                                     </Col>
