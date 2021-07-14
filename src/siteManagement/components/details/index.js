@@ -116,7 +116,7 @@ function SiteViewDetails(props) {
         setChartLoader(true)
         setChartData({ categories: [], series: [], top4: [] })
 
-        let d = moment(selectedDate).add(1, 'day')
+        let d = moment(selectedDate)
         let date = getDateFormat(d)
         footfallChart({ date, locationID: idVal }, userSession, org_id).then((res) => {
 
@@ -137,9 +137,9 @@ function SiteViewDetails(props) {
                     })
                 })
 
-                // top4 = [...series].sort((a, b) => (b.y - a.y)).slice(0, 4)
+                top4 = [...series].filter((s) => s.y > 0).sort((a, b) => (b.y - a.y)).slice(0, 4)
 
-                top4 = [...series].slice(0, 4)
+                // top4 = [...series].slice(0, 4)
                 setChartData({ categories, series, top4 })
                 setChartLoader(false)
             }
