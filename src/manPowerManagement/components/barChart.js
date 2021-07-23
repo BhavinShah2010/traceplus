@@ -16,46 +16,41 @@ const riskLevelColor = {
 
 const Chart = (props) => {
 
-    let dataLength = props.chartData?.series?.length || 0
-    let maxLimit = dataLength > 50 ? Number.parseInt(dataLength / 50) : 1
-
     let config = {
         chart: {
-            type: 'area',
+            type: 'column',
             height: 250,
             zoomType: 'x',
             events: {
                 load: function () {
+                    const chart = this
 
-                    if (maxLimit > 1) {
-                        const chart = this
-    
-                        const moveLeft = () => {
-                            let { min, max, dataMin } = chart.xAxis[0].getExtremes()
-                            let move = Number.parseInt(dataLength / maxLimit)
-                            if (min - move >= dataMin) {
-                                min -= move
-                                max -= move
-                            }
-                            chart.xAxis[0].setExtremes(min, max)
+                    const moveLeft = () => {
+                        let { min, max, dataMin } = chart.xAxis[0].getExtremes()
+                        let move = 8
+                        if (min - move >= dataMin) {
+                            min -= move
+                            max -= move
                         }
-                        const moveRight = () => {
-                            let { min, max, dataMax } = chart.xAxis[0].getExtremes()
-                            let move = Number.parseInt(dataLength / maxLimit)
-                            if (max + move - 1 <= dataMax) {
-                                min += move
-                                max += (move)
-                            }
-                            chart.xAxis[0].setExtremes(min, max)
-                        }
-    
-                        const leftArrowUrl = LeftIcon
-                        const rightArrowUrl = rightIcon
-                        const leftArrow = chart.renderer.image(leftArrowUrl, 50, 100, 30, 30).attr({ zIndex: 10 })
-                        const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 100, 30, 30).attr({ zIndex: 10 })
-                        leftArrow.on('click', moveLeft).add()
-                        rightArrow.on('click', moveRight).add()
+                        chart.xAxis[0].setExtremes(min, max)
                     }
+                    const moveRight = () => {                        
+                        let { min, max, dataMax } = chart.xAxis[0].getExtremes()
+                        let move = 8
+
+                        if (max + move <= dataMax) {
+                            min += move
+                            max += (move)
+                        }
+                        chart.xAxis[0].setExtremes(min, max)
+                    }
+
+                    const leftArrowUrl = LeftIcon
+                    const rightArrowUrl = rightIcon
+                    const leftArrow = chart.renderer.image(leftArrowUrl, 50, 100, 30, 30).attr({ zIndex: 10 })
+                    const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 100, 30, 30).attr({ zIndex: 10 })
+                    leftArrow.on('click', moveLeft).add()
+                    rightArrow.on('click', moveRight).add()
                 }
             }
         },
@@ -67,9 +62,8 @@ const Chart = (props) => {
         },
         xAxis: {
             categories: props.chartData.categories,
-            allowDecimals: false,
-            tickInterval: Number.parseInt(dataLength / (maxLimit * 9)),
-            max: maxLimit > 1 ? Number.parseInt(dataLength / maxLimit) : (dataLength - 1)
+            // allowDecimals: false,
+            max: 7
         },
         credits: {
             enabled: false
@@ -164,22 +158,10 @@ const Chart = (props) => {
             }
         },
         series: [{
+            name: 'Attendance',
             showInLegend: false,
             data: props.chartData.series,
-            zones: [
-                {
-                    value: 33,
-                    color: riskLevelColor.low
-                },
-                {
-                    value: 66,
-                    color: riskLevelColor.medium
-                },
-                {
-                    value: 100,
-                    color: riskLevelColor.high
-                }
-            ]
+            colorByPoint: true
         }]
     }
 

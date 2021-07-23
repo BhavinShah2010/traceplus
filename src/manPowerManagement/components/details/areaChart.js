@@ -67,8 +67,8 @@ const Chart = (props) => {
             },
             gridLineWidth: 1,
             gridLineDashStyle: 'ShortDash',
-            max: (start + move),
-            min: start
+            max: (start + 3 * move),
+            min: (start + 2 * move)
         },
         credits: {
             enabled: false

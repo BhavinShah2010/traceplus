@@ -245,7 +245,7 @@ function EmployeeList(props) {
                                         {props.atRiskEmp ? 'At Risk Employees' : getTranslatedText('Employees')}
 
 
-                                     ({employeeList.length})</h3>
+                                     ({employeeList && employeeList.length})</h3>
                                 </Col>
                                 {
                                     props.hideSearch ? '' :

@@ -18,13 +18,23 @@ import mediumRiskIcon from '../../assets/traceplusImages/medium_risk_icon.svg'
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 
 import moment from 'moment'
-import Chart from './areaChart'
+import Chart from './barChart'
 import { getTranslatedText } from '../../common/utilities';
 import EmployeeList from './employeeList';
 import { getLanguageTranslation, setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
 
 const { Option } = Select;
 
+const riskLevelColor = {
+    "low": '#04e06e',
+    "medium": "#ffd700",
+    "high": "#ffa500"
+}
+
+let timeArr = [
+    '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM', '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
+    '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM', '12:00 AM'
+]
 
 function ManPowerMangementList(props) {
     let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
@@ -40,6 +50,7 @@ function ManPowerMangementList(props) {
     const [preDefinedTeamList, updatedPredefinedTeamList] = useState([])
 
     const [PriData, updatePRIData] = useState('')
+    const [prevPriData, updatePrevPriData] = useState('')
 
     const [selectedTab, updatedSelectedTab] = useState('employees')
 
@@ -61,6 +72,16 @@ function ManPowerMangementList(props) {
         return moment(date).format('YYYY-MM-DD')
     }
 
+    const getBarColor = (val) => {
+        if (val < 33) {
+            return riskLevelColor.low
+        } else if (val < 66) {
+            return riskLevelColor.medium
+        } else {
+            return riskLevelColor.high
+        }
+    }
+
     const getChartData = () => {
         setChartLoader(true)
         setChartData({ categories: [], series: [] })
@@ -70,16 +91,18 @@ function ManPowerMangementList(props) {
         attendanceChart(date, userSession, org_id).then((res) => {
             let data = res?.attendance
 
-            let categories = []
+            let categories = timeArr
             let series = []
 
             updateNumberAttended(res.num_attended || 0)
 
             if (data && Array.isArray(data)) {
-                data.forEach((i) => {
-                    let d = moment(i.date).format('DD MMM')
-                    categories.push(d)
-                    series.push(i.num_attended)
+                data.forEach((i, index) => {                    
+                    series.push({
+                        y: i['num_attended'],
+                        color: getBarColor(i['num_attended']),
+                        name: timeArr[index]
+                    })
                 })
             }
 
@@ -91,12 +114,36 @@ function ManPowerMangementList(props) {
         })
     }
 
+    const setPrevPriData = (date) => {
+        let prevReqBody = {}
+        prevReqBody.date = moment(date).subtract(1, 'days').format('YYYY-MM-DD')
+
+        getOrgPri(prevReqBody, userSession, org_id).then((res) => {
+            if (res) {
+                updatePrevPriData(res)
+            }
+        })
+    }
+
+    const getChangePer = (key) => {
+        let returnData = 0
+        let x = prevPriData[key] || 0
+        let y = PriData[key] || 0
+
+        if (x) {
+            returnData = ((y - x) / x) * 100
+        }
+
+        return returnData
+    }
+
     useEffect(() => {
         getChartData()
 
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
-
+        
+        setPrevPriData(selectedDate)
         getOrgPriData(requestBody)
         getDepartmentListData(requestBody)
     }, [selectedDate])
@@ -269,8 +316,9 @@ function ManPowerMangementList(props) {
                                 <Col lg={6} className="b-r">
                                     <span className="font-bold text-white numberText">{PriData.pri_index || 0}</span>
                                     <div className="percentageDiv m-l">
-                                        {PriData.pri_risk == 'Low' ? <span> &#8593; </span> : <span>&#8595;</span>}
-                                        {PriData.pri_index_percentage || 0}</div>
+                                        {getChangePer('pri_index') > 0 ? <span> &#8593; </span> : <span> &#8595; </span>}
+                                        {getChangePer('pri_index') + '%'}
+                                    </div>
                                 </Col>
                                 <Col lg={6}>
                                     <span className="font-bold text-white lowText">

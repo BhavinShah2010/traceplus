@@ -44,6 +44,7 @@ function EmployeeDetails(props) {
     const [infectedFlag, updateInfectedFlag] = useState(false)
 
     const [employeeIndexData, updateEmployeeIndexData] = useState('')
+    const [prevEmployeeIndexData, updatePrevEmployeendexData] = useState('')
 
     const [isLoading, updateIsLoading] = useState(true)
 
@@ -58,6 +59,19 @@ function EmployeeDetails(props) {
 
     let org_id = userDetails ? userDetails.org_id : 6
 
+    const setPrevEmployeeIndexData = (date) => {
+        let idVal = props.match.params.id.replace(":", "")
+        let prevReqBody = {}
+        prevReqBody.date = moment(date).subtract(1, 'days').format('YYYY-MM-DD')
+        prevReqBody.emp_id = idVal
+
+        getEmployeeIndex(prevReqBody, userSession, org_id).then((res) => {
+            if (res && res.data) {
+                updatePrevEmployeendexData(res.data)
+            }
+        })
+    }
+
     useEffect(() => {
 
         let idVal = props.match.params.id.replace(":", "")
@@ -70,6 +84,8 @@ function EmployeeDetails(props) {
             let requestBody = {}
             requestBody.date = getDateFormat(selectedDate)
             requestBody.emp_id = idVal
+
+            setPrevEmployeeIndexData(selectedDate)
 
             getEmployeeDetails(requestBody, userSession, org_id).then(res => {
 
@@ -203,6 +219,8 @@ function EmployeeDetails(props) {
         requestBody.date = getDateFormat(date)
         requestBody.emp_id = employeeID
 
+        setPrevEmployeeIndexData(date)
+
         getEmployeeDetails(requestBody, userSession, org_id).then(res => {
 
             if (res && res.data) {
@@ -216,6 +234,18 @@ function EmployeeDetails(props) {
             }
         })
 
+    }
+
+    const getChangePer = (key) => {
+        let returnData = 0
+        let x = prevEmployeeIndexData[key] || 0
+        let y = employeeIndexData[key] || 0
+
+        if (x) {
+            returnData = ((y - x) / x) * 100 + '%'
+        }
+
+        return returnData
     }
 
     function showEmployeeMonthView(monthView) {
@@ -295,6 +325,13 @@ function EmployeeDetails(props) {
         }
 
         return arr
+    }
+
+    const getAttendancePer = (attended) => {
+        let monthDays = moment(selectedDate).daysInMonth()
+        let returnData = parseInt((attended / monthDays) * 100)
+
+        return returnData
     }
 
 
@@ -406,7 +443,7 @@ function EmployeeDetails(props) {
                                                     </div>
                                                     <div className="attendancePercentageRoundDiv">
                                                         <div className="percentageText ">
-                                                            <span className="font-bold">{employeeDetails.emp_attendance.attendance_percentage} %</span>
+                                                            <span className="font-bold">{getAttendancePer(employeeDetails.emp_attendance.days_present)} %</span>
                                                             <div className="thisMonthText">This Month</div>
                                                         </div>
                                                     </div>
@@ -456,7 +493,7 @@ function EmployeeDetails(props) {
                                                             <Col lg={8}>
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.population_index}</div>
-                                                                    <div className="increaseDecreasePercentageDiv font-bold">10%</div>
+                                                                    <div className="increaseDecreasePercentageDiv font-bold">{getChangePer('population_index')}</div>
                                                                 </div>
                                                             </Col>
                                                         </Row>
@@ -475,7 +512,7 @@ function EmployeeDetails(props) {
                                                             <Col lg={8} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.spread_index}</div>
-                                                                    <div className="increaseDecreasePercentageDiv font-bold">10%</div>
+                                                                    <div className="increaseDecreasePercentageDiv font-bold">{getChangePer('spread_index')}</div>
                                                                 </div>
                                                             </Col>
                                                         </Row>
@@ -494,7 +531,7 @@ function EmployeeDetails(props) {
                                                             <Col lg={8} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.mobility_index}</div>
-                                                                    <div className="increaseDecreasePercentageDiv font-bold">10%</div>
+                                                                    <div className="increaseDecreasePercentageDiv font-bold">{getChangePer('mobility_index')}</div>
                                                                 </div>
                                                             </Col>
                                                         </Row>
