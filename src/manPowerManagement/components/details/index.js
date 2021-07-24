@@ -242,7 +242,7 @@ function EmployeeDetails(props) {
         let y = employeeIndexData[key] || 0
 
         if (x) {
-            returnData = ((y - x) / x) * 100 + '%'
+            returnData = parseInt(((y - x) / x) * 100) + '%'
         }
 
         return returnData

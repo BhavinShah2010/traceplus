@@ -131,8 +131,8 @@ function SiteViewDetails(props) {
             if (data && Array.isArray(data)) {
                 data.forEach((i, index) => {
                     series.push({
-                        y: i,
-                        color: getBarColor(i),
+                        y: i[0],
+                        color: getBarColor(i[0]),
                         name: timeArr[index]
                     })
                 })
@@ -204,8 +204,9 @@ function SiteViewDetails(props) {
         let x = prevSiteData.area_index || 0
         let y = siteViewData.area_index || 0
 
+        console.log(x,y)
         if (x) {
-            returnData = ((y - x) / x) * 100 + '%'
+            returnData = parseInt(((y - x) / x) * 100) + '%'
         }
 
         return returnData
