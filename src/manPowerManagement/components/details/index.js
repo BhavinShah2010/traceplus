@@ -464,7 +464,7 @@ function EmployeeDetails(props) {
                                                     <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.pri_level))}>
                                                         <h6 className="font-bold ">{getTranslatedText('Personal risk index')}</h6>
                                                         <br />
-                                                        <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
+                                                        <div className="font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
                                                             <Col lg={4}>
@@ -472,7 +472,7 @@ function EmployeeDetails(props) {
                                                             </Col>
                                                             <Col lg={8}>
                                                                 <div className="riskPercentageMainDiv">
-                                                                    <div className="riskPercentagenNumber font-bold">{employeeIndexData.population_index}</div>
+                                                                    <div className="riskPercentagenNumber font-bold" style={{ display: 'block' }} >{employeeIndexData.population_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">
                                                                         {getChangePer('population_index') > 0 ? <span> &#8593; </span> : <span> &#8595; </span>}
                                                                         {Math.abs(getChangePer('population_index')) + '%'}
@@ -486,7 +486,7 @@ function EmployeeDetails(props) {
                                                     <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.sri_level))}>
                                                         <h6 className="font-bold ">Spread  Index</h6>
                                                         <br />
-                                                        <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
+                                                        <div className="font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
                                                             <Col lg={4} >
@@ -494,7 +494,7 @@ function EmployeeDetails(props) {
                                                             </Col>
                                                             <Col lg={8} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
-                                                                    <div className="riskPercentagenNumber font-bold">{employeeIndexData.spread_index}</div>
+                                                                    <div className="riskPercentagenNumber font-bold" style={{ display: 'block' }}>{employeeIndexData.spread_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">
                                                                         {getChangePer('spread_index') > 0 ? <span> &#8593; </span> : <span> &#8595; </span>}
                                                                         {Math.abs(getChangePer('spread_index')) + '%'}
@@ -508,7 +508,7 @@ function EmployeeDetails(props) {
                                                     <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.mri_level))}>
                                                         <h6 className="font-bold ">Mobility Index</h6>
                                                         <br />
-                                                        <div className="m-t-lg font-normal">{getTranslatedText('Risk Level')}</div>
+                                                        <div className="font-normal">{getTranslatedText('Risk Level')}</div>
 
                                                         <Row>
                                                             <Col lg={4}>
@@ -516,7 +516,7 @@ function EmployeeDetails(props) {
                                                             </Col>
                                                             <Col lg={8} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
-                                                                    <div className="riskPercentagenNumber font-bold">{employeeIndexData.mobility_index}</div>
+                                                                    <div className="riskPercentagenNumber font-bold" style={{ display: 'block' }}>{employeeIndexData.mobility_index}</div>
                                                                     <div className="increaseDecreasePercentageDiv font-bold">
                                                                         {getChangePer('mobility_index') > 0 ? <span> &#8593; </span> : <span> &#8595; </span>}
                                                                         {Math.abs(getChangePer('mobility_index')) + '%'}
