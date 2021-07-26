@@ -242,42 +242,28 @@ function EmployeeDetails(props) {
         let y = employeeIndexData[key] || 0
 
         if (x) {
-            returnData = parseInt(((y - x) / x) * 100) + '%'
+            returnData = parseInt(((y - x) / x) * 100)
         }
 
         return returnData
     }
 
-    function showEmployeeMonthView(monthView) {
-
-        let arr = []
-
-        for (let index = 0; index < monthView.length; index++) {
-            const element = monthView[index];
-
-            for (var month in element) {
-
-                let daysPecent = ((element[month]) / 30) + '%'
-
-                arr.push(
-                    <div className="eachAttendanceDiv">
-                        <div className="monthDiv">
-                            {month}
-                        </div>
-                        <div className="progressBarDiv">
-                            <div className="daysProgressBG" style={{ width: daysPecent }}></div>
-                        </div>
-                        <div className="daysDiv">{element[month]} days</div>
-                    </div>
-                )
-            }
-        }
-
-
-
-
-
-        return arr
+    function showEmployeeMonthView(daysPrecent) {
+        let monthDays = moment(selectedDate).daysInMonth()
+        let month = moment(selectedDate).format('MMM')
+        let dayPer = parseInt((daysPrecent / monthDays) * 100)
+        
+        return (
+            <div className="eachAttendanceDiv">
+                <div className="monthDiv">
+                    {month}
+                </div>
+                <div className="progressBarDiv">
+                    <div className="daysProgressBG" style={{ width: dayPer }}></div>
+                </div>
+                <div className="daysDiv">{monthDays} days</div>
+            </div>
+        )
     }
 
     function showEmployeeList(employeeList) {
@@ -451,20 +437,14 @@ function EmployeeDetails(props) {
                                                 </div>
 
                                                 {
-                                                    employeeDetails.emp_attendance.month_view && employeeDetails.emp_attendance.month_view.length ?
+                                                    employeeDetails.emp_attendance.days_present ?
 
                                                         <React.Fragment>
-
                                                             <div className=" b-b m-t-sm"></div>
                                                             <div className="p_0_5rem p-t-0 p-b-0">
                                                                 <div className="empAttendanceMainDiv">
-                                                                    <h6 className="font-bold text-white">Month View</h6>
-
-                                                                    {
-                                                                        employeeDetails.emp_attendance.month_view && employeeDetails.emp_attendance.month_view.length > 0 ?
-
-                                                                            showEmployeeMonthView(employeeDetails.emp_attendance.month_view) : ''
-                                                                    }
+                                                                    <h6 className="font-bold text-white">Month View</h6>                                                                    
+                                                                    {showEmployeeMonthView(employeeDetails.emp_attendance.days_present)}
                                                                     <div></div>
                                                                 </div>
                                                             </div>
@@ -493,7 +473,10 @@ function EmployeeDetails(props) {
                                                             <Col lg={8}>
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.population_index}</div>
-                                                                    <div className="increaseDecreasePercentageDiv font-bold">{getChangePer('population_index')}</div>
+                                                                    <div className="increaseDecreasePercentageDiv font-bold">
+                                                                        {getChangePer('population_index') > 0 ? <span> &#8593; </span> : <span> &#8595; </span>}
+                                                                        {Math.abs(getChangePer('population_index')) + '%'}
+                                                                    </div>
                                                                 </div>
                                                             </Col>
                                                         </Row>
@@ -512,7 +495,10 @@ function EmployeeDetails(props) {
                                                             <Col lg={8} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.spread_index}</div>
-                                                                    <div className="increaseDecreasePercentageDiv font-bold">{getChangePer('spread_index')}</div>
+                                                                    <div className="increaseDecreasePercentageDiv font-bold">
+                                                                        {getChangePer('spread_index') > 0 ? <span> &#8593; </span> : <span> &#8595; </span>}
+                                                                        {Math.abs(getChangePer('spread_index')) + '%'}
+                                                                    </div>
                                                                 </div>
                                                             </Col>
                                                         </Row>
@@ -531,7 +517,10 @@ function EmployeeDetails(props) {
                                                             <Col lg={8} className="p-l-0">
                                                                 <div className="riskPercentageMainDiv">
                                                                     <div className="riskPercentagenNumber font-bold">{employeeIndexData.mobility_index}</div>
-                                                                    <div className="increaseDecreasePercentageDiv font-bold">{getChangePer('mobility_index')}</div>
+                                                                    <div className="increaseDecreasePercentageDiv font-bold">
+                                                                        {getChangePer('mobility_index') > 0 ? <span> &#8593; </span> : <span> &#8595; </span>}
+                                                                        {Math.abs(getChangePer('mobility_index')) + '%'}
+                                                                    </div>
                                                                 </div>
                                                             </Col>
                                                         </Row>

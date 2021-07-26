@@ -206,7 +206,7 @@ function SiteViewDetails(props) {
 
         console.log(x,y)
         if (x) {
-            returnData = parseInt(((y - x) / x) * 100) + '%'
+            returnData = parseInt(((y - x) / x) * 100)
         }
 
         return returnData
@@ -303,7 +303,8 @@ function SiteViewDetails(props) {
                                             <div className="m-t">
                                                 <h4 className="areaIndexValue font-bold">{siteViewData.area_index}</h4>
                                                 <div className="areaIndexRiskPercentageDiv font-normal">
-                                                    {getChangePer()}
+                                                    {getChangePer() > 0 ? <span> &#8593; </span> : <span> &#8595; </span>}
+                                                    {Math.abs(getChangePer()) + '%'}
                                                 </div>
                                             </div>
 

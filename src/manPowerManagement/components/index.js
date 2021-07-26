@@ -31,11 +31,6 @@ const riskLevelColor = {
     "high": "#ffa500"
 }
 
-let timeArr = [
-    '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM', '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
-    '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM', '12:00 AM'
-]
-
 function ManPowerMangementList(props) {
     let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
 
@@ -91,21 +86,26 @@ function ManPowerMangementList(props) {
         attendanceChart(date, userSession, org_id).then((res) => {
             let data = res?.attendance
 
-            let categories = timeArr
-            let series = []
+            let start = new Date(moment(selectedDate).subtract(9, 'days'))
+            let end  = new Date(selectedDate)
+            let categories = []
+            let series = []            
 
             updateNumberAttended(res.num_attended || 0)
 
-            if (data && Array.isArray(data)) {
-                data.forEach((i, index) => {                    
-                    series.push({
-                        y: i['num_attended'],
-                        color: getBarColor(i['num_attended']),
-                        name: timeArr[index]
-                    })
+            for (let i = start; i <= end; i.setDate(i.getDate() + 1)) {
+                let d = moment(start).format('YYYY-MM-DD')
+                let displayDate = moment(d).format('DD MMM')
+                categories.push(displayDate)
+
+                let index = data.findIndex((i) => moment(i.date).format('YYYY-MM-DD') === d)
+                series.push( {
+                    y: index > -1 ? (data[index].num_attended || 0) : 0,
+                    color: getBarColor(index > -1 ? (data[index].num_attended || 0) : 0),
+                    name: displayDate
                 })
             }
-
+            
             setChartData({ categories, series })
             setChartLoader(false)
         }).catch((err) => {
@@ -317,7 +317,7 @@ function ManPowerMangementList(props) {
                                     <span className="font-bold text-white numberText">{PriData.pri_index || 0}</span>
                                     <div className="percentageDiv m-l">
                                         {getChangePer('pri_index') > 0 ? <span> &#8593; </span> : <span> &#8595; </span>}
-                                        {getChangePer('pri_index') + '%'}
+                                        {Math.abs(getChangePer('pri_index')) + '%'}
                                     </div>
                                 </Col>
                                 <Col lg={6}>

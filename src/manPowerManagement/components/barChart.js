@@ -21,38 +21,38 @@ const Chart = (props) => {
             type: 'column',
             height: 250,
             zoomType: 'x',
-            events: {
-                load: function () {
-                    const chart = this
+            // events: {
+            //     load: function () {
+            //         const chart = this
 
-                    const moveLeft = () => {
-                        let { min, max, dataMin } = chart.xAxis[0].getExtremes()
-                        let move = 8
-                        if (min - move >= dataMin) {
-                            min -= move
-                            max -= move
-                        }
-                        chart.xAxis[0].setExtremes(min, max)
-                    }
-                    const moveRight = () => {                        
-                        let { min, max, dataMax } = chart.xAxis[0].getExtremes()
-                        let move = 8
+            //         const moveLeft = () => {
+            //             let { min, max, dataMin } = chart.xAxis[0].getExtremes()
+            //             let move = 8
+            //             if (min - move >= dataMin) {
+            //                 min -= move
+            //                 max -= move
+            //             }
+            //             chart.xAxis[0].setExtremes(min, max)
+            //         }
+            //         const moveRight = () => {                        
+            //             let { min, max, dataMax } = chart.xAxis[0].getExtremes()
+            //             let move = 8
 
-                        if (max + move <= dataMax) {
-                            min += move
-                            max += (move)
-                        }
-                        chart.xAxis[0].setExtremes(min, max)
-                    }
+            //             if (max + move <= dataMax) {
+            //                 min += move
+            //                 max += (move)
+            //             }
+            //             chart.xAxis[0].setExtremes(min, max)
+            //         }
 
-                    const leftArrowUrl = LeftIcon
-                    const rightArrowUrl = rightIcon
-                    const leftArrow = chart.renderer.image(leftArrowUrl, 50, 100, 30, 30).attr({ zIndex: 10 })
-                    const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 100, 30, 30).attr({ zIndex: 10 })
-                    leftArrow.on('click', moveLeft).add()
-                    rightArrow.on('click', moveRight).add()
-                }
-            }
+            //         const leftArrowUrl = LeftIcon
+            //         const rightArrowUrl = rightIcon
+            //         const leftArrow = chart.renderer.image(leftArrowUrl, 50, 100, 30, 30).attr({ zIndex: 10 })
+            //         const rightArrow = chart.renderer.image(rightArrowUrl, chart.chartWidth - 50, 100, 30, 30).attr({ zIndex: 10 })
+            //         leftArrow.on('click', moveLeft).add()
+            //         rightArrow.on('click', moveRight).add()
+            //     }
+            // }
         },
         exporting: {
             enabled: false
@@ -63,7 +63,7 @@ const Chart = (props) => {
         xAxis: {
             categories: props.chartData.categories,
             // allowDecimals: false,
-            max: 7
+            // max: 7
         },
         credits: {
             enabled: false
