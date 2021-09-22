@@ -40,7 +40,13 @@ export const prepareDateObj = (params) => {
 
         for (let t in dateObj) {
             if (time <= t) {
-                dateObj[t] = { value: dateObj[t].value + val, count: dateObj[t].count + 1  }
+                /**Average */
+                // dateObj[t] = { value: dateObj[t].value + val, count: dateObj[t].count + 1  }
+
+                /**Maximum */
+                let maxVal = val > dateObj[t].value ? val : dateObj[t].value
+                dateObj[t] = { value: maxVal, count: dateObj[t].count + 1  }
+
                 return
             }
         }
@@ -51,10 +57,17 @@ export const prepareDateObj = (params) => {
     for (let d in dates) {
         let date = dates[d]
         for (let t in date) {
-            let timestamp = moment(`${d} ${t}`, 'YYYY-MM-DD HHmm').valueOf()
-            timest.push(timestamp)
-
-            returnData.push([timestamp, date[t].value ? Number.parseFloat((date[t].value / date[t].count).toFixed(2)) : 0])
+            /**Consider only value timestamp */
+            // if (date[t].value) {
+                let timestamp = moment(`${d} ${t}`, 'YYYY-MM-DD HHmm').valueOf()
+                timest.push(timestamp)
+    
+                /**Average */
+                // returnData.push([timestamp, date[t].value ? Number.parseFloat((date[t].value / date[t].count).toFixed(2)) : 0])
+    
+                /**Maximum */
+                returnData.push([timestamp, date[t].value ? date[t].value : 0])
+            // }
         }
     }
 

@@ -146,6 +146,7 @@ function SiteMangementList(props) {
                         <Row className="m-t-lg">
                             <Col lg={4}>
                                 <div className="locationNameDiv">{getTranslatedText(element.name)}</div>
+                                <div className="nearByLocationDiv">(Registered Device: {element.tag_serial})</div>
                                 <div className="nearByLocationDiv">{getTranslatedText(element.description)}</div>
                             </Col>
 

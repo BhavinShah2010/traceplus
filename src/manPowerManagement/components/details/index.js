@@ -161,7 +161,7 @@ function EmployeeDetails(props) {
 
                 let series = prepareDateObj(params)
 
-                setChartData({ series: series.sort((a,b) => a[0] - b[0]) })
+                setChartData({ series: series.sort((a, b) => a[0] - b[0]) })
             }
             setChartLoader(false)
         }).catch((err) => {
@@ -251,8 +251,9 @@ function EmployeeDetails(props) {
     function showEmployeeMonthView(daysPrecent) {
         let monthDays = moment(selectedDate).daysInMonth()
         let month = moment(selectedDate).format('MMM')
-        let dayPer = parseInt((daysPrecent / monthDays) * 100)
-        
+        let dayPer = (parseInt((daysPrecent / monthDays) * 100) + '%')
+
+        console.log(dayPer, "%%%%")
         return (
             <div className="eachAttendanceDiv">
                 <div className="monthDiv">
@@ -261,7 +262,7 @@ function EmployeeDetails(props) {
                 <div className="progressBarDiv">
                     <div className="daysProgressBG" style={{ width: dayPer }}></div>
                 </div>
-                <div className="daysDiv">{monthDays} days</div>
+                <div className="daysDiv">{daysPrecent} days</div>
             </div>
         )
     }
@@ -443,7 +444,7 @@ function EmployeeDetails(props) {
                                                             <div className=" b-b m-t-sm"></div>
                                                             <div className="p_0_5rem p-t-0 p-b-0">
                                                                 <div className="empAttendanceMainDiv">
-                                                                    <h6 className="font-bold text-white">Month View</h6>                                                                    
+                                                                    <h6 className="font-bold text-white">Month View</h6>
                                                                     {showEmployeeMonthView(employeeDetails.emp_attendance.days_present)}
                                                                     <div></div>
                                                                 </div>
@@ -550,13 +551,10 @@ function EmployeeDetails(props) {
                                                             {
                                                                 employeeDetails.most_interacted && employeeDetails.most_interacted.length > 0 ?
 
-                                                                    <Scrollbars style={{ width: '100%', height: 220 }} autoHide>
-
+                                                                    <Scrollbars style={{ width: '100%', height: 350 }} autoHide>
                                                                         {showEmployeeList(employeeDetails.most_interacted)}
                                                                     </Scrollbars>
-
                                                                     :
-
                                                                     <div style={{ height: '200px' }}></div>
                                                             }
                                                         </div>

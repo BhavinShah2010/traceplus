@@ -72,7 +72,7 @@ const BarChart = (props) => {
             gridLineDashStyle: 'ShortDash',
             gridLineWidth: 1,
             min: 0,
-            max: 100,
+            // max: 100,
             labels: {
                 enabled: false
             },

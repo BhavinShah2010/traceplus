@@ -14,7 +14,5 @@ export function getTranslatedText(key) {
         convertedText = data[selectedLanguae]
     }
 
-
-
     return convertedText
 }

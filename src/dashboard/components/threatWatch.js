@@ -17,22 +17,22 @@ function ThreatWatch(props) {
     function handleOnChangeContactRankValue(event) {
         props.handleChangeValue(event.target.value)
     }
-    
+
     return (
         <div className={'threatWatchMainDiv ' + (props.threatWatchColor && props.threatWatchColor == 'green' ? ' greenGradienColor' : ' redGradientColor')} >
             <Row>
                 <Col lg={3}>
                     <div className="threatWatchTextDiv">
                         <div className="title">
-                        {getTranslatedText('Threat Watch')}
+                            {getTranslatedText('Threat Watch')}
                         </div>
                         <div className="subTitle">As of {moment(props.selectedDate).format('Do MMM YYYY')}</div>
 
                         <div className="workSpaceStripeDiv">
-                        {
-                            props.threatWatchColor && props.threatWatchColor == 'green' ? getTranslatedText('Hey, your Workplace is Safe!') : getTranslatedText('Hey, your Workplace is not Safe!')
-                        }
-                            
+                            {
+                                props.threatWatchColor && props.threatWatchColor == 'green' ? getTranslatedText('Hey, your Workplace is Safe!') : getTranslatedText('Hey, your Workplace is not Safe!')
+                            }
+
 
                             <div className={'thumbIconDiv ' + (props.threatWatchColor && props.threatWatchColor == 'green' ? ' greenBorderColor' : ' redBorderColor')}>
                                 <img src={props.threatWatchColor && props.threatWatchColor == 'green' ? greenThumbIcon : downThumbIcon} />
@@ -81,7 +81,7 @@ function ThreatWatch(props) {
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
-                                            
+
                                         </select>
                                     </div>
                                 </Col>
@@ -96,9 +96,9 @@ function ThreatWatch(props) {
                                             onChange={date => props.handleSelectStartDate(date)}
                                             dateFormat={'MMM dd'}
                                             isClearable={false}
-                                            maxDate={props.selectedDate}
-                                            disabled={true}
-                                            />
+                                            maxDate={moment(props.endDate).subtract(1, 'days').toDate()}
+                                            minDate={moment().subtract(29, 'days').toDate()}
+                                        />
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />
                                         </div>
@@ -109,13 +109,13 @@ function ThreatWatch(props) {
                                     <div className="contactRankText">{getTranslatedText('End Date')}</div>
                                     <div className="startDateEndDateMainDiv">
                                         <DatePicker
-                                            selected={props.endDate}
+                                            selected={moment(props.endDate).subtract(1, 'days').toDate()}
                                             onChange={date => props.handleSelectEndDate(date)}
                                             dateFormat={'MMM dd'}
                                             isClearable={false}
                                             maxDate={props.selectedDate}
-                                            disabled={true}
-                                             />
+                                            minDate={props.startDate}
+                                        />
                                         <div className="dropdownIconDiv">
                                             <img src={dropdownIcon} />
                                         </div>

@@ -16,7 +16,7 @@ import '../styles/dashboard.scss'
 import ThreatWatch from './threatWatch';
 
 
-import peopleOnPremisesIcon from '../../assets/traceplusImages/people_on_premises_icon.svg'
+import helpIcon from '../../assets/traceplusImages/help-icon.png'
 import pinkArrowIcon from '../../assets/traceplusImages/pink_outline_right_arrow_icon.svg'
 import selectedPinkArrowIcon from '../../assets/traceplusImages/pink_right_arrow_icon.svg'
 
@@ -87,20 +87,24 @@ function Dashboard(props) {
         useState([
             {
                 title: 'Population Risk Index',
-                isSelected: true
-            }, {
+                isSelected: true,
+                desc: ''
+            },
+            {
                 title: 'Spread Index',
-                isSelected: false
+                isSelected: false,
+                desc: 'Spread index is based on the number of interactions between people. If the number is above XX Bla Bla'
+            },
+            {
+                title: 'Movement Index',
+                isSelected: false,
+                desc: 'Movement index is based on the number of interactions between people and locations. If the number is above XX Bla Bla'
             },
 
             {
-                title: 'Mobility Index',
-                isSelected: false
-            },
-
-            {
-                title: ' Area    Index ',
-                isSelected: false
+                title: ' Area Index ',
+                isSelected: false,
+                desc: 'Area index is based on the frequentation of all locations tags by employees.'
             }
 
 
@@ -117,15 +121,14 @@ function Dashboard(props) {
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
         requestBody.contactRank = contactRankValue
+        requestBody.startDate = getDateFormat(startDateValue)
+        requestBody.endDate = getDateFormat(endDateValue)
         getDashboardDataValues(requestBody)
         getThreatWatchDataValues(requestBody)
-
-
 
         getLanguageTranslation(selectedLangValue, userSession).then(res => {
             // console.log("Res : ", res)
         })
-
 
         setChartDetail(getDateFormat(startDateValue), getDateFormat(endDateValue))
     }, []);
@@ -139,7 +142,6 @@ function Dashboard(props) {
     useEffect(() => {
         setChartDetail(getDateFormat(startDateValue), getDateFormat(endDateValue))
     }, [indexTitle])
-
 
     const setChartDetail = (startDateValue = null, endDateValue = null) => {
         setChartLoader(true)
@@ -175,7 +177,7 @@ function Dashboard(props) {
                 })
 
                 setChartLoader(false)
-                setChartData({ series: series.sort((a,b) => a[0] - b[0]), chartData })
+                setChartData({ series: series.sort((a, b) => a[0] - b[0]), chartData })
             }
 
         }).catch((err) => {
@@ -186,9 +188,6 @@ function Dashboard(props) {
 
 
     function getThreatWatchDataValues(requestBody) {
-        requestBody.startDate = getDateFormat(startDateValue)
-        requestBody.endDate = getDateFormat(endDateValue)
-
         getThreatWatchData(requestBody, userSession, org_id).then(res => {
             if (res && res.status >= 200 && res.status <= 299) {
                 updateThreatWatchColor(res.color)
@@ -229,6 +228,21 @@ function Dashboard(props) {
         updateIndexTitle(index)
     }
 
+    const handleMouseEnter = (id) => {
+        let doc = document.getElementById(id)
+
+        if (doc) {
+            doc.style.display = 'block'
+        }
+    }
+
+    const handleMouseLeave = (id) => {
+        let doc = document.getElementById(id)
+
+        if (doc) {
+            doc.style.display = 'none'
+        }
+    }
 
     function showIndexTab(titleArray) {
 
@@ -236,9 +250,6 @@ function Dashboard(props) {
 
         for (let index = 0; index < titleArray.length; index++) {
             const element = titleArray[index];
-
-
-
             arr.push(
                 <div className={'populationRiskMainDiv ' +
                     (index == 0 ? ' populationRiskPadding ' : 'utilityPadding mb-3 spreadMobilityAreaIndexMainDiv') +
@@ -249,8 +260,22 @@ function Dashboard(props) {
                 >
                     <Row>
                         <Col lg={4} className="p-r-0">
-                            <div className="indexText">
-                                {getTranslatedText(element.title)}
+                            <div className='indexBox'>
+                                <div className="indexText">
+                                    {getTranslatedText(element.title)}
+                                </div>
+                                {element.desc ?
+                                    <React.Fragment>
+                                        <img
+                                            alt=''
+                                            src={helpIcon}
+                                            onMouseEnter={() => handleMouseEnter(`desc_${index}`)}
+                                            onMouseLeave={() => handleMouseLeave(`desc_${index}`)}
+                                        />
+                                        <div className='indexDesc' id={`desc_${index}`} >{element.desc}</div>
+                                    </React.Fragment>
+                                    : null
+                                }
                             </div>
                         </Col>
                         <Col lg={5}>
@@ -278,13 +303,13 @@ function Dashboard(props) {
     }
 
     function handleChangeValue(value) {
-
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
         requestBody.contactRank = value
+        requestBody.startDate = getDateFormat(startDateValue)
+        requestBody.endDate = getDateFormat(endDateValue)
         updateContactRankValue(value)
         getThreatWatchDataValues(requestBody)
-
     }
 
     function getDateFormat(date) {
@@ -299,14 +324,17 @@ function Dashboard(props) {
         let requestBody = {}
         requestBody.date = getDateFormat(date)
         requestBody.contactRank = contactRankValue
-        //getDashboardDataValues(requestBody)
-        getThreatWatchDataValues(requestBody)
 
+        //getDashboardDataValues(requestBody)        
         let startDate = new Date(date).setDate(date.getDate() - 29)
         let endDate = new Date(date).setDate(date.getDate() + 1)
 
+        requestBody.startDate = getDateFormat(startDate)
+        requestBody.endDate = getDateFormat(endDate)
+        
         updateStartDateValue(startDate)
         updateEndDateValue(endDate)
+        getThreatWatchDataValues(requestBody)
         setChartDetail(getDateFormat(startDate), getDateFormat(endDate))
     }
 
@@ -316,36 +344,31 @@ function Dashboard(props) {
         let requestBody = {}
         requestBody.date = getDateFormat(date)
         requestBody.contactRank = contactRankValue
+        requestBody.startDate = getDateFormat(date)
+        requestBody.endDate = getDateFormat(endDateValue)
 
-        setTimeout(() => {
-            getThreatWatchDataValues(requestBody)
-            setChartDetail(requestBody.date, getDateFormat(endDateValue))
-        }, 100);
-
+        getThreatWatchDataValues(requestBody)
+        setChartDetail(requestBody.date, getDateFormat(endDateValue))
     }
 
     function handleSelectEndDate(date) {
+        date = new Date(date).setDate(date.getDate() + 1)
         updateEndDateValue(date)
 
         let startDate = moment(startDateValue)
         let endDate = moment(date)
-
         let isBefore = startDate.isBefore(endDate)
-
 
         if (isBefore) {
             let requestBody = {}
             requestBody.date = getDateFormat(date)
             requestBody.contactRank = contactRankValue
+            requestBody.startDate = getDateFormat(startDateValue)
+            requestBody.endDate = getDateFormat(date)
 
-            setTimeout(() => {
-                getThreatWatchDataValues(requestBody)
-                setChartDetail(getDateFormat(startDateValue), requestBody.date)
-            }, 100);
-
-        }
-
-        else {
+            getThreatWatchDataValues(requestBody)
+            setChartDetail(getDateFormat(startDateValue), requestBody.date)
+        } else {
             updateToastClass('errorToast')
             toast('End Date Should be Greater Than Start Date.', {
                 position: "top-right",
@@ -353,14 +376,9 @@ function Dashboard(props) {
                 closeOnClick: true,
                 pauseOnHover: false,
                 hideProgressBar: true
-
-
             })
         }
-
-
     }
-
 
     function handleEmployeeClick() {
         props.history.push('/manpower-management/employee-list')
@@ -413,24 +431,26 @@ function Dashboard(props) {
                         </div>
                         <div className="dashboardPeopleAndDateMainDiv">
                             <div className="dashboardPeopleAndEmployeeMainDiv">
+                                <div className="deviceStatus">Device Status</div>
                                 <Row>
-                                    <Col lg={7}>
-                                        <div className="peopleOnPremisesInnerDiv">
+                                    <Col lg={6} style={{ borderRight: '0.063rem solid #FFFFFF' }}>
+                                        {/* <div className="peopleOnPremisesInnerDiv">
                                             <img src={peopleOnPremisesIcon} />
                                             <span>{getTranslatedText('People on premises')}</span>
-                                        </div>
-
+                                        </div> */}
+                                        <div>Location Tags</div>
+                                        <div>27</div>
                                     </Col>
 
-                                    <Col lg={5}>
-                                        <div className="employeeCountInnerDiv cursor-pointer" onClick={handleEmployeeClick}>
+                                    <Col lg={6}>
+                                        {/* <div className="employeeCountInnerDiv cursor-pointer" onClick={handleEmployeeClick}>
                                             <div className="empCount">{employeeCount}</div>
                                             <div>{getTranslatedText('Employees')}</div>
-                                        </div>
-
+                                        </div> */}
+                                        <div>Personal Tags</div>
+                                        <div>127</div>
                                     </Col>
                                 </Row>
-
                             </div>
                         </div>
                     </Col>

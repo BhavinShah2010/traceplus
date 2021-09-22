@@ -39,7 +39,7 @@ const Chart = (props) => {
                 enabled: false
             },
             min: 0,
-            max: 100,
+            // max: 100,
             plotLines: [
                 {
                     color: riskLevelColor.high,
@@ -132,7 +132,7 @@ const Chart = (props) => {
                     color: riskLevelColor.medium
                 },
                 {
-                    value: 100,
+                    // value: 100,
                     color: riskLevelColor.high
                 }
             ]

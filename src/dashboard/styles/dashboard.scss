@@ -73,6 +73,14 @@
             background-color: #55597c;
             color: #FFFFFF;
             font-size: 12px;
+            width: 18rem;
+            font-size: 0.875rem;
+            font-weight: bold;
+            text-align: center;
+
+            .deviceStatus {
+                padding: 4px 0;
+            }
 
             .peopleOnPremisesInnerDiv {
                 padding-left: 1rem;
@@ -138,10 +146,33 @@
             padding: 1.5rem 1rem;
         }
 
-        .indexText {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-top: 0.75rem;
+        .indexBox{
+            display: flex;
+            align-items: center;
+            height: 100%;
+
+            .indexText {
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+
+            img {
+                height: 28px;
+                width: 28px;
+                margin-left: 8px;
+            }
+
+            .indexDesc {
+                display: none;
+                position: absolute;
+                top: 75%;
+                left: 75%;
+                width: 15rem;
+                border-radius: 0.2rem;
+                background-color: #000000;
+                color: #FFFFFF;
+                padding: 8px;
+            }
         }
 
         .riskLevelMainDiv {
