@@ -14,6 +14,7 @@ import '../../siteManagement/styles/siteManagement.scss'
 import { getEmployeeList } from '../actionMethods/actionMethods';
 
 import selectedPinkArrowIcon from '../../assets/traceplusImages/pink_right_arrow_icon.svg'
+import helpIcon from '../../assets/traceplusImages/help-icon.png'
 import dayShiftImage from '../../assets/traceplusImages/sun.svg'
 
 
@@ -21,6 +22,7 @@ import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../common/commonDatePicker';
 import { getTranslatedText } from '../../common/utilities';
 import { getLanguageTranslation, setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
+import { isElement } from 'react-dom/cjs/react-dom-test-utils.development';
 
 function EmployeeList(props) {
     let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
@@ -137,6 +139,19 @@ function EmployeeList(props) {
 
     }
 
+    function getBackgroundCOlor(index, activated) {
+        let color = ''
+
+        if (!activated) {
+            color = '#EBECED'
+        } else if (index === 0) {
+            color = '#f9e1e8'
+        }
+
+        return color
+    }
+
+
     function showCardList(employeeList) {
         let arr = []
 
@@ -146,33 +161,35 @@ function EmployeeList(props) {
                 <div className="eachCard" key={index}
                     onClick={() => handleClickCard(element.emp_id)}
                 >
-                    <div className="card-body" >
-                        <Row>
+                    <div className="card-body" style={{ backgroundColor: getBackgroundCOlor(element.sri_index, '22/08/2021') }}>
+                        <Row style={{ alignItems: 'center' }}>
                             <Col lg={3} className="b-r">
                                 <h5 className="font-bold">{element.emp_name}</h5>
-                                <img src={showShiftType(element.shift)} />
+                                <div><b>Team:</b> {element.department}</div>
+                                <div><b>Tag:</b> {element.tag_id}</div>
+                                {/* <img src={showShiftType(element.shift)} /> */}
                             </Col>
                             <Col lg={2} className="b-r">
-                                <div className="priSriMriText">PRI</div>
-                                <h6 className="font-bold">{element.pri_index}</h6>
-                            </Col>
-
-                            <Col lg={2} className="b-r">
-                                <div className="priSriMriText">SRI</div>
+                                <div className="priSriMriText">Interactions</div>
                                 <h6 className="font-bold">{element.sri_index}</h6>
                             </Col>
 
                             <Col lg={2} className="b-r">
-                                <div className="priSriMriText">MRI</div>
-                                <h6 className="font-bold">{element.mri_index}</h6>
+                                <div className="priSriMriText">Battery</div>
+                                <h6 className="font-bold">{element.battery || '100%'}</h6>
                             </Col>
 
                             <Col lg={2} className="b-r">
+                                <div className="priSriMriText">Activated</div>
+                                <h6 className="font-bold">{element.activatedOn || '22/08/2021'}</h6>
+                            </Col>
+
+                            {/* <Col lg={2} className="b-r">
                                 <div className="priSriMriText">{getTranslatedText('Status')}</div>
                                 <div className="emplStatusDiv">{element.status}</div>
-                            </Col>
-                            <Col lg={1}>
-                                <div className="arrowDiv m-t-md" style={props.hideHeading ? { width: '50%' } : {}}>
+                            </Col> */}
+                            <Col lg={1} style={{ marginLeft: 'auto' }}>
+                                <div className="arrowDiv" style={props.hideHeading ? { width: '50%' } : {}}>
                                     <img src={selectedPinkArrowIcon} />
                                 </div>
                             </Col>
@@ -194,6 +211,22 @@ function EmployeeList(props) {
 
             }
         })
+    }
+
+    const handleMouseEnter = (id) => {
+        let doc = document.getElementById(id)
+
+        if (doc) {
+            doc.style.display = 'block'
+        }
+    }
+
+    const handleMouseLeave = (id) => {
+        let doc = document.getElementById(id)
+
+        if (doc) {
+            doc.style.display = 'none'
+        }
     }
 
     useEffect(() => {
@@ -242,16 +275,15 @@ function EmployeeList(props) {
                             <Row>
                                 <Col lg={8} className={props.hideHeading ? 'p-l-0' : ''}>
                                     <h3 className="locationsListing">
-                                        {props.atRiskEmp ? 'At Risk Employees' : getTranslatedText('Employees')}
-
-
-                                     ({employeeList && employeeList.length})</h3>
+                                        {props.title ? props.title : getTranslatedText('Employees')}
+                                        &nbsp;({employeeList && employeeList.length})
+                                    </h3>
                                 </Col>
                                 {
                                     props.hideSearch ? '' :
                                         <Col lg={4} className={props.hideHeading ? 'p-r-0' : ''}>
                                             <div className="listingSearchMainDiv">
-                                                <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
+                                                <input type="text" value={searchValue} name="siteSearch" placeholder="Search" onChange={(event) => handleSiteLocationSearch(event.target.value)} />
                                             </div>
                                         </Col>
                                 }
@@ -266,7 +298,36 @@ function EmployeeList(props) {
                                                     <img src={spinnerLoader} className="m-t-lg" />
                                                 </div> :
                                                 employeeList && employeeList.length > 0 ?
-                                                    showCardList(employeeList) : ''
+                                                    <React.Fragment>
+                                                        <div className="eachCard" >
+                                                            <div className="card-body">
+                                                                <Row>
+                                                                    <Col lg={3}>
+                                                                        <strong>Assigned Employee</strong>
+                                                                        <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`employeeHelp`)} onMouseLeave={() => handleMouseLeave(`employeeHelp`)} />
+                                                                        <div className='descHelp' id='employeeHelp'>Assigned employee to this Personal Tags. If there are no assigned employees for this tag, the name is “----”</div>
+                                                                    </Col>
+                                                                    <Col lg={2} className="b-l">
+                                                                        <strong>Interactions</strong>
+                                                                        <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`interactionHelp`)} onMouseLeave={() => handleMouseLeave(`interactionHelp`)} />
+                                                                        <div className='descHelp' id='interactionHelp'>Number of recorded Interactions at the selected date</div>
+                                                                    </Col>
+                                                                    <Col lg={2} className="b-l">
+                                                                        <strong>Battery</strong>
+                                                                        <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`batteryHelp`)} onMouseLeave={() => handleMouseLeave(`batteryHelp`)} />
+                                                                        <div className='descHelp' id='batteryHelp'>Battery Status of the Tag</div>
+                                                                    </Col>
+                                                                    <Col lg={2}>
+                                                                        <strong>Activated</strong>
+                                                                        <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`activatedHelp`)} onMouseLeave={() => handleMouseLeave(`activatedHelp`)} />
+                                                                        <div className='descHelp' id='activatedHelp'>Date of activation for this Personal Tags</div>
+                                                                    </Col>
+                                                                </Row>
+                                                            </div>
+                                                        </div>
+                                                        {showCardList(employeeList) }
+                                                    </React.Fragment>
+                                                    : ''
                                         }
 
                                         {

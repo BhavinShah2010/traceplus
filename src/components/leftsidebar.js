@@ -63,11 +63,19 @@ function LeftSideBar(props) {
         setShowLogout(!showLogout)
     }
 
+    console.log(userDetails)
     return (
         <React.Fragment>
             <div className="leftSideBarDiv">
                 <div>
-                    <img src={traceplusLogo} className="logo" alt="TracePlus Logo" />
+                    <img
+                        src={userDetails && userDetails.org_logo ? userDetails.org_logo : traceplusLogo}
+                        className="logo"
+                        alt="TracePlus Logo"
+                        onError={(e) => {
+                            e.target.src = traceplusLogo
+                        }}
+                    />
                 </div>
                 <h3 className="adminName">
                     {userDetails && userDetails.name || 'Jean'}
@@ -94,7 +102,7 @@ function LeftSideBar(props) {
                     <div className='actionButtons'>
                         <span className='btnText borderRight' onClick={handleLogoutModal}>No</span>
                         <span className='btnText okBtn' onClick={handleLogout}>Yes, Logout</span>
-                    </div>      
+                    </div>
                 </div>
             </Modal>
             {

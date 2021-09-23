@@ -90,6 +90,7 @@ function SiteMangementView(props) {
                             <SiteMangementList
                                 hideHeading={true}
                                 isBubbleView={true}
+                                hideSearch={true}
                                 selectedDate={selectedDate}
                             />
                         </Scrollbars>

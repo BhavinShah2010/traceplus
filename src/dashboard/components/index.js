@@ -259,7 +259,7 @@ function Dashboard(props) {
                     onClick={() => handleIndexTabClick(index)}
                 >
                     <Row>
-                        <Col lg={4} className="p-r-0">
+                        <Col lg={5} className="p-r-0">
                             <div className='indexBox'>
                                 <div className="indexText">
                                     {getTranslatedText(element.title)}
@@ -278,7 +278,7 @@ function Dashboard(props) {
                                 }
                             </div>
                         </Col>
-                        <Col lg={5}>
+                        <Col lg={4}>
                             <div className="riskLevelMainDiv ">
                                 <div className="riskLevelTitleDiv">
                                     Low
@@ -326,7 +326,7 @@ function Dashboard(props) {
         requestBody.contactRank = contactRankValue
 
         //getDashboardDataValues(requestBody)        
-        let startDate = new Date(date).setDate(date.getDate() - 29)
+        let startDate =  new Date().setDate(new Date().getDate() - 29)
         let endDate = new Date(date).setDate(date.getDate() + 1)
 
         requestBody.startDate = getDateFormat(startDate)
@@ -433,7 +433,7 @@ function Dashboard(props) {
                             <div className="dashboardPeopleAndEmployeeMainDiv">
                                 <div className="deviceStatus">Device Status</div>
                                 <Row>
-                                    <Col lg={6} style={{ borderRight: '0.063rem solid #FFFFFF' }}>
+                                    <Col onClick={handleUpdateLocationPopup} lg={6} style={{ borderRight: '0.063rem solid #FFFFFF', cursor: 'pointer' }}>
                                         {/* <div className="peopleOnPremisesInnerDiv">
                                             <img src={peopleOnPremisesIcon} />
                                             <span>{getTranslatedText('People on premises')}</span>
@@ -442,7 +442,7 @@ function Dashboard(props) {
                                         <div>27</div>
                                     </Col>
 
-                                    <Col lg={6}>
+                                    <Col onClick={handleUpdateEmployeePopup} lg={6} style={{ cursor: 'pointer' }}>
                                         {/* <div className="employeeCountInnerDiv cursor-pointer" onClick={handleEmployeeClick}>
                                             <div className="empCount">{employeeCount}</div>
                                             <div>{getTranslatedText('Employees')}</div>
@@ -516,11 +516,9 @@ function Dashboard(props) {
             >
 
                 <Scrollbars style={{ width: '100%', height: '100%' }} autoHide>
-
                     <EmployeeList
                         hideHeading={true}
-                        hideSearch={true}
-                        atRiskEmp={true}
+                        title={'Personal Tags'}
                     />
                 </Scrollbars>
             </ReactModal>
@@ -533,11 +531,9 @@ function Dashboard(props) {
                 shouldCloseOnOverlayClick={true}
             >
                 <Scrollbars style={{ width: '100%', height: '100%' }} autoHide>
-
                     <SiteMangementList
                         hideHeading={true}
-                        hideSearch={true}
-                        atRiskEmp={true}
+                        title={'Location Tags'}
                     />
                 </Scrollbars>
             </ReactModal>

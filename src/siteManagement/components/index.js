@@ -15,6 +15,7 @@ import tagIcon from '../../assets/traceplusImages/tag_icon.svg'
 import { getSiteLocations } from '../actionMethods/actionMethods';
 
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
+import helpIcon from '../../assets/traceplusImages/help-icon.png'
 import CommonDatePicker from '../../common/commonDatePicker';
 
 import '../../dashboard/styles/dashboard.scss'
@@ -130,7 +131,7 @@ function SiteMangementList(props) {
             arr.push(
                 <div className="eachCard" key={index} onClick={() => handleClickCard(element.id)}>
                     <div className="card-body">
-                        <Row>
+                        {/* <Row>
                             <Col lg={12}>
                                 <span className="eachTag text-left">
                                     <img src={tagIcon} /> {getTranslatedText(element.category_name)}
@@ -141,27 +142,32 @@ function SiteMangementList(props) {
                                 </span>
 
                             </Col>
-                        </Row>
+                        </Row> */}
 
-                        <Row className="m-t-lg">
+                        <Row style={{ alignItems: 'center' }}>
                             <Col lg={4}>
                                 <div className="locationNameDiv">{getTranslatedText(element.name)}</div>
-                                <div className="nearByLocationDiv">(Registered Device: {element.tag_serial})</div>
-                                <div className="nearByLocationDiv">{getTranslatedText(element.description)}</div>
+                                <div className="nearByLocationDiv"><b>Tag: </b>{element.tag_serial}</div>
+                                {/* <div className="nearByLocationDiv">{getTranslatedText(element.description)}</div> */}
                             </Col>
 
-                            <Col lg={4}>
+                            <Col lg={2} className="b-l">
                                 <div className="nearByLocationDiv">{getTranslatedText('Area Index')}</div>
                                 <span className="locationNameDiv">{element.area_index}</span>
-                                <span className="indexCircleStatus lowStatus">{element.area_index_status}</span>
+                                {/* <span className="indexCircleStatus lowStatus">{element.area_index_status}</span> */}
                             </Col>
 
-                            <Col lg={3} className="b-l">
-                                <div className="nearByLocationDiv">{getTranslatedText('Daily Avg Footfall')}</div>
-                                <div className="locationNameDiv">{element.avg_footfall}</div>
+                            <Col lg={2} className="b-l">
+                                <div className="nearByLocationDiv">Risk</div>
+                                <div className='riskDiv'>{'Visited'}</div>
                             </Col>
 
-                            <Col lg={1}>
+                            <Col lg={2} className="b-l">
+                                <div className="nearByLocationDiv">Activated</div>
+                                <span className="locationNameDiv">{element.activatedOn || '22/08/2021'}</span>
+                            </Col>
+
+                            <Col lg={1} style={{ marginLeft: 'auto' }}>
                                 <div className="arrowDiv">
                                     <img src={selectedPinkArrowIcon} />
                                 </div>
@@ -186,6 +192,22 @@ function SiteMangementList(props) {
         })
     }
 
+    const handleMouseEnter = (id) => {
+        let doc = document.getElementById(id)
+
+        if (doc) {
+            doc.style.display = 'block'
+        }
+    }
+
+    const handleMouseLeave = (id) => {
+        let doc = document.getElementById(id)
+
+        if (doc) {
+            doc.style.display = 'none'
+        }
+    }
+
     useEffect(() => {
         if (props.language) {
             updateSelectedLangValue(props.language)
@@ -197,14 +219,12 @@ function SiteMangementList(props) {
     }
 
 
-
     return (
         <div className="dashboardComponentMainDiv siteManagementMainDiv" style={props.hideHeading ? { padding: '0' } : {}}>
             <Container >
 
                 {
                     props.hideHeading ? '' :
-
                         <Row>
                             <Col lg={6} >
                                 <div className="siteViewHeaderDiv">
@@ -242,12 +262,13 @@ function SiteMangementList(props) {
                                         props.isBubbleView ? '' :
                                             <Col lg={8} >
                                                 <h3 className="locationsListing">
-                                                    {props.atRiskEmp ? 'At Risk Locations ' : getTranslatedText('Locations')}
-                                                    ({siteLocationsList.length})</h3>
+                                                    {props.title ? props.title : getTranslatedText('Locations')}
+                                                    &nbsp;({siteLocationsList.length})
+                                                </h3>
                                             </Col>
                                     }
                                     {
-                                        props.hideHeading ? '' :
+                                        props.hideSearch ? '' :
                                             <Col lg={4}>
                                                 <div className="listingSearchMainDiv">
                                                     <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
@@ -257,69 +278,93 @@ function SiteMangementList(props) {
                                 </Row>
 
                                 {
-                                    props.isBubbleView ? 
-                                    <Row>
-                                        <Col lg={12}>
-                                            <div className="bubbleViewLocationsMainDiv">
-                                                <Row>
-                                                    <Col lg={4}>
-                                                        <h5 className="font-bold m-b-xs">Locations</h5>
-                                                        <div className="dateText ">As of {moment(props.selectedDate).format('Do MMM YYYY')}</div>
-                                                    </Col>
-                                                    <Col lg={8}>
-                                                        <div className="pinnedHighRiskMainDiv">
-                                                            <div className="eachTabDiv activeTab">
-                                                            <span> Pinned</span>
-                                                            <div className="numberDiv">12</div>
+                                    props.isBubbleView ?
+                                        <Row>
+                                            <Col lg={12}>
+                                                <div className="bubbleViewLocationsMainDiv">
+                                                    <Row>
+                                                        <Col lg={4}>
+                                                            <h5 className="font-bold m-b-xs">Locations</h5>
+                                                            <div className="dateText ">As of {moment(props.selectedDate).format('Do MMM YYYY')}</div>
+                                                        </Col>
+                                                        <Col lg={8}>
+                                                            <div className="pinnedHighRiskMainDiv">
+                                                                <div className="eachTabDiv activeTab">
+                                                                    <span> Pinned</span>
+                                                                    <div className="numberDiv">12</div>
+                                                                </div>
+                                                                <div className="eachTabDiv">
+                                                                    <span>High Risk</span>
+                                                                    <div className="numberDiv">9</div>
+                                                                </div>
+                                                                <div className="filterDiv">
+                                                                    Filter
+                                                                    <img src={filterIcon} />
+                                                                </div>
                                                             </div>
-                                                            <div className="eachTabDiv">
-                                                                <span>High Risk</span>
-                                                                <div className="numberDiv">9</div>
-                                                            </div>
-                                                            <div className="filterDiv">
-                                                                Filter 
-                                                                <img src={filterIcon} />
-                                                            </div>
-                                                        </div>
-                                                    </Col>
-                                                </Row>
-                                            </div>
-                                        </Col>
-                                    </Row> : ''
+                                                        </Col>
+                                                    </Row>
+                                                </div>
+                                            </Col>
+                                        </Row> : ''
                                 }
 
 
                                 {
-                                    isLoading ? <div className="text-center m-t-lg">
-                                        <img src={spinnerLoader} className="m-t-lg" />
-                                    </div> :
-                                        <Row>
-                                            <Col lg={12}>
-                                                <div className="listingRecordMainDiv" style={props.isBubbleView ? { padding: '0rem 1rem' } : {}}>
-
-                                                    {
-                                                        siteLocationsList && siteLocationsList.length > 0 ?
-
-                                                            showCardList(siteLocationsList) : ''
-                                                    }
-
-                                                    {
-                                                        searchValue && siteLocationsList.length == 0 ?
-
-                                                            <h3 className="text-center m-t-lg">No Site List Found !</h3> : ''
-                                                    }
-                                                </div>
-                                            </Col>
-                                        </Row>
+                                    isLoading ?
+                                        <div className="text-center m-t-lg">
+                                            <img src={spinnerLoader} className="m-t-lg" />
+                                        </div>
+                                        :
+                                        <React.Fragment>
+                                            <Row>
+                                                <Col lg={12}>
+                                                    <div className="listingRecordMainDiv" style={props.isBubbleView ? { padding: '0rem 1rem' } : {}}>
+                                                        <div className="eachCard" >
+                                                            <div className="card-body">
+                                                                <Row>
+                                                                    <Col lg={4}>
+                                                                        <strong>Tags/Location</strong>
+                                                                        <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`locationHelp`)} onMouseLeave={() => handleMouseLeave(`locationHelp`)} />
+                                                                        <div className='descHelp' id='locationHelp'>Tag assigned to this Location</div>
+                                                                    </Col>
+                                                                    <Col lg={2} className="b-l">
+                                                                        <strong>Area Index</strong>
+                                                                        <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`areaHelp`)} onMouseLeave={() => handleMouseLeave(`areaHelp`)} />
+                                                                        <div className='descHelp' id='areaHelp'>Area Index of the location at the selected date</div>
+                                                                    </Col>
+                                                                    <Col lg={2} className="b-l">
+                                                                        <strong>At Risk</strong>
+                                                                        <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`riskHelp`)} onMouseLeave={() => handleMouseLeave(`riskHelp`)} />
+                                                                        <div className='descHelp' id='riskHelp'>If the status is “Visited” this location has been visited by a Positive Case at the selected date</div>
+                                                                    </Col>
+                                                                    <Col lg={2}>
+                                                                        <strong>Activated</strong>
+                                                                        <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`activatedHelp`)} onMouseLeave={() => handleMouseLeave(`activatedHelp`)} />
+                                                                        <div className='descHelp' id='activatedHelp'>Date of activation for this Location Tags</div>
+                                                                    </Col>
+                                                                </Row>
+                                                            </div>
+                                                        </div>
+                                                        {
+                                                            siteLocationsList && siteLocationsList.length > 0 ?
+                                                                showCardList(siteLocationsList) : ''
+                                                        }
+                                                        {
+                                                            searchValue && siteLocationsList.length == 0 ?
+                                                                <h3 className="text-center m-t-lg">No Site List Found !</h3> : ''
+                                                        }
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                        </React.Fragment>
                                 }
 
                             </div>
                         </Col>
                     </Row>
-                }                
+                }
             </Container>
-
-            
         </div>
     )
 
