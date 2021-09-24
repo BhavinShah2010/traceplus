@@ -327,7 +327,7 @@ function ManPowerMangementList(props) {
                                         }
                                     </span>
 
-                                    <span className="text-white m-l-sm">Risk Level</span>
+                                    <span className="text-white m-l-sm">{getTranslatedText('Risk Level')}</span>
                                 </Col>
                             </Row>
 

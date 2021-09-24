@@ -8,7 +8,7 @@ export function getTranslatedText(key) {
     let languageData = JSON.parse(localStorage.getItem('languageData'))
     let selectedLanguae = localStorage.getItem('selectedLanguage')
 
-    let data = languageData?.language.find(x => x.en == key)
+    let data = languageData?.language.find(x => x.en.toLowerCase() == key.trim().toLowerCase())
 
     if (data) {
         convertedText = data[selectedLanguae]

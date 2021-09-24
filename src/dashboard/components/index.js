@@ -72,7 +72,7 @@ const indexTitleArray = [
     },
 
     {
-        title: ' Area Index ',
+        title: 'Area Index',
         isSelected: false,
         id: 'area',
         desc: 'Area index is based on the frequentation of all locations tags by employees.'

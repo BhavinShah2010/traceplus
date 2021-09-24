@@ -452,7 +452,7 @@ function EmployeeDetails(props) {
                                                             <div className=" b-b m-t-sm"></div>
                                                             <div className="p_0_5rem p-t-0 p-b-0">
                                                                 <div className="empAttendanceMainDiv">
-                                                                    <h6 className="font-bold text-white">Month View</h6>
+                                                                    <h6 className="font-bold text-white">{getTranslatedText('Month View')}</h6>
                                                                     {showEmployeeMonthView(employeeDetails.emp_attendance.days_present)}
                                                                     <div></div>
                                                                 </div>
@@ -493,7 +493,7 @@ function EmployeeDetails(props) {
                                                 </Col>
                                                 <Col lg={4} >
                                                     <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.sri_level))}>
-                                                        <h6 className="font-bold ">Spread  Index</h6>
+                                                        <h6 className="font-bold ">{getTranslatedText('Spread Index')}</h6>
                                                         <br />
                                                         <div className="font-normal">{getTranslatedText('Risk Level')}</div>
 
@@ -515,7 +515,7 @@ function EmployeeDetails(props) {
                                                 </Col>
                                                 <Col lg={4}>
                                                     <div style={{ height: '165px' }} className={'eachIndexDiv ' + (getBackgroundColorBasedOnRisk(employeeIndexData.mri_level))}>
-                                                        <h6 className="font-bold ">Mobility Index</h6>
+                                                        <h6 className="font-bold ">{getTranslatedText('Mobility Index')}</h6>
                                                         <br />
                                                         <div className="font-normal">{getTranslatedText('Risk Level')}</div>
 

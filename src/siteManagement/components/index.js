@@ -326,7 +326,8 @@ function SiteMangementList(props) {
                                                                     <Col lg={4}>
                                                                         <strong>Tags/Location</strong>
                                                                         <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`locationHelp`)} onMouseLeave={() => handleMouseLeave(`locationHelp`)} />
-                                                                        <div className='descHelp' id='locationHelp'>Tag assigned to this Location</div>
+                                                                        <span>&#8593;</span>
+                                                                        <div className='descHelp' id='locationHelp'>Tag assigned to this Location</div>                                                                        
                                                                     </Col>
                                                                     <Col lg={2} className="b-l">
                                                                         <strong>Area Index</strong>
