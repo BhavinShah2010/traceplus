@@ -17,16 +17,13 @@ export const sidebarMenuItems = [
         "paths":"/dashboard",
         "tooltip":"Dashboard"
     },
-
     {
         "title": "Site Management",
         "defaultIcon": SiteManagementDefaultIcon,
         "activeIcon":SiteManagementActiveIcon,
-        "paths":"/site-management",
+        "paths":"/site-list",
         "tooltip":"Site Management"
     },
-
-
     {
         "title": "Manpower Management",
         "defaultIcon": ManPowerManagementDefaultIcon,
@@ -34,13 +31,12 @@ export const sidebarMenuItems = [
         "paths":"/manpower-management",
         "tooltip":"Manpower Management"
     },
-
-    {
-        "title": "Policy Management",
-        "defaultIcon": ManPowerManagementDefaultIcon,
-        "activeIcon":ManPowerManagementActiveIcon,
-        "paths":"/policy-management",
-        "tooltip":"Policy Management"
-    },
+    // {
+    //     "title": "Policy Management",
+    //     "defaultIcon": ManPowerManagementDefaultIcon,
+    //     "activeIcon":ManPowerManagementActiveIcon,
+    //     "paths":"/policy-management",
+    //     "tooltip":"Policy Management"
+    // },
 
 ]

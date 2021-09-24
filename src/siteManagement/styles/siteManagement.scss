@@ -133,6 +133,16 @@
         border-radius: 0.5rem;
         color: #FFFFFF;
 
+        .flexDiv {
+            display: flex;
+            justify-content: space-between;
+
+            .sendMessageDiv {
+                text-align: center;
+                font-weight: bold;
+            }
+        }
+
         .headerNameDiv {
             font-size: 1.75rem;
         }

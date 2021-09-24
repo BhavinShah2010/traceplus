@@ -23,6 +23,8 @@ export function getLanguageTranslation(langCode, userSession) {
         .then(res => res.data).catch(err => err)
 }
 
+
+
 export function setSelectedLanguage(langauge) {
 
 
@@ -37,6 +39,15 @@ export function setSelectedLanguage(langauge) {
 export const getChartData = async (obj , sessionID, org_id) => {
     try {
         let res = await axios.get(`${prefixURL}/get_index_data?session=${sessionID}&org_id=${org_id}&index_name=${obj.index}&start_date=${obj.start}&end_date=${obj.end}`)
+        return res.data
+    } catch (err) {
+        return err
+    }
+}
+
+export const getIndexLevel = async (sessionID, orgId, date) => {
+    try {
+        let res = await axios.get(`${prefixURL}/get_indexes?session=${sessionID}&org_id=${orgId}&date=${date}`)
         return res.data
     } catch (err) {
         return err

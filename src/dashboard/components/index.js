@@ -20,7 +20,7 @@ import helpIcon from '../../assets/traceplusImages/help-icon.png'
 import pinkArrowIcon from '../../assets/traceplusImages/pink_outline_right_arrow_icon.svg'
 import selectedPinkArrowIcon from '../../assets/traceplusImages/pink_right_arrow_icon.svg'
 
-import { getDashboardData, getThreatWatchData, getLanguageTranslation, setSelectedLanguage, getChartData } from '../actionMethods/actionMethods';
+import { getDashboardData, getThreatWatchData, getLanguageTranslation, setSelectedLanguage, getChartData, getIndexLevel } from '../actionMethods/actionMethods';
 
 import EmployeeList from '../../manPowerManagement/components/employeeList'
 
@@ -39,10 +39,66 @@ import { prepareDateObj } from './helper'
 import { titles } from './constant'
 import { getTranslatedText } from '../../common/utilities';
 
+const riskLevelColor = {
+    "low": '#04e06e',
+    "medium": "#ffd700",
+    "high": "#ffa500"
+}
+
+const riskBackgroundColor = {
+    "low": '#e7f6ef',
+    "medium": "#faf7e5",
+    "high": "#fef0f4"
+}
+
+const indexTitleArray = [
+    {
+        title: 'Population Risk Index',
+        isSelected: true,
+        id: 'population',
+        desc: ''
+    },
+    {
+        title: 'Spread Index',
+        isSelected: false,
+        id: 'spread',
+        desc: 'Spread index is based on the number of interactions between people. If the number is above XX Bla Bla'
+    },
+    {
+        title: 'Movement Index',
+        isSelected: false,
+        id: 'mobility',
+        desc: 'Movement index is based on the number of interactions between people and locations. If the number is above XX Bla Bla'
+    },
+
+    {
+        title: ' Area Index ',
+        isSelected: false,
+        id: 'area',
+        desc: 'Area index is based on the frequentation of all locations tags by employees.'
+    }
+]
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '80%',
+        height: '90%'
+    },
+};
 
 function Dashboard(props) {
     let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
     let interval = 5
+    let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
+    let userSession = userDetails ? userDetails.session : '123456789'
+    let org_id = userDetails ? userDetails.org_id : 6
+
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [orgId, updateOrgId] = useState(1)
     const [orgCount, updateOrgCount] = useState(0)
@@ -56,61 +112,11 @@ function Dashboard(props) {
     const [employeePopupFlag, updateEmployeePopupFlag] = useState(false)
     const [locationPopupFlag, updateLocationPopupFlag] = useState(false)
     const [chartLoader, setChartLoader] = useState(true)
-
-    let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
-
-    let userSession = userDetails ? userDetails.session : '123456789'
-
-    let org_id = userDetails ? userDetails.org_id : 6
-
-
     const [contactRankValue, updateContactRankValue] = useState(1)
-
     const [selectedLangValue, updateSelectedLangValue] = useState('en')
     const [chartData, setChartData] = useState({ categories: [], series: [], chartData: [] })
-
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            width: '80%',
-            height: '90%'
-        },
-    };
-
-    const [indexTitleArray, updateIndexTitleArray] =
-
-        useState([
-            {
-                title: 'Population Risk Index',
-                isSelected: true,
-                desc: ''
-            },
-            {
-                title: 'Spread Index',
-                isSelected: false,
-                desc: 'Spread index is based on the number of interactions between people. If the number is above XX Bla Bla'
-            },
-            {
-                title: 'Movement Index',
-                isSelected: false,
-                desc: 'Movement index is based on the number of interactions between people and locations. If the number is above XX Bla Bla'
-            },
-
-            {
-                title: ' Area Index ',
-                isSelected: false,
-                desc: 'Area index is based on the frequentation of all locations tags by employees.'
-            }
-
-
-        ])
     const [indexTitle, updateIndexTitle] = useState(0)
-
+    const [indexLevel, setIndexLevel] = useState({ area: '', mobility: '', population: '', spread: '' })
 
     useEffect(() => {
 
@@ -129,6 +135,8 @@ function Dashboard(props) {
         getLanguageTranslation(selectedLangValue, userSession).then(res => {
             // console.log("Res : ", res)
         })
+
+        fetchIndexLevel(getDateFormat(selectedDate))
 
         setChartDetail(getDateFormat(startDateValue), getDateFormat(endDateValue))
     }, []);
@@ -186,6 +194,19 @@ function Dashboard(props) {
         })
     }
 
+    function fetchIndexLevel(date) {
+        getIndexLevel(userSession, orgId, date).then((res) => {
+            if (res && res.indexes) {
+                let data = res.indexes
+                setIndexLevel({
+                    area: data.area || '-',
+                    mobility: data.mobility || '-',
+                    spread: data.spread || '-',
+                    population: data.population || '-'
+                })
+            }
+        })
+    }
 
     function getThreatWatchDataValues(requestBody) {
         getThreatWatchData(requestBody, userSession, org_id).then(res => {
@@ -199,10 +220,7 @@ function Dashboard(props) {
     }
 
     function getDashboardDataValues(requestBody) {
-
-
         getDashboardData(requestBody, userSession, org_id).then(res => {
-
             if (res && res.status >= 200 && res.status <= 299) {
                 if (res.data) {
                     updateEmployeeCount(res.data.num_employees)
@@ -244,19 +262,26 @@ function Dashboard(props) {
         }
     }
 
+    function getLevel(id) {
+        return indexLevel[id] ? indexLevel[id].toLowerCase() : ''
+    } 
+
     function showIndexTab(titleArray) {
 
         let arr = []
 
         for (let index = 0; index < titleArray.length; index++) {
             const element = titleArray[index];
+            let level = getLevel(element.id)
+
             arr.push(
-                <div className={'populationRiskMainDiv ' +
-                    (index == 0 ? ' populationRiskPadding ' : 'utilityPadding mb-3 spreadMobilityAreaIndexMainDiv') +
-                    (index == 1 ? ' negativeMarginTop' : '') +
-                    (index === indexTitle ? ' activeTab' : '')
-                }
+                <div
+                    className={'populationRiskMainDiv ' +
+                        (index == 0 ? ' populationRiskPadding ' : 'utilityPadding mb-3 spreadMobilityAreaIndexMainDiv') +
+                        (index == 1 ? ' negativeMarginTop' : '')
+                    }
                     onClick={() => handleIndexTabClick(index)}
+                    style={index === indexTitle ? { color: riskLevelColor[`${level || 'low'}`], borderColor: riskLevelColor[`${level || 'low'}`], backgroundColor: riskBackgroundColor[`${level || 'low'}`] } : {}}
                 >
                     <Row>
                         <Col lg={5} className="p-r-0">
@@ -281,7 +306,7 @@ function Dashboard(props) {
                         <Col lg={4}>
                             <div className="riskLevelMainDiv ">
                                 <div className="riskLevelTitleDiv">
-                                    Low
+                                    {indexLevel[element.id]}
                                 </div>
                                 <div className="riskLevelSubtitleDiv">
                                     Risk Level
@@ -334,6 +359,7 @@ function Dashboard(props) {
         
         updateStartDateValue(startDate)
         updateEndDateValue(endDate)
+        fetchIndexLevel(getDateFormat(date))
         getThreatWatchDataValues(requestBody)
         setChartDetail(getDateFormat(startDate), getDateFormat(endDate))
     }

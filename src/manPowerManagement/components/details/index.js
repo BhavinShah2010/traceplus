@@ -360,8 +360,16 @@ function EmployeeDetails(props) {
                                 <Row className="m-t">
                                     <Col lg={4}>
                                         <div className="siteViewDetailsLeftSideDiv">
-                                            <div className="headerNameDiv">{employeeDetails.emp_name}</div>
-                                            <div className="subHeaderDiv">{employeeDetails.department}</div>
+                                            <div className="flexDiv" >
+                                                <div>
+                                                    <div className="headerNameDiv">{employeeDetails.emp_name}</div>
+                                                    <div className="subHeaderDiv">{employeeDetails.department}</div>
+                                                </div>
+                                                <div className='sendMessageDiv'>
+                                                    <div className='viewAllEmployeesButton'>Send Message</div>
+                                                </div>
+                                            </div>
+
                                             <div className="subHeaderDiv m-t">
                                                 <img src={emailIcon} /> &nbsp;
                                                  {employeeDetails.email}
