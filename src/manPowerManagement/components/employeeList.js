@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
-import { useHistory } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { withRouter } from "react-router-dom";
-
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { Container, Row, Col } from 'react-bootstrap';
 import moment from 'moment'
@@ -15,6 +14,9 @@ import { getEmployeeList } from '../actionMethods/actionMethods';
 
 import selectedPinkArrowIcon from '../../assets/traceplusImages/pink_right_arrow_icon.svg'
 import helpIcon from '../../assets/traceplusImages/help-icon.png'
+import sortIcon from '../../assets/traceplusImages/sort.png'
+import upIcon from '../../assets/traceplusImages/up-arrow.png'
+import downIcon from '../../assets/traceplusImages/down-arrow.png'
 import dayShiftImage from '../../assets/traceplusImages/sun.svg'
 
 
@@ -22,7 +24,6 @@ import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 import CommonDatePicker from '../../common/commonDatePicker';
 import { getTranslatedText } from '../../common/utilities';
 import { getLanguageTranslation, setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
-import { isElement } from 'react-dom/cjs/react-dom-test-utils.development';
 
 function EmployeeList(props) {
     let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
@@ -33,13 +34,12 @@ function EmployeeList(props) {
     const [preDefinedEmployeeList, updatePredefinedEmployeeList] = useState([])
     const [employeeCount, updateEmployeeCount] = useState(0)
     const [isLoading, updateIsLoading] = useState(true)
+    const [sortKey, setSortKey] = useState('')
+    const [sortType, setSortType] = useState('')
 
     const [selectedDate, updateSelectedDate] = useState(date)
-
     let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
-
     let userSession = userDetails ? userDetails.session : '123456789'
-
     let org_id = userDetails ? userDetails.org_id : 6
 
     let history = useHistory();
@@ -77,8 +77,6 @@ function EmployeeList(props) {
 
     }, []);
 
-
-
     useEffect(() => {
         if (props.date) {
             let requestBody = {}
@@ -96,26 +94,12 @@ function EmployeeList(props) {
         }
     }, [props.date]);
 
-
     function getDateFormat(date) {
         return moment(date).format('YYYY-MM-DD')
     }
 
     function handleManpowerManagementList() {
         history.push('/manpower-management')
-    }
-
-    function handleSiteLocationSearch(searchText) {
-
-        let invalid = /[°"§%()[\]{}=\\?´`'#<>|,;.:+_-]+/g;
-        let value = searchText.replace(invalid, "")
-        let employeeList = preDefinedEmployeeList.filter(function (employeeList) {
-            return (employeeList.emp_name.toLowerCase().search(value.toLowerCase()) !== -1)
-
-        })
-
-        updateEmployeeList(employeeList)
-        updateSearchValue(searchText)
     }
 
     function handleClickCard(id) {
@@ -235,6 +219,42 @@ function EmployeeList(props) {
         }
     }, [props.language])
 
+    useEffect(() => {
+        if (preDefinedEmployeeList.length) {
+            updateIsLoading(true)
+
+            let arr = [...preDefinedEmployeeList]
+
+            if (searchValue) {
+                let invalid = /[°"§%()[\]{}=\\?´`'#<>|,;.:+_-]+/g;
+                let value = searchValue.replace(invalid, "")
+                arr = arr.filter(function (employeeList) {
+                    return (employeeList.emp_name.toLowerCase().search(value.toLowerCase()) !== -1)
+                })
+            }
+
+            if (sortKey === 'employee') {
+                arr = arr.sort((a, b) => {
+                    a = a.emp_name.toUpperCase()
+                    b = b.emp_name.toUpperCase()
+
+                    return sortType === 'desc' ? (a == b ? 0 : b > a ? 1 : -1) : (a == b ? 0 : a > b ? 1 : -1)
+                })
+            } else if (sortKey === 'interaction') {
+                arr = arr.sort((a, b) => {
+                    return sortType === 'desc' ? b.sri_index - a.sri_index : a.sri_index - b.sri_index
+                })
+            }
+
+            updateEmployeeList(arr)
+            updateIsLoading(false)
+        }
+    }, [sortKey, sortType, searchValue])
+
+    const handleSort = (key) => {
+        setSortKey(key)
+        setSortType(sortType === 'desc' ? 'asc' : 'desc')
+    }
 
     return (
         <div className="siteViewMainDiv siteManagementMainDiv" style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
@@ -272,67 +292,101 @@ function EmployeeList(props) {
                 <Row className={props.hideHeading ? '' : 'm-t'}>
                     <Col lg={12}>
                         <div className={'siteListMainDiv ' + (props.hideHeading ? 'p-l-0 p-r-0' : '')} style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
-                            <Row>
-                                <Col lg={8} className={props.hideHeading ? 'p-l-0' : ''}>
+                            <Row style={{ alignItems: 'center' }}>
+                                <Col lg={props.selectedTab ? 4 : 8} className={props.hideHeading ? 'p-l-0' : ''}>
                                     <h3 className="locationsListing">
                                         {props.title ? props.title : getTranslatedText('Employees')}
                                         &nbsp;({employeeList && employeeList.length})
                                     </h3>
                                 </Col>
-                                {
-                                    props.hideSearch ? '' :
-                                        <Col lg={4} className={props.hideHeading ? 'p-r-0' : ''}>
-                                            <div className="listingSearchMainDiv">
-                                                <input type="text" value={searchValue} name="siteSearch" placeholder="Search" onChange={(event) => handleSiteLocationSearch(event.target.value)} />
-                                            </div>
-                                        </Col>
+
+                                {props.selectedTab &&
+                                    <Col lg={4}>
+                                        <div className="empTeamTabMainDiv" style={{ float: 'right' }}>
+                                            <div className={'eachTab ' + (props.selectedTab == 'employees' ? 'activeTabBG' : '')} onClick={() => props.handleTabViewChange('employees')}>{getTranslatedText('Employees')}</div>
+                                            <div className={'eachTab ' + (props.selectedTab == 'teams' ? 'activeTabBG' : '')} onClick={() => props.handleTabViewChange('teams')}>{getTranslatedText('Teams')}</div>
+                                        </div>
+                                    </Col>
+                                }
+
+                                {props.hideSearch ? '' :
+                                    <Col lg={4} className={props.hideHeading ? 'p-r-0' : ''}>
+                                        <div className="listingSearchMainDiv">
+                                            <input type="text" value={searchValue} name="siteSearch" placeholder="Search" onChange={(event) => updateSearchValue(event.target.value)} />
+                                        </div>
+                                    </Col>
                                 }
                             </Row>
 
                             < Row >
                                 <Col lg={12} className={props.hideHeading ? 'p-l-0 p-r-0' : ''}>
                                     <div className="listingRecordMainDiv">
-                                        {
-                                            isLoading ?
-                                                <div className="text-center m-t-lg">
-                                                    <img src={spinnerLoader} className="m-t-lg" />
-                                                </div> :
-                                                employeeList && employeeList.length > 0 ?
-                                                    <React.Fragment>
-                                                        <div className="eachCard" >
-                                                            <div className="card-body">
-                                                                <Row>
-                                                                    <Col lg={3}>
-                                                                        <strong>Assigned Employee</strong>
-                                                                        <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`employeeHelp`)} onMouseLeave={() => handleMouseLeave(`employeeHelp`)} />
-                                                                        <div className='descHelp' id='employeeHelp'>Assigned employee to this Personal Tags. If there are no assigned employees for this tag, the name is “----”</div>
-                                                                    </Col>
-                                                                    <Col lg={2} className="b-l">
-                                                                        <strong>Interactions</strong>
-                                                                        <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`interactionHelp`)} onMouseLeave={() => handleMouseLeave(`interactionHelp`)} />
-                                                                        <div className='descHelp' id='interactionHelp'>Number of recorded Interactions at the selected date</div>
-                                                                    </Col>
-                                                                    <Col lg={2} className="b-l">
-                                                                        <strong>Battery</strong>
-                                                                        <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`batteryHelp`)} onMouseLeave={() => handleMouseLeave(`batteryHelp`)} />
-                                                                        <div className='descHelp' id='batteryHelp'>Battery Status of the Tag</div>
-                                                                    </Col>
-                                                                    <Col lg={2}>
-                                                                        <strong>Activated</strong>
-                                                                        <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`activatedHelp`)} onMouseLeave={() => handleMouseLeave(`activatedHelp`)} />
-                                                                        <div className='descHelp' id='activatedHelp'>Date of activation for this Personal Tags</div>
-                                                                    </Col>
-                                                                </Row>
-                                                            </div>
+                                        {isLoading ?
+                                            <div className="text-center m-t-lg">
+                                                <img src={spinnerLoader} className="m-t-lg" />
+                                            </div> :
+                                            employeeList && employeeList.length > 0 ?
+                                                <React.Fragment>
+                                                    <div className="eachCard" >
+                                                        <div className="card-body">
+                                                            <Row>
+                                                                <Col lg={3} className='flexDiv'>
+                                                                    <strong>Assigned Employee</strong>
+                                                                    <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`employeeHelp`)} onMouseLeave={() => handleMouseLeave(`employeeHelp`)} />
+                                                                    <img
+                                                                        alt=''
+                                                                        className='sorticon'
+                                                                        src={sortKey === 'employee' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                        onClick={() => handleSort('employee')}
+                                                                    />
+                                                                    <div className='descHelp' id='employeeHelp'>Assigned employee to this Personal Tags. If there are no assigned employees for this tag, the name is “----”</div>
+                                                                </Col>
+                                                                <Col lg={2} className="flexDiv b-l">
+                                                                    <strong>Interactions</strong>
+                                                                    <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`interactionHelp`)} onMouseLeave={() => handleMouseLeave(`interactionHelp`)} />
+                                                                    <img
+                                                                        alt=''
+                                                                        className='sorticon'
+                                                                        src={sortKey === 'interaction' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                        onClick={() => handleSort('interaction')}
+                                                                    />
+                                                                    <div className='descHelp' id='interactionHelp'>Number of recorded Interactions at the selected date</div>
+                                                                </Col>
+                                                                <Col lg={2} className="flexDiv b-l">
+                                                                    <strong>Battery</strong>
+                                                                    <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`batteryHelp`)} onMouseLeave={() => handleMouseLeave(`batteryHelp`)} />
+                                                                    <img
+                                                                        alt=''
+                                                                        className='sorticon'
+                                                                        src={sortKey === 'battery' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                        onClick={() => handleSort('battery')}
+                                                                    />
+                                                                    <div className='descHelp' id='batteryHelp'>Battery Status of the Tag</div>
+                                                                </Col>
+                                                                <Col lg={2} className='flexDiv b-l'>
+                                                                    <strong>Activated</strong>
+                                                                    <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`activatedHelp`)} onMouseLeave={() => handleMouseLeave(`activatedHelp`)} />
+                                                                    <img
+                                                                        alt=''
+                                                                        className='sorticon'
+                                                                        src={sortKey === 'activated' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                        onClick={() => handleSort('activated')}
+                                                                    />
+                                                                    <div className='descHelp' id='activatedHelp'>Date of activation for this Personal Tags</div>
+                                                                </Col>
+                                                            </Row>
                                                         </div>
-                                                        {showCardList(employeeList) }
-                                                    </React.Fragment>
-                                                    : ''
+                                                    </div>
+
+                                                    <Scrollbars autoHide style={{ width: '100%', height: window.innerHeight - 280 }}>
+                                                        {showCardList(employeeList)}
+                                                    </Scrollbars>
+                                                </React.Fragment>
+                                                : ''
                                         }
 
-                                        {
-                                            searchValue && employeeList.length == 0 ?
-                                                <h3 className="text-center m-t-lg">No Records Found !</h3> : ''
+                                        {searchValue && employeeList.length == 0 ?
+                                            <h3 className="text-center m-t-lg">No Records Found !</h3> : ''
                                         }
                                     </div>
                                 </Col>
@@ -340,7 +394,6 @@ function EmployeeList(props) {
                         </div>
                     </Col>
                 </Row>
-
             </Container>
         </div >
     )

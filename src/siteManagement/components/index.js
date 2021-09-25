@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { Container, Row, Col } from 'react-bootstrap';
 import { CommonHeading } from '../../common/commonHeading';
@@ -11,12 +12,15 @@ import DashboardLanguage from '../../components/dashboardLanguage';
 
 import selectedPinkArrowIcon from '../../assets/traceplusImages/pink_right_arrow_icon.svg'
 import filterIcon from '../../assets/traceplusImages/filter.png'
-import tagIcon from '../../assets/traceplusImages/tag_icon.svg'
 import { getSiteLocations } from '../actionMethods/actionMethods';
 
 import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 import helpIcon from '../../assets/traceplusImages/help-icon.png'
+import sortIcon from '../../assets/traceplusImages/sort.png'
+import upIcon from '../../assets/traceplusImages/up-arrow.png'
+import downIcon from '../../assets/traceplusImages/down-arrow.png'
 import CommonDatePicker from '../../common/commonDatePicker';
+import BarChart from './barChart'
 
 import '../../dashboard/styles/dashboard.scss'
 import { getTranslatedText } from '../../common/utilities';
@@ -26,28 +30,23 @@ function SiteMangementList(props) {
     let date = localStorage.getItem('selectedDate') ? new Date(localStorage.getItem('selectedDate')) : new Date()
 
     const [siteLocationsList, updateSiteLocationsList] = useState([])
-
     const [preDefinedSiteLocationsList, updatePreDefinedSiteLocationList] = useState([])
     const [selectedLangValue, updateSelectedLangValue] = useState('en')
-
     const [searchValue, updateSearchValue] = useState('')
+    const [globalSearch, setGlobalSearch] = useState('')
     const [selectedDate, updateSelectedDate] = useState(date)
     const [isLoading, updateIsLoading] = useState(true)
+    const [sortKey, setSortKey] = useState('')
+    const [sortType, setSortType] = useState('')
 
     let userDetails = JSON.parse(localStorage.getItem('userLoginDetails'))
-
     let userSession = userDetails ? userDetails.session : '123456789'
-
     let org_id = userDetails ? userDetails.org_id : 6
 
-
-
     useEffect(() => {
-
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
         getSiteLocationsValues(requestBody)
-
     }, []);
 
     function getSiteLocationsValues(requestBody) {
@@ -74,7 +73,6 @@ function SiteMangementList(props) {
     function getDateFormat(date) {
         return moment(date).format('YYYY-MM-DD')
     }
-
 
     function handleClickCard(id) {
         props.history.push(`/site-list/view/:${id}`)
@@ -104,30 +102,13 @@ function SiteMangementList(props) {
         return statusValue
     }
 
-
-    function handleSiteLocationSearch(searchText) {
-
-        let invalid = /[°"§%()[\]{}=\\?´`'#<>|,;.:+_-]+/g;
-        let value = searchText.replace(invalid, "")
-        let siteLocationsList = preDefinedSiteLocationsList.filter(function (siteList) {
-            return (siteList.name.toLowerCase().search(value.toLowerCase()) !== -1
-                // || (siteList.status.toLowerCase().search(value.toLowerCase()) !== -1) 
-                // || (siteList.category_name.toLowerCase().search(value.toLowerCase()) !== -1
-            )
-
-        })
-
-        updateSiteLocationsList(siteLocationsList)
-
-
-        updateSearchValue(searchText)
-    }
-
-    function showCardList(siteLocationsList) {
+    function showCardList() {
         let arr = []
 
+        console.log(siteLocationsList)
         for (let index = 0; index < siteLocationsList.length; index++) {
             const element = siteLocationsList[index]
+            console.log(element.name)
             arr.push(
                 <div className="eachCard" key={index} onClick={() => handleClickCard(element.id)}>
                     <div className="card-body">
@@ -162,7 +143,7 @@ function SiteMangementList(props) {
                                 <div className='riskDiv'>{'Visited'}</div>
                             </Col>
 
-                            <Col lg={2} className="b-l">
+                            <Col lg={2} className="b-l b-r">
                                 <div className="nearByLocationDiv">Activated</div>
                                 <span className="locationNameDiv">{element.activatedOn || '22/08/2021'}</span>
                             </Col>
@@ -214,22 +195,58 @@ function SiteMangementList(props) {
         }
     }, [props.language])
 
+    useEffect(() => {
+        if (preDefinedSiteLocationsList.length) {
+            updateIsLoading(true)
+
+            let arr = [...preDefinedSiteLocationsList]
+    
+            if (searchValue) {
+                let invalid = /[°"§%()[\]{}=\\?´`'#<>|,;.:+_-]+/g;
+                let value = searchValue.replace(invalid, "")
+                arr = arr.filter(function (siteList) {
+                    return (siteList.name.toLowerCase().search(value.toLowerCase()) !== -1)
+                })
+            }
+    
+            if (sortKey === 'location') {
+                arr = arr.sort((a, b) => {
+                    a = a.name.toUpperCase()
+                    b = b.name.toUpperCase()
+    
+                    return sortType === 'desc' ? (a == b ? 0 : b > a ? 1 : -1) : (a == b ? 0 : a > b ? 1 : -1)
+                })
+            } else if (sortKey === 'area') {
+                arr = arr.sort((a, b) => {
+                    return sortType === 'desc' ? b.area_index - a.area_index : a.area_index - b.area_index
+                })
+            }
+    
+            updateSiteLocationsList(arr)
+            updateIsLoading(false)
+        }
+    }, [sortKey, sortType, searchValue])
+
     function handleSiteManagement() {
-        props.history.push('/site-management')
+        props.history.push('/site-list')
     }
 
+    const handleSort = (key) => {
+        setSortKey(key)
+        setSortType(sortType === 'desc' ? 'asc' : 'desc')
+    }
 
+    
     return (
         <div className="dashboardComponentMainDiv siteManagementMainDiv" style={props.hideHeading ? { padding: '0' } : {}}>
             <Container >
-
                 {
                     props.hideHeading ? '' :
                         <Row>
                             <Col lg={6} >
                                 <div className="siteViewHeaderDiv">
                                     <span className="smallHeader" onClick={handleSiteManagement}>{getTranslatedText('Site Management')}</span>
-                                    <span className="breadCrumbArrow"> > </span>
+                                    <span className="breadCrumbArrow"> &gt; </span>
                                     <span className="mediumHeader">{getTranslatedText('Site Listing')}</span>
                                 </div>
                             </Col>
@@ -251,9 +268,47 @@ function SiteMangementList(props) {
                         </Row>
                 }
 
+                {!props.hideGlobalSearch &&
+                    <Row>
+                        <Col className='m-t'>
+                            <div className='globalSearch'>
+                                <input 
+                                    type='text'
+                                    value={globalSearch}
+                                    onChange={(e) => setGlobalSearch(e.target.value)}
+                                    placeholder={'Search'}
+                                />
+
+                                <span className='optionBox'>Categories</span>
+                            </div>
+                        </Col>
+                    </Row>
+                }
+
+                {!props.hideGlobalSearch &&
+                    <Row>
+                        <Col>
+                            <div className='siteListMainDiv m-t' style={{ backgroundColor: '#202236', padding: '2rem 1.5rem' }} >
+                                <div className='chartMainDiv'>
+                                    <div className='chart'>
+                                        <div className='title'>Location At Risk</div>
+                                        <BarChart />
+                                    </div>
+                                    <div className='chart'>
+                                        <div className='title'>Footfall</div>
+                                        <BarChart />
+                                    </div>
+                                    <div className='chart'>
+                                        <div className='title'>TBD</div>
+                                        <BarChart />
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                }
 
                 {
-
                     <Row className={props.hideHeading ? '' : 'm-t'}>
                         <Col lg={12}>
                             <div className={'siteListMainDiv ' + (props.hideHeading ? 'p-l-0 p-r-0' : '')} style={props.hideHeading ? { paddingTop: 0, paddingBottom: 0 } : {}}>
@@ -271,7 +326,7 @@ function SiteMangementList(props) {
                                         props.hideSearch ? '' :
                                             <Col lg={4}>
                                                 <div className="listingSearchMainDiv">
-                                                    <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleSiteLocationSearch(event.target.value)} />
+                                                    <input type="text" value={searchValue} name="siteSearch" placeholder="Search" onChange={(event) => updateSearchValue(event.target.value)} />
                                                 </div>
                                             </Col>
                                     }
@@ -309,7 +364,6 @@ function SiteMangementList(props) {
                                         </Row> : ''
                                 }
 
-
                                 {
                                     isLoading ?
                                         <div className="text-center m-t-lg">
@@ -323,24 +377,43 @@ function SiteMangementList(props) {
                                                         <div className="eachCard" >
                                                             <div className="card-body">
                                                                 <Row>
-                                                                    <Col lg={4}>
+                                                                    <Col lg={4} className='flexDiv'>
                                                                         <strong>Tags/Location</strong>
                                                                         <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`locationHelp`)} onMouseLeave={() => handleMouseLeave(`locationHelp`)} />
+                                                                        <img 
+                                                                            alt='' 
+                                                                            className='sorticon' 
+                                                                            src={sortKey === 'location' ? sortType === 'asc' ? upIcon : downIcon : sortIcon} 
+                                                                            onClick={() => handleSort('location')} 
+                                                                        />
                                                                         <div className='descHelp' id='locationHelp'>Tag assigned to this Location</div>                                                                        
                                                                     </Col>
-                                                                    <Col lg={2} className="b-l">
+                                                                    <Col lg={2} className="b-l flexDiv">
                                                                         <strong>Area Index</strong>
                                                                         <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`areaHelp`)} onMouseLeave={() => handleMouseLeave(`areaHelp`)} />
+                                                                        <img
+                                                                            alt=''
+                                                                            className='sorticon'
+                                                                            src={sortKey === 'area' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                            onClick={() => handleSort('area')}
+                                                                        />
                                                                         <div className='descHelp' id='areaHelp'>Area Index of the location at the selected date</div>
                                                                     </Col>
-                                                                    <Col lg={2} className="b-l">
+                                                                    <Col lg={2} className="b-l flexDiv">
                                                                         <strong>At Risk</strong>
                                                                         <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`riskHelp`)} onMouseLeave={() => handleMouseLeave(`riskHelp`)} />
+                                                                        {/* <img alt='' className='sorticon' src={sortIcon} /> */}
                                                                         <div className='descHelp' id='riskHelp'>If the status is “Visited” this location has been visited by a Positive Case at the selected date</div>
                                                                     </Col>
-                                                                    <Col lg={2}>
+                                                                    <Col lg={2} className='b-l b-r flexDiv'>
                                                                         <strong>Activated</strong>
                                                                         <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`activatedHelp`)} onMouseLeave={() => handleMouseLeave(`activatedHelp`)} />
+                                                                        <img
+                                                                            alt=''
+                                                                            className='sorticon'
+                                                                            src={sortKey === 'activated' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                            onClick={() => handleSort('activated')}
+                                                                        />
                                                                         <div className='descHelp' id='activatedHelp'>Date of activation for this Location Tags</div>
                                                                     </Col>
                                                                 </Row>
@@ -348,7 +421,10 @@ function SiteMangementList(props) {
                                                         </div>
                                                         {
                                                             siteLocationsList && siteLocationsList.length > 0 ?
-                                                                showCardList(siteLocationsList) : ''
+                                                                <Scrollbars autoHide style={{ width: '100%', height: window.innerHeight - 280 }}>
+                                                                    {showCardList()}
+                                                                </Scrollbars>
+                                                                : ''
                                                         }
                                                         {
                                                             searchValue && siteLocationsList.length == 0 ?

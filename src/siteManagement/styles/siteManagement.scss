@@ -21,6 +21,30 @@
             margin-top: 0.5rem !important;
         }
 
+        .chartMainDiv {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+
+            .chart {
+                width: 32%;
+                margin-right: 18px;
+                border-radius: 0.5rem;
+                background-color: #FFFFFF;
+
+                .title {
+                    padding: 8px 16px;
+                    font-weight: bold;
+                    color: #34422e;
+                    font-size: 1.25rem;
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+
         .locationsListing {}
 
         .listingRecordMainDiv {
@@ -53,16 +77,28 @@
                         }
                     }
 
+                    .flexDiv {
+                        display: flex;
+                        align-items: center;
+                    }
+
                     .helpicon {
                         height: 20px;
                         width: 20px;
                         margin-left: 8px;
                     }
 
+                    .sorticon {
+                        height: 16px;
+                        width: 16px;
+                        margin-left: auto;
+                    }
+
                     .descHelp {
                         display: none;
                         position: absolute;
                         z-index: 100;
+                        top: 100%;
                         max-width: 15rem;
                         border-radius: 0.2rem;
                         background-color: #000000;
@@ -277,6 +313,29 @@
         cursor: pointer;
         font-weight: 600;
         color: #383b52;
+    }
+}
+
+.globalSearch {
+
+    input {
+        background-color: white;
+        width: 25rem;
+        padding: 8px 24px;
+        border-radius: 16px 0 0 16px;
+        outline: none;
+        font-size: 0.875rem;
+        border: none;
+        box-shadow: 0 5px 15px 0 rgba(85, 89, 124, 0.2);
+    }
+
+    .optionBox {
+        background-color: white;
+        padding: 11px 24px;
+        font-weight: bold;
+        font-size: 0.875rem;
+        border-radius: 0 16px 16px 0;
+        box-shadow: 0 5px 15px 0 rgba(85, 89, 124, 0.2);
     }
 }
 

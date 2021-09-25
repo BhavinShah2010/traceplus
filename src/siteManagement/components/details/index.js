@@ -228,7 +228,7 @@ function SiteViewDetails(props) {
                         <Col lg={6}>
                             <div className="siteViewHeaderDiv">
                                 <span className="smallHeader" onClick={handleSiteListClick}>{getTranslatedText('Site Management')}</span>
-                                <span className="breadCrumbArrow"> > </span>
+                                <span className="breadCrumbArrow"> &gt; </span>
                                 <span className="mediumHeader">{getTranslatedText('Site View')}</span>
                             </div>
                         </Col>

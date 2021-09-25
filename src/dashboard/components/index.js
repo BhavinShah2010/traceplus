@@ -540,13 +540,11 @@ function Dashboard(props) {
                 onRequestClose={handleCloseModal}
                 shouldCloseOnOverlayClick={true}
             >
-
-                <Scrollbars style={{ width: '100%', height: '100%' }} autoHide>
-                    <EmployeeList
-                        hideHeading={true}
-                        title={'Personal Tags'}
-                    />
-                </Scrollbars>
+                <EmployeeList
+                    hideHeading={true}
+                    title={'Personal Tags'}
+                    hideGlobalSearch={true}
+                />
             </ReactModal>
 
 
@@ -556,12 +554,11 @@ function Dashboard(props) {
                 onRequestClose={handleCloseModal}
                 shouldCloseOnOverlayClick={true}
             >
-                <Scrollbars style={{ width: '100%', height: '100%' }} autoHide>
-                    <SiteMangementList
-                        hideHeading={true}
-                        title={'Location Tags'}
-                    />
-                </Scrollbars>
+                <SiteMangementList
+                    hideHeading={true}
+                    hideGlobalSearch={true}
+                    title={'Location Tags'}
+                />
             </ReactModal>
 
 

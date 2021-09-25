@@ -19,6 +19,7 @@ import spinnerLoader from '../../assets/images/Spinner Loader.gif'
 
 import moment from 'moment'
 import Chart from './barChart'
+import BarChart from '../../siteManagement/components/barChart';
 import { getTranslatedText } from '../../common/utilities';
 import EmployeeList from './employeeList';
 import { getLanguageTranslation, setSelectedLanguage } from '../../dashboard/actionMethods/actionMethods';
@@ -41,6 +42,7 @@ function ManPowerMangementList(props) {
     const [chartLoader, setChartLoader] = useState(true)
 
     const [searchValue, updateSearchValue] = useState('')
+    const [globalSearch, setGlobalSearch] = useState('')
     const [teamList, updateTeamList] = useState([])
     const [preDefinedTeamList, updatedPredefinedTeamList] = useState([])
 
@@ -87,9 +89,9 @@ function ManPowerMangementList(props) {
             let data = res?.attendance
 
             let start = new Date(moment(selectedDate).subtract(9, 'days'))
-            let end  = new Date(selectedDate)
+            let end = new Date(selectedDate)
             let categories = []
-            let series = []            
+            let series = []
 
             updateNumberAttended(res.num_attended || 0)
 
@@ -99,13 +101,13 @@ function ManPowerMangementList(props) {
                 categories.push(displayDate)
 
                 let index = data.findIndex((i) => moment(i.date).format('YYYY-MM-DD') === d)
-                series.push( {
+                series.push({
                     y: index > -1 ? (data[index].num_attended || 0) : 0,
                     color: getBarColor(index > -1 ? (data[index].num_attended || 0) : 0),
                     name: displayDate
                 })
             }
-            
+
             setChartData({ categories, series })
             setChartLoader(false)
         }).catch((err) => {
@@ -142,7 +144,7 @@ function ManPowerMangementList(props) {
 
         let requestBody = {}
         requestBody.date = getDateFormat(selectedDate)
-        
+
         setPrevPriData(selectedDate)
         getOrgPriData(requestBody)
         getDepartmentListData(requestBody)
@@ -301,13 +303,13 @@ function ManPowerMangementList(props) {
                     </Col>
                 </Row>
 
-                <Row className="text-right m-t">
+                {/* <Row className="text-right m-t">
                     <Col lg={12}>
                         <div className="viewAllEmployeesButton" onClick={goToEmployeeList}>{getTranslatedText('View All Employees')}</div>
                     </Col>
-                </Row>
+                </Row> */}
 
-                <Row className="m-t-lg">
+                {/* <Row className="m-t-lg">
                     <Col lg={5}>
                         <div className="populationRiskMainDiv" style={{ height: '420px' }}>
                             <div className="font-bold text-white titleText">{getTranslatedText('Overall')} <br /> {getTranslatedText('Population risk index')}</div>
@@ -379,70 +381,110 @@ function ManPowerMangementList(props) {
 
 
                     </Col>
-                </Row>
+                </Row> */}
 
-                <Row className="m-t-md">
+                {/* <Row className="m-t-md">
                     <Col lg={12}>
                         <div className="empTeamTabMainDiv">
                             <div className={'eachTab ' + (selectedTab == 'employees' ? 'activeTabBG' : '')} onClick={() => handleTabViewChange('employees')}>{getTranslatedText('Employees')}</div>
                             <div className={'eachTab ' + (selectedTab == 'teams' ? 'activeTabBG' : '')} onClick={() => handleTabViewChange('teams')}>{getTranslatedText('Teams')}</div>
                         </div>
                     </Col>
-                </Row>
+                </Row> */}
+
+
+                {!props.hideGlobalSearch &&
+                    <Row>
+                        <Col className='m-t'>
+                            <div className='globalSearch'>
+                                <input
+                                    type='text'
+                                    value={globalSearch}
+                                    onChange={(e) => setGlobalSearch(e.target.value)}
+                                    placeholder={'Search'}
+                                />
+
+                                <span className='optionBox'>Categories</span>
+                            </div>
+                        </Col>
+                    </Row>
+                }
+
+                {!props.hideGlobalSearch &&
+                    <Row>
+                        <Col>
+                            <div className='manpowerManagementEmployeeListMainDiv m-t' style={{ backgroundColor: '#202236', padding: '2rem 1.5rem' }} >
+                                <div className='chartMainDiv'>
+                                    <div className='chart'>
+                                        <div className='title'>Spread</div>
+                                        <BarChart />
+                                    </div>
+                                    <div className='chart'>
+                                        <div className='title'>Mobility</div>
+                                        <BarChart />
+                                    </div>
+                                    <div className='chart'>
+                                        <div className='title'>Attendance</div>
+                                        <BarChart />
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                }
 
 
                 <Row className="m-t">
                     <Col lg={12}>
-                        {
-                            selectedTab == 'employees' ?
-                                <div className="manpowerManagementEmployeeListMainDiv">
-                                    <EmployeeList
-                                        hideHeading={true}
-                                        date={selectedDate}
-                                    />
-                                </div>
-
-                                :
-
-                                <div className="teamsMainDiv" style={{ height: '420px' }}>
-
-                                    <Row>
-                                        <Col lg={8} >
-                                            <h3 className="locationsListing">{getTranslatedText('Teams')} ({teamList.length})</h3>
-                                        </Col>
-                                        <Col lg={4}>
-                                            <div className="listingSearchMainDiv">
-                                                <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleTeamSearch(event.target.value)} />
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                    <div className="allOrPinnedMainDiv m-t displayNone">
-                                        <div className="eachDiv active"> {getTranslatedText('All')}
-                                            <div className="m-l-sm badgeBox activeBadge">
-                                                <span>{teamList.length || 0}</span>
-                                            </div>
+                        {selectedTab == 'employees' ?
+                            <div className="manpowerManagementEmployeeListMainDiv">
+                                <EmployeeList
+                                    hideHeading={true}
+                                    date={selectedDate}
+                                    selectedTab={selectedTab}
+                                    handleTabViewChange={handleTabViewChange}
+                                />
+                            </div>
+                            :
+                            <div className="teamsMainDiv">
+                                <Row style={{ alignItems: 'center' }}>
+                                    <Col lg={4} >
+                                        <h3 className="locationsListing">{getTranslatedText('Teams')} ({teamList.length})</h3>
+                                    </Col>
+                                    <Col lg={4}>
+                                        <div className="empTeamTabMainDiv" style={{ float: 'right' }}>
+                                            <div className={'eachTab ' + (selectedTab == 'employees' ? 'activeTabBG' : '')} onClick={() => handleTabViewChange('employees')}>{getTranslatedText('Employees')}</div>
+                                            <div className={'eachTab ' + (selectedTab == 'teams' ? 'activeTabBG' : '')} onClick={() => handleTabViewChange('teams')}>{getTranslatedText('Teams')}</div>
+                                        </div>
+                                    </Col>
+                                    <Col lg={4}>
+                                        <div className="listingSearchMainDiv">
+                                            <input type="text" value={searchValue} name="siteSearch" placeholder="Search..." onChange={(event) => handleTeamSearch(event.target.value)} />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <div className="allOrPinnedMainDiv m-t displayNone">
+                                    <div className="eachDiv active"> {getTranslatedText('All')}
+                                        <div className="m-l-sm badgeBox activeBadge">
+                                            <span>{teamList.length || 0}</span>
                                         </div>
                                     </div>
-
-                                    <Row className="m-t-lg teamListDiv">
-                                        {
-                                            teamList && teamList.length > 0 ?
-
-                                                showTeamList(teamList) : ''
-                                        }
-
-                                        {
-                                            searchValue && teamList.length == 0 ?
-
-                                                <Col lg={12}>
-                                                    <h3 className="text-center m-t-lg">No Teams Found !</h3>
-                                                </Col> : ''
-
-
-                                        }
-
-                                    </Row>
                                 </div>
+
+                                <Row className="m-t-lg teamListDiv">
+                                    {teamList && teamList.length > 0 ?
+                                        <Scrollbars autoHide style={{ width: '100%', height: window.innerHeight - 380 }}>
+                                            {showTeamList(teamList) }
+                                        </Scrollbars>
+                                        : ''
+                                    }
+                                    {searchValue && teamList.length == 0 ?
+                                        <Col lg={12}>
+                                            <h3 className="text-center m-t-lg">No Teams Found !</h3>
+                                        </Col> : ''
+                                    }
+                                </Row>
+                            </div>
                         }
                     </Col>
                 </Row>
