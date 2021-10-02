@@ -146,38 +146,63 @@ function EmployeeList(props) {
                     onClick={() => handleClickCard(element.emp_id)}
                 >
                     <div className="card-body" style={{ backgroundColor: getBackgroundCOlor(element.sri_index, '22/08/2021') }}>
-                        <Row style={{ alignItems: 'center' }}>
-                            <Col lg={3} className="b-r">
-                                <h5 className="font-bold">{element.emp_name}</h5>
-                                <div><b>Team:</b> {element.department}</div>
-                                <div><b>Tag:</b> {element.tag_id}</div>
-                                {/* <img src={showShiftType(element.shift)} /> */}
-                            </Col>
-                            <Col lg={2} className="b-r">
-                                <div className="priSriMriText">Interactions</div>
-                                <h6 className="font-bold">{element.sri_index}</h6>
-                            </Col>
+                        {props.isManpower ?
+                            <Row style={{ alignItems: 'center' }}>
+                                <Col lg={3} className="b-r">
+                                    <h5 className="font-bold">{element.emp_name}</h5>
+                                    <div><b>Team:</b> {element.department}</div>
+                                    <div><b>Tag:</b> {element.tag_id}</div>
+                                </Col>
 
-                            <Col lg={2} className="b-r">
-                                <div className="priSriMriText">Battery</div>
-                                <h6 className="font-bold">{element.battery || '100%'}</h6>
-                            </Col>
+                                <Col lg={2} className="b-r">
+                                    <div className="priSriMriText">Interactions</div>
+                                    <h6 className="font-bold">{element.sri_index}</h6>
+                                </Col>
 
-                            <Col lg={2} className="b-r">
-                                <div className="priSriMriText">Activated</div>
-                                <h6 className="font-bold">{element.activatedOn || '22/08/2021'}</h6>
-                            </Col>
+                                <Col lg={2} className="b-r">
+                                    <div className="priSriMriText">Spread Index</div>
+                                    <h6 className="font-bold">{element.spread || '34%'}</h6>
+                                </Col>
 
-                            {/* <Col lg={2} className="b-r">
+                                <Col lg={2} className="b-r">
+                                    <div className="priSriMriText">MR Index</div>
+                                    <h6 className="font-bold">{element.mri_index}</h6>
+                                </Col>
+                            </Row>
+                            :
+                            <Row style={{ alignItems: 'center' }}>
+                                <Col lg={3} className="b-r">
+                                    <h5 className="font-bold">{element.emp_name}</h5>
+                                    <div><b>Team:</b> {element.department}</div>
+                                    <div><b>Tag:</b> {element.tag_id}</div>
+                                    {/* <img src={showShiftType(element.shift)} /> */}
+                                </Col>
+                                <Col lg={2} className="b-r">
+                                    <div className="priSriMriText">Interactions</div>
+                                    <h6 className="font-bold">{element.sri_index}</h6>
+                                </Col>
+
+                                <Col lg={2} className="b-r">
+                                    <div className="priSriMriText">Battery</div>
+                                    <h6 className="font-bold">{element.battery || '100%'}</h6>
+                                </Col>
+
+                                <Col lg={2} className="b-r">
+                                    <div className="priSriMriText">Activated</div>
+                                    <h6 className="font-bold">{element.activatedOn || '22/08/2021'}</h6>
+                                </Col>
+
+                                {/* <Col lg={2} className="b-r">
                                 <div className="priSriMriText">{getTranslatedText('Status')}</div>
                                 <div className="emplStatusDiv">{element.status}</div>
                             </Col> */}
-                            <Col lg={1} style={{ marginLeft: 'auto' }}>
-                                <div className="arrowDiv" style={props.hideHeading ? { width: '50%' } : {}}>
-                                    <img src={selectedPinkArrowIcon} />
-                                </div>
-                            </Col>
-                        </Row>
+                                <Col lg={1} style={{ marginLeft: 'auto' }}>
+                                    <div className="arrowDiv" style={props.hideHeading ? { width: '50%' } : {}}>
+                                        <img src={selectedPinkArrowIcon} />
+                                    </div>
+                                </Col>
+                            </Row>
+                        }
                     </div>
                 </div>
             )
@@ -265,7 +290,7 @@ function EmployeeList(props) {
                         <Col lg={6}>
                             <div className="siteViewHeaderDiv">
                                 <span className="smallHeader" onClick={handleManpowerManagementList}>{getTranslatedText('Manpower Management')}</span>
-                                <span className="breadCrumbArrow"> > </span>
+                                <span className="breadCrumbArrow"> &gt; </span>
                                 <span className="mediumHeader">{getTranslatedText('Employee Listing')}</span>
                             </div>
                         </Col>
@@ -295,8 +320,11 @@ function EmployeeList(props) {
                             <Row style={{ alignItems: 'center' }}>
                                 <Col lg={props.selectedTab ? 4 : 8} className={props.hideHeading ? 'p-l-0' : ''}>
                                     <h3 className="locationsListing">
-                                        {props.title ? props.title : getTranslatedText('Employees')}
-                                        &nbsp;({employeeList && employeeList.length})
+                                        {props.title ? props.title : getTranslatedText('Employees/Teams')}
+                                        {!props.selectedTab ?
+                                            (`(${employeeList && employeeList.length})`)
+                                            : null
+                                        }
                                     </h3>
                                 </Col>
 
@@ -329,52 +357,101 @@ function EmployeeList(props) {
                                                 <React.Fragment>
                                                     <div className="eachCard" >
                                                         <div className="card-body">
-                                                            <Row>
-                                                                <Col lg={3} className='flexDiv'>
-                                                                    <strong>Assigned Employee</strong>
-                                                                    <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`employeeHelp`)} onMouseLeave={() => handleMouseLeave(`employeeHelp`)} />
-                                                                    <img
-                                                                        alt=''
-                                                                        className='sorticon'
-                                                                        src={sortKey === 'employee' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
-                                                                        onClick={() => handleSort('employee')}
-                                                                    />
-                                                                    <div className='descHelp' id='employeeHelp'>Assigned employee to this Personal Tags. If there are no assigned employees for this tag, the name is “----”</div>
-                                                                </Col>
-                                                                <Col lg={2} className="flexDiv b-l">
-                                                                    <strong>Interactions</strong>
-                                                                    <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`interactionHelp`)} onMouseLeave={() => handleMouseLeave(`interactionHelp`)} />
-                                                                    <img
-                                                                        alt=''
-                                                                        className='sorticon'
-                                                                        src={sortKey === 'interaction' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
-                                                                        onClick={() => handleSort('interaction')}
-                                                                    />
-                                                                    <div className='descHelp' id='interactionHelp'>Number of recorded Interactions at the selected date</div>
-                                                                </Col>
-                                                                <Col lg={2} className="flexDiv b-l">
-                                                                    <strong>Battery</strong>
-                                                                    <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`batteryHelp`)} onMouseLeave={() => handleMouseLeave(`batteryHelp`)} />
-                                                                    <img
-                                                                        alt=''
-                                                                        className='sorticon'
-                                                                        src={sortKey === 'battery' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
-                                                                        onClick={() => handleSort('battery')}
-                                                                    />
-                                                                    <div className='descHelp' id='batteryHelp'>Battery Status of the Tag</div>
-                                                                </Col>
-                                                                <Col lg={2} className='flexDiv b-l'>
-                                                                    <strong>Activated</strong>
-                                                                    <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`activatedHelp`)} onMouseLeave={() => handleMouseLeave(`activatedHelp`)} />
-                                                                    <img
-                                                                        alt=''
-                                                                        className='sorticon'
-                                                                        src={sortKey === 'activated' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
-                                                                        onClick={() => handleSort('activated')}
-                                                                    />
-                                                                    <div className='descHelp' id='activatedHelp'>Date of activation for this Personal Tags</div>
-                                                                </Col>
-                                                            </Row>
+                                                            {props.isManpower ?
+                                                                <Row>
+                                                                    <Col lg={3} className='flexDiv'>
+                                                                        <strong>Name</strong>
+                                                                        <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`employeeHelp`)} onMouseLeave={() => handleMouseLeave(`employeeHelp`)} />
+                                                                        <img
+                                                                            alt=''
+                                                                            className='sorticon'
+                                                                            src={sortKey === 'employee' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                            onClick={() => handleSort('employee')}
+                                                                        />
+                                                                        <div className='descHelp' id='employeeHelp'>Assigned employee to this Personal Tags. If there are no assigned employees for this tag, the name is “----”</div>
+                                                                    </Col>
+                                                                    <Col lg={2} className='flexDiv'>
+                                                                        <strong>Ppl Interactions</strong>
+                                                                        <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`pplHelp`)} onMouseLeave={() => handleMouseLeave(`pplHelp`)} />
+                                                                        <img
+                                                                            alt=''
+                                                                            className='sorticon'
+                                                                            src={sortKey === 'pplInteraction' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                            onClick={() => handleSort('pplInteraction')}
+                                                                        />
+                                                                        <div className='descHelp' id='pplHelp'>Ppl Interactions</div>
+                                                                    </Col>
+                                                                    <Col lg={2} className='flexDiv'>
+                                                                        <strong>Spread Index</strong>
+                                                                        <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`spreadHelp`)} onMouseLeave={() => handleMouseLeave(`spreadHelp`)} />
+                                                                        <img
+                                                                            alt=''
+                                                                            className='sorticon'
+                                                                            src={sortKey === 'sri_index' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                            onClick={() => handleSort('sri_index')}
+                                                                        />
+                                                                        <div className='descHelp' id='spreadHelp'>Spread Index</div>
+                                                                    </Col>
+                                                                    <Col lg={2} className='flexDiv'>
+                                                                        <strong>Mobility</strong>
+                                                                        <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`mobilityHelp`)} onMouseLeave={() => handleMouseLeave(`mobilityHelp`)} />
+                                                                        <img
+                                                                            alt=''
+                                                                            className='sorticon'
+                                                                            src={sortKey === 'mobility' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                            onClick={() => handleSort('mobility')}
+                                                                        />
+                                                                        <div className='descHelp' id='mobilityHelp'>Mobility</div>
+                                                                    </Col>
+                                                                </Row>
+                                                                :
+                                                                <Row>
+                                                                    <Col lg={3} className='flexDiv'>
+                                                                        <strong>Assigned Employee</strong>
+                                                                        <img alt='' className='helpicon' src={helpIcon} onMouseEnter={() => handleMouseEnter(`employeeHelp`)} onMouseLeave={() => handleMouseLeave(`employeeHelp`)} />
+                                                                        <img
+                                                                            alt=''
+                                                                            className='sorticon'
+                                                                            src={sortKey === 'employee' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                            onClick={() => handleSort('employee')}
+                                                                        />
+                                                                        <div className='descHelp' id='employeeHelp'>Assigned employee to this Personal Tags. If there are no assigned employees for this tag, the name is “----”</div>
+                                                                    </Col>
+                                                                    <Col lg={2} className="flexDiv b-l">
+                                                                        <strong>Interactions</strong>
+                                                                        <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`interactionHelp`)} onMouseLeave={() => handleMouseLeave(`interactionHelp`)} />
+                                                                        <img
+                                                                            alt=''
+                                                                            className='sorticon'
+                                                                            src={sortKey === 'interaction' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                            onClick={() => handleSort('interaction')}
+                                                                        />
+                                                                        <div className='descHelp' id='interactionHelp'>Number of recorded Interactions at the selected date</div>
+                                                                    </Col>
+                                                                    <Col lg={2} className="flexDiv b-l">
+                                                                        <strong>Battery</strong>
+                                                                        <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`batteryHelp`)} onMouseLeave={() => handleMouseLeave(`batteryHelp`)} />
+                                                                        <img
+                                                                            alt=''
+                                                                            className='sorticon'
+                                                                            src={sortKey === 'battery' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                            onClick={() => handleSort('battery')}
+                                                                        />
+                                                                        <div className='descHelp' id='batteryHelp'>Battery Status of the Tag</div>
+                                                                    </Col>
+                                                                    <Col lg={2} className='flexDiv b-l'>
+                                                                        <strong>Activated</strong>
+                                                                        <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`activatedHelp`)} onMouseLeave={() => handleMouseLeave(`activatedHelp`)} />
+                                                                        <img
+                                                                            alt=''
+                                                                            className='sorticon'
+                                                                            src={sortKey === 'activated' ? sortType === 'asc' ? upIcon : downIcon : sortIcon}
+                                                                            onClick={() => handleSort('activated')}
+                                                                        />
+                                                                        <div className='descHelp' id='activatedHelp'>Date of activation for this Personal Tags</div>
+                                                                    </Col>
+                                                                </Row>
+                                                            }
                                                         </div>
                                                     </div>
 

@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Dropdown, DropdownButton } from 'react-bootstrap';
 import { Select } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
@@ -42,6 +42,8 @@ function ManPowerMangementList(props) {
     const [chartLoader, setChartLoader] = useState(true)
 
     const [searchValue, updateSearchValue] = useState('')
+    const [suggestions, setSuggestions] = useState([])
+    const [globalCategory, setGlobalCategory] = useState('Employees')
     const [globalSearch, setGlobalSearch] = useState('')
     const [teamList, updateTeamList] = useState([])
     const [preDefinedTeamList, updatedPredefinedTeamList] = useState([])
@@ -404,7 +406,25 @@ function ManPowerMangementList(props) {
                                     placeholder={'Search'}
                                 />
 
-                                <span className='optionBox'>Categories</span>
+                                {globalSearch.trim().length ?
+                                    <div className="suggestionBox">
+                                        {suggestions.length ?
+                                            suggestions.map((s, index) => (
+                                                <div className='suggestion' key={index} >{s.name}</div>
+                                            ))
+                                            :
+                                            <div className='suggestion'>No {globalCategory} Found</div>
+                                        }
+                                    </div>
+                                    : null
+                                }
+
+                                <div className='optionBox'>
+                                    <DropdownButton title={globalCategory}>
+                                        <Dropdown.Item onClick={(e) => setGlobalCategory(e.target.text)}>Employees</Dropdown.Item>
+                                        <Dropdown.Item onClick={(e) => setGlobalCategory(e.target.text)}>Teams</Dropdown.Item>
+                                    </DropdownButton>
+                                </div>
                             </div>
                         </Col>
                     </Row>
@@ -442,6 +462,7 @@ function ManPowerMangementList(props) {
                                     hideHeading={true}
                                     date={selectedDate}
                                     selectedTab={selectedTab}
+                                    isManpower={true}
                                     handleTabViewChange={handleTabViewChange}
                                 />
                             </div>
