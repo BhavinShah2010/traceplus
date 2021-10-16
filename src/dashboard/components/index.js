@@ -52,12 +52,12 @@ const riskBackgroundColor = {
 }
 
 const indexTitleArray = [
-    {
-        title: 'Population Risk Index',
-        isSelected: true,
-        id: 'population',
-        desc: ''
-    },
+    // {
+    //     title: 'Population Risk Index',
+    //     isSelected: true,
+    //     id: 'population',
+    //     desc: ''
+    // },
     {
         title: 'Spread Index',
         isSelected: false,
@@ -276,10 +276,7 @@ function Dashboard(props) {
 
             arr.push(
                 <div
-                    className={'populationRiskMainDiv ' +
-                        (index == 0 ? ' populationRiskPadding ' : 'utilityPadding mb-3 spreadMobilityAreaIndexMainDiv') +
-                        (index == 1 ? ' negativeMarginTop' : '')
-                    }
+                    className={'populationRiskMainDiv utilityPadding mb-3 spreadMobilityAreaIndexMainDiv'}
                     onClick={() => handleIndexTabClick(index)}
                     style={index === indexTitle ? { color: riskLevelColor[`${level || 'low'}`], borderColor: riskLevelColor[`${level || 'low'}`], backgroundColor: riskBackgroundColor[`${level || 'low'}`] } : {}}
                 >

@@ -89,6 +89,10 @@ function EmployeeList(props) {
                     updateEmployeeCount(res.count)
                     updateEmployeeList(res.data)
                     updatePredefinedEmployeeList(res.data)
+
+                    if (props.setEmployeeData) {
+                        props.setEmployeeData(res.data)
+                    }
                 }
             })
         }
@@ -145,18 +149,18 @@ function EmployeeList(props) {
                 <div className="eachCard" key={index}
                     onClick={() => handleClickCard(element.emp_id)}
                 >
-                    <div className="card-body" style={{ backgroundColor: getBackgroundCOlor(element.sri_index, '22/08/2021') }}>
+                    <div className="card-body" style={{ backgroundColor: getBackgroundCOlor(element.spread_index, '22/08/2021') }}>
                         {props.isManpower ?
                             <Row style={{ alignItems: 'center' }}>
                                 <Col lg={3} className="b-r">
-                                    <h5 className="font-bold">{element.emp_name}</h5>
-                                    <div><b>Team:</b> {element.department}</div>
-                                    <div><b>Tag:</b> {element.tag_id}</div>
+                                    <h5 className="font-bold">{element.name}</h5>
+                                    <div><b>Team:</b> {element.team}</div>
+                                    <div><b>Tag:</b> {element.tag_serial}</div>
                                 </Col>
 
                                 <Col lg={2} className="b-r">
                                     <div className="priSriMriText">Interactions</div>
-                                    <h6 className="font-bold">{element.sri_index}</h6>
+                                    <h6 className="font-bold">{element.spread_index}</h6>
                                 </Col>
 
                                 <Col lg={2} className="b-r">
@@ -170,21 +174,21 @@ function EmployeeList(props) {
                                 </Col>
                             </Row>
                             :
-                            <Row style={{ alignItems: 'center' }}>
+                            <Row style={{ alignItems: 'center' }} style={{ backgroundColor: getBackgroundCOlor(element.spread_index, '22/08/2021') }}>
                                 <Col lg={3} className="b-r">
-                                    <h5 className="font-bold">{element.emp_name}</h5>
-                                    <div><b>Team:</b> {element.department}</div>
-                                    <div><b>Tag:</b> {element.tag_id}</div>
+                                    <h5 className="font-bold">{element.name}</h5>
+                                    <div><b>Team:</b> {element.team}</div>
+                                    <div><b>Tag:</b> {element.tag_serial}</div>
                                     {/* <img src={showShiftType(element.shift)} /> */}
                                 </Col>
                                 <Col lg={2} className="b-r">
                                     <div className="priSriMriText">Interactions</div>
-                                    <h6 className="font-bold">{element.sri_index}</h6>
+                                    <h6 className="font-bold">{element.spread_index}</h6>
                                 </Col>
 
                                 <Col lg={2} className="b-r">
                                     <div className="priSriMriText">Battery</div>
-                                    <h6 className="font-bold">{element.battery || '100%'}</h6>
+                                    <h6 className="font-bold">{element.battery || 0}%</h6>
                                 </Col>
 
                                 <Col lg={2} className="b-r">
@@ -254,20 +258,27 @@ function EmployeeList(props) {
                 let invalid = /[°"§%()[\]{}=\\?´`'#<>|,;.:+_-]+/g;
                 let value = searchValue.replace(invalid, "")
                 arr = arr.filter(function (employeeList) {
-                    return (employeeList.emp_name.toLowerCase().search(value.toLowerCase()) !== -1)
+                    let name = (employeeList.name.toLowerCase().search(value.toLowerCase()) !== -1)
+                    let mac = (employeeList.tag_serial.toLowerCase().search(value.toLowerCase()) !== -1)
+                    
+                    return (name || mac) 
                 })
             }
 
             if (sortKey === 'employee') {
                 arr = arr.sort((a, b) => {
-                    a = a.emp_name.toUpperCase()
-                    b = b.emp_name.toUpperCase()
+                    a = a.name.toUpperCase()
+                    b = b.name.toUpperCase()
 
                     return sortType === 'desc' ? (a == b ? 0 : b > a ? 1 : -1) : (a == b ? 0 : a > b ? 1 : -1)
                 })
             } else if (sortKey === 'interaction') {
                 arr = arr.sort((a, b) => {
-                    return sortType === 'desc' ? b.sri_index - a.sri_index : a.sri_index - b.sri_index
+                    return sortType === 'desc' ? b.spread_index - a.spread_index : a.spread_index - b.spread_index
+                })
+            } else if (sortKey === 'battery') {
+                arr = arr.sort((a, b) => {
+                    return sortType === 'desc' ? b.battery - a.battery : a.battery - b.battery
                 })
             }
 
@@ -429,7 +440,7 @@ function EmployeeList(props) {
                                                                         <div className='descHelp' id='interactionHelp'>Number of recorded Interactions at the selected date</div>
                                                                     </Col>
                                                                     <Col lg={2} className="flexDiv b-l">
-                                                                        <strong>Battery</strong>
+                                                                        <strong>Battery Status</strong>
                                                                         <img alt='' src={helpIcon} className='helpicon' onMouseEnter={() => handleMouseEnter(`batteryHelp`)} onMouseLeave={() => handleMouseLeave(`batteryHelp`)} />
                                                                         <img
                                                                             alt=''
